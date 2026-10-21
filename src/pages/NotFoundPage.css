@@ -1,0 +1,24 @@
+.nf {
+  position: relative;
+  min-height: 86svh;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--header-h) + 40px) 0 80px;
+  background: radial-gradient(50% 50% at 50% 40%, rgba(198, 165, 104, 0.14), transparent 70%), var(--ink);
+  text-align: center;
+}
+.nf__inner {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+.nf .lead {
+  margin-inline: auto;
+}
+.nf__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}

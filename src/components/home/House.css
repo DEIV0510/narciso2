@@ -1,0 +1,147 @@
+.house__grid {
+  display: grid;
+  gap: clamp(48px, 6vw, 96px);
+  align-items: center;
+}
+
+.house__media {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+  padding-right: 18%;
+  padding-bottom: 14%;
+}
+
+.house__video {
+  aspect-ratio: 9 / 14;
+  background: var(--ink);
+  overflow: hidden;
+}
+.house__video video,
+.house__play,
+.house__play picture,
+.house__play img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.house__video video {
+  object-fit: cover;
+  background: #000;
+}
+.house__play {
+  position: relative;
+  color: var(--ivory);
+}
+.house__play img {
+  object-fit: cover;
+  transition:
+    transform 1.6s var(--ease),
+    filter 0.6s;
+  filter: brightness(0.78);
+}
+.house__play:hover img {
+  transform: scale(1.05);
+  filter: brightness(0.9);
+}
+.house__play-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(16, 16, 16, 0.45);
+  border: 1px solid rgba(245, 240, 231, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 0.6s var(--ease),
+    background-color 0.4s;
+}
+.house__play-btn svg {
+  width: 22px;
+  height: 22px;
+  margin-left: 3px;
+}
+.house__play:hover .house__play-btn {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: rgba(198, 165, 104, 0.85);
+}
+.house__play-label {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.house__label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  aspect-ratio: 1;
+  border: 8px solid var(--ivory);
+  box-shadow: 0 30px 60px -30px rgba(16, 16, 16, 0.6);
+}
+.house__label img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.house__copy {
+  display: grid;
+  gap: 22px;
+}
+
+.house__facts {
+  display: grid;
+  margin-top: 10px;
+  border-top: 1px solid var(--line-light);
+}
+.house__facts li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--line-light);
+  color: var(--on-light-muted);
+  font-size: 15px;
+}
+.house__facts strong {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--on-light);
+  margin-bottom: 2px;
+}
+.house__n {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--gold-on-ivory);
+  padding-top: 6px;
+}
+
+.house__quote {
+  margin-top: 10px;
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+  font-style: italic;
+  line-height: 1.15;
+  color: var(--gold-on-ivory);
+}
+
+@media (min-width: 980px) {
+  .house__grid {
+    grid-template-columns: 1fr 1.05fr;
+  }
+}

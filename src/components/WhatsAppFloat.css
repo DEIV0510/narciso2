@@ -1,0 +1,45 @@
+.wafloat {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #16130f;
+  border: 1px solid rgba(37, 211, 102, 0.6);
+  color: #25d366;
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.8);
+  transition:
+    transform 0.5s var(--ease),
+    opacity 0.4s,
+    background-color 0.3s,
+    color 0.3s;
+  animation: wa-in 0.8s var(--ease) 1.6s both;
+}
+@keyframes wa-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+}
+.wafloat svg {
+  width: 26px;
+  height: 26px;
+}
+.wafloat:hover {
+  background: #25d366;
+  color: #0b2615;
+  transform: translateY(-3px);
+}
+.wafloat.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 899px) {
+  .wafloat--raised {
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + 76px);
+  }
+}

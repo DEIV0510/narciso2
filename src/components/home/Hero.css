@@ -1,0 +1,400 @@
+.hero {
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0a0908;
+  padding-top: var(--header-h);
+}
+
+/* Estantería real de esencias, desenfocada: bokeh dorado de boutique. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-image: image-set(url('/img/hero/bokeh.avif') type('image/avif'), url('/img/hero/bokeh.webp') type('image/webp'));
+  background-size: cover;
+  background-position: 70% 30%;
+  opacity: 0.5;
+  transform: scale(1.08) translate3d(calc(var(--mx) * -14px), calc(var(--my) * -10px), 0);
+  transition: transform 1.2s var(--ease);
+  -webkit-mask-image: radial-gradient(120% 95% at 72% 35%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(120% 95% at 72% 35%, #000 25%, transparent 78%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(10, 9, 8, 0.96) 0%, rgba(10, 9, 8, 0.78) 34%, rgba(10, 9, 8, 0.15) 70%, rgba(10, 9, 8, 0.55) 100%),
+    linear-gradient(180deg, rgba(10, 9, 8, 0) 55%, #0a0908 100%);
+}
+
+/* Luz principal lateral (cálida, desde arriba a la izquierda). */
+.hero__beam {
+  position: absolute;
+  z-index: -1;
+  top: -20%;
+  left: 38%;
+  width: 46vw;
+  height: 150%;
+  background: linear-gradient(90deg, transparent, rgba(227, 201, 147, 0.13) 45%, rgba(227, 201, 147, 0.04) 70%, transparent);
+  transform: rotate(18deg);
+  filter: blur(18px);
+  pointer-events: none;
+  animation: beam-in 2.6s var(--ease) both;
+}
+@keyframes beam-in {
+  from {
+    opacity: 0;
+    transform: rotate(18deg) translateX(-8%);
+  }
+}
+
+.hero__smoke {
+  position: absolute;
+  z-index: -1;
+  right: -10%;
+  bottom: 4%;
+  width: 70vw;
+  height: 50vh;
+  background:
+    radial-gradient(40% 50% at 30% 60%, rgba(245, 240, 231, 0.06), transparent 70%),
+    radial-gradient(35% 45% at 70% 40%, rgba(198, 165, 104, 0.08), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  animation: smoke-in 4s var(--ease) both;
+}
+@keyframes smoke-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-6%, 4%, 0) scale(0.9);
+  }
+}
+
+.hero__inner {
+  flex: 1;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+  padding-top: clamp(18px, 4vh, 48px);
+}
+
+.hero__copy {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+
+.hero__title {
+  margin-top: 18px;
+  font-size: clamp(2.9rem, 13.2vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+.hero__line > * {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero__sub {
+  margin-top: 22px;
+  max-width: 30em;
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--on-dark-muted);
+}
+
+.hero__ctas {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Entrada escalonada (solo una vez). */
+.hero__in {
+  animation: hero-in 1.2s var(--ease) both;
+  animation-delay: calc(0.15s + var(--d, 0) * 0.11s);
+}
+.hero__line .hero__in {
+  animation-name: hero-line;
+  animation-duration: 1.3s;
+}
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+}
+@keyframes hero-line {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+}
+
+/* ── Escena del frasco ─────────────────────────────────────────────────── */
+
+.hero__stage {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6%;
+}
+
+.hero__halo {
+  position: absolute;
+  left: 50%;
+  bottom: 14%;
+  width: min(520px, 95vw);
+  aspect-ratio: 1;
+  transform: translate3d(calc(-50% + var(--mx) * 10px), calc(var(--my) * 8px), 0);
+  background: radial-gradient(circle at 50% 50%, rgba(214, 178, 112, 0.42), rgba(198, 165, 104, 0.12) 38%, transparent 66%);
+  filter: blur(6px);
+  animation: fade 2.4s var(--ease) 0.3s both;
+}
+
+.hero__floor {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  width: min(760px, 130vw);
+  height: 22%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(50% 60% at 50% 30%, rgba(198, 165, 104, 0.22), transparent 70%),
+    linear-gradient(180deg, rgba(40, 34, 28, 0.85), rgba(10, 9, 8, 0) 90%);
+  border-top: 1px solid rgba(227, 201, 147, 0.16);
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+}
+
+.hero__bottle img {
+  width: 100%;
+  height: auto;
+}
+
+.hero__main {
+  position: relative;
+  z-index: 2;
+  /* El frasco mide 2,7 veces su ancho: se dimensiona por la altura visible. */
+  width: min(16svh, 40vw, 300px);
+  margin-bottom: 9%;
+  transform: translate3d(calc(var(--mx) * 16px), calc(var(--my) * 10px), 0);
+  transition: transform 0.9s var(--ease);
+}
+.hero__rise {
+  position: relative;
+  animation: bottle-in 1.8s var(--ease) 0.25s both;
+}
+@keyframes bottle-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0) scale(0.96);
+  }
+}
+.hero__bottle--main {
+  position: relative;
+  filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.75));
+}
+
+/* Luz de contorno a la derecha + destello que recorre el frasco una vez.
+   Ambos usan el propio frasco como máscara, así que solo tocan el vidrio. */
+.hero__rim,
+.hero__sheen {
+  position: absolute;
+  inset: 0;
+  -webkit-mask: url('/img/hero/bottle-760.webp') center top / 100% auto no-repeat;
+  mask: url('/img/hero/bottle-760.webp') center top / 100% auto no-repeat;
+  pointer-events: none;
+}
+.hero__rim {
+  background: linear-gradient(90deg, transparent 62%, rgba(255, 226, 170, 0.28) 92%, rgba(255, 236, 196, 0.42));
+  mix-blend-mode: screen;
+}
+.hero__sheen {
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 240, 210, 0.5) 50%, transparent 65%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 160% 0;
+  mix-blend-mode: screen;
+  animation: sheen 2.6s var(--ease-io) 1.3s both;
+}
+.hero__stage:hover .hero__sheen {
+  animation: sheen 1.8s var(--ease-io);
+}
+@keyframes sheen {
+  from {
+    background-position: 160% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+
+.hero__reflection {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 2px;
+  transform: scaleY(-1);
+  opacity: 0.2;
+  -webkit-mask-image: linear-gradient(0deg, #000, transparent 30%);
+  mask-image: linear-gradient(0deg, #000, transparent 30%);
+  filter: blur(1.5px);
+}
+
+/* Dos frascos de fondo, fuera de foco: profundidad de campo. */
+.hero__bottle--back {
+  position: absolute;
+  z-index: 1;
+  bottom: 16%;
+  width: min(11svh, 15vw, 170px);
+  filter: blur(5px) brightness(0.45) saturate(0.9);
+  opacity: 0.9;
+  animation: fade 2.2s var(--ease) 0.6s both;
+}
+.hero__bottle--l {
+  left: calc(50% - min(21svh, 30vw, 230px));
+  transform: translate3d(calc(var(--mx) * 6px), 0, 0) rotate(-2deg);
+}
+.hero__bottle--r {
+  right: calc(50% - min(20svh, 29vw, 220px));
+  bottom: 20%;
+  width: min(9.5svh, 13vw, 140px);
+  transform: translate3d(calc(var(--mx) * 4px), 0, 0);
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.hero__caption {
+  position: absolute;
+  right: 0;
+  top: 18%;
+  writing-mode: vertical-rl;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--on-dark-faint);
+}
+.hero__caption span {
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.hero__facts {
+  position: relative;
+  z-index: 2;
+  display: none;
+  list-style: none;
+  margin: 0 auto;
+  padding-block: 22px;
+  border-top: 1px solid var(--line-dark);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+.hero__facts strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Móvil: el frasco ocupa el tercio inferior, bajo los textos. */
+@media (max-width: 899px) {
+  .hero__inner {
+    padding-top: 10px;
+  }
+  .hero__title {
+    margin-top: 14px;
+  }
+  .hero__sub {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .hero__ctas {
+    margin-top: 22px;
+    gap: 8px;
+  }
+  .hero__ctas .btn {
+    min-height: 48px;
+  }
+  .hero__stage {
+    min-height: 40svh;
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .hero__main {
+    width: min(13.5svh, 36vw, 300px);
+  }
+  .hero__caption {
+    display: none;
+  }
+  .hero__ctas .btn {
+    flex: 1 1 200px;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-rows: none;
+    align-items: center;
+    gap: 24px;
+  }
+  .hero__stage {
+    align-self: stretch;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .hero__main {
+    width: min(24svh, 25vw, 290px);
+    margin-bottom: 12%;
+  }
+  .hero__title {
+    font-size: clamp(3.4rem, 7.1vw, 7.8rem);
+  }
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px 28px;
+    padding-inline: var(--gutter);
+    padding-right: calc(var(--gutter) + 64px);
+  }
+}
+
+/* Al salir de pantalla el frasco sube más despacio que el texto. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__stage {
+      animation: hero-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+    @keyframes hero-exit {
+      to {
+        transform: translate3d(0, -14%, 0);
+        opacity: 0.4;
+      }
+    }
+  }
+}

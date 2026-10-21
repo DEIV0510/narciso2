@@ -1,0 +1,116 @@
+.ftr {
+  position: relative;
+  background: #0b0a09;
+  color: var(--on-dark-muted);
+  border-top: 1px solid var(--line-dark);
+  padding-top: clamp(56px, 8vw, 100px);
+  font-size: 14px;
+}
+.ftr__top {
+  display: grid;
+  gap: 48px;
+}
+.ftr__brand {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+}
+.ftr__brand img {
+  height: 110px;
+  width: auto;
+}
+.ftr__tag {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  color: var(--on-dark);
+}
+.ftr__cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px 24px;
+}
+.ftr__cols > div:last-child {
+  grid-column: 1 / -1;
+}
+.ftr__h {
+  margin-bottom: 14px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.ftr__cols ul {
+  display: grid;
+  gap: 4px;
+}
+.ftr__cols li {
+  line-height: 1.5;
+}
+.ftr__cols a {
+  display: inline-block;
+  padding-block: 6px;
+  transition: color 0.3s;
+}
+.ftr__cols a:hover {
+  color: var(--on-dark);
+}
+.ftr__social {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.ftr__social a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line-dark);
+  border-radius: 50%;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.ftr__social a:hover {
+  border-color: var(--gold);
+  color: var(--gold-hi);
+}
+.ftr__social svg {
+  width: 19px;
+  height: 19px;
+}
+
+.ftr__legal {
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(48px, 6vw, 80px);
+  padding-block: 28px max(28px, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(245, 240, 231, 0.08);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--on-dark-faint);
+}
+
+@media (min-width: 900px) {
+  .ftr__top {
+    grid-template-columns: 1fr 1.6fr;
+  }
+  .ftr__cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ftr__cols > div:last-child {
+    grid-column: auto;
+  }
+  .ftr__legal {
+    grid-template-columns: 2fr 1fr;
+    align-items: end;
+  }
+  .ftr__legal p:last-child {
+    text-align: right;
+  }
+}
+@media (min-width: 900px) {
+  .ftr__legal {
+    padding-right: calc(var(--gutter) + 60px);
+  }
+}

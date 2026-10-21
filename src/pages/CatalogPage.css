@@ -1,0 +1,296 @@
+.cat__hero {
+  position: relative;
+  padding: calc(var(--header-h) + clamp(36px, 6vw, 80px)) 0 clamp(36px, 5vw, 64px);
+  background:
+    radial-gradient(60% 80% at 90% 0%, rgba(198, 165, 104, 0.16), transparent 70%),
+    var(--ink);
+  overflow: hidden;
+}
+.cat__hero .wrap {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--on-dark-faint);
+}
+.crumbs a {
+  color: var(--on-dark-muted);
+  transition: color 0.3s;
+}
+.crumbs a:hover {
+  color: var(--gold-hi);
+}
+
+/* Barra de filtros fija bajo la cabecera. */
+.cat__bar {
+  position: relative;
+  z-index: 30;
+  background: rgba(16, 16, 16, 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-block: 1px solid var(--line-dark);
+}
+.cat__bar-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding-block: 12px 8px;
+}
+.cat__genders {
+  grid-column: 1 / -1;
+  display: flex;
+  border: 1px solid var(--line-dark);
+}
+.cat__genders button {
+  flex: 1;
+  min-height: 42px;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s;
+}
+.cat__genders button + button {
+  border-left: 1px solid var(--line-dark);
+}
+.cat__genders button:hover {
+  color: var(--on-dark);
+}
+.cat__genders button[aria-pressed='true'] {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.cat__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.cat__search > svg {
+  position: absolute;
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  color: var(--on-dark-faint);
+  pointer-events: none;
+}
+.cat__search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 40px 0 40px;
+  border: 1px solid var(--line-dark);
+  background: rgba(245, 240, 231, 0.04);
+  color: var(--on-dark);
+  font-size: 16px;
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.cat__search input::-webkit-search-cancel-button {
+  display: none;
+}
+.cat__search input:focus {
+  border-color: var(--gold);
+}
+.cat__search button {
+  position: absolute;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--on-dark-muted);
+}
+.cat__search button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.cat__sort select {
+  min-height: 44px;
+  max-width: 44vw;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--line-dark);
+  border-radius: 0;
+  background: transparent
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23c6a568' stroke-width='1.5'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  color: var(--on-dark);
+  font-size: 13px;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.cat__sort option {
+  background: var(--ink-2);
+  color: var(--on-dark);
+}
+
+.cat__profiles {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-inline: calc(var(--gutter) * -1);
+  padding: 4px var(--gutter) 12px;
+  scrollbar-width: none;
+}
+.cat__profiles::-webkit-scrollbar {
+  display: none;
+}
+.cat__profiles button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--on-dark-muted);
+  transition:
+    border-color 0.3s,
+    color 0.3s,
+    background-color 0.3s;
+}
+.cat__profiles button:hover {
+  color: var(--on-dark);
+  border-color: rgba(198, 165, 104, 0.5);
+}
+.cat__profiles button[aria-pressed='true'] {
+  border-color: var(--t-glow, var(--gold));
+  background: color-mix(in srgb, var(--t-glow, var(--gold)) 22%, transparent);
+  color: var(--on-dark);
+}
+.cat__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--t-glow);
+}
+
+/* Fija bajo la cabecera solo donde sobra altura; en móvil se desplaza con la
+   página para dejar la pantalla a las fragancias. */
+@media (min-width: 900px) {
+  .cat__bar {
+    position: sticky;
+    top: var(--header-h);
+  }
+  .cat__bar-inner {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+  .cat__genders {
+    grid-column: auto;
+  }
+  .cat__genders button {
+    flex: none;
+    padding: 0 20px;
+  }
+  .cat__search {
+    max-width: 420px;
+    justify-self: end;
+    width: 100%;
+  }
+}
+
+.cat__results {
+  padding-top: 28px;
+  padding-bottom: clamp(72px, 10vw, 130px);
+}
+.cat__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--on-dark-muted);
+}
+.cat__status strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+.cat__clear {
+  min-height: 40px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--on-dark-muted);
+}
+.cat__clear:hover {
+  color: var(--on-dark);
+}
+
+.cat__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.cat__grid > li {
+  display: flex;
+}
+.cat__grid .pcard {
+  width: 100%;
+}
+@media (min-width: 760px) {
+  .cat__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  .cat__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
+
+.cat__more {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin-top: 48px;
+  font-size: 13px;
+  color: var(--on-dark-muted);
+}
+.cat__progress {
+  width: min(260px, 70%);
+  height: 1px;
+  background: var(--line-dark);
+}
+.cat__progress span {
+  display: block;
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.6s var(--ease);
+}
+
+.cat__empty {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--on-dark-muted);
+}
+.cat__empty .display {
+  font-size: 2.2rem;
+  color: var(--on-dark);
+}

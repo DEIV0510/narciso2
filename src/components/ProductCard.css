@@ -1,0 +1,238 @@
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--ink-2);
+  border: 1px solid rgba(245, 240, 231, 0.06);
+  transition:
+    border-color 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+.pcard:hover {
+  border-color: color-mix(in srgb, var(--t-glow) 45%, transparent);
+}
+
+/* Escenario individual: fondo y luz del color de su familia olfativa, con la
+   foto original enmarcada en arco (silueta de hombro de frasco). */
+.pcard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 60% at 50% 100%, color-mix(in srgb, var(--t-glow) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--t-bg), var(--t-deep));
+}
+.pcard__glow {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: 90%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--t-glow) 42%, transparent), transparent 65%);
+  opacity: 0.55;
+  transition: opacity 0.8s var(--ease);
+}
+.pcard:hover .pcard__glow {
+  opacity: 0.9;
+}
+.pcard__arch {
+  position: absolute;
+  inset: 9% 13% 0;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--t-accent) 22%, transparent),
+    0 30px 50px -20px rgba(0, 0, 0, 0.8);
+  background: var(--t-deep);
+}
+.pcard__arch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  transition: transform 1.2s var(--ease);
+}
+.pcard:hover .pcard__arch img {
+  transform: scale(1.06);
+}
+
+.pcard__family {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  max-width: calc(100% - 24px);
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--t-accent) 35%, transparent);
+  border-radius: 999px;
+  background: rgba(10, 9, 8, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--t-accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pcard__view {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 12px);
+  padding: 8px 16px;
+  background: rgba(10, 9, 8, 0.78);
+  border: 1px solid rgba(245, 240, 231, 0.2);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.6s var(--ease);
+}
+@media (hover: hover) {
+  .pcard:hover .pcard__view {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.pcard__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 14px 14px;
+}
+.pcard__insp {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t-accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pcard__title {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  line-height: 1.12;
+  color: var(--on-dark);
+  overflow-wrap: anywhere;
+}
+.pcard__title a::after {
+  /* toda la parte superior es clicable sin duplicar el enlace para lectores */
+  content: '';
+  position: absolute;
+  inset: 0 0 64px;
+}
+.pcard__title a:focus-visible {
+  outline: none;
+}
+.pcard__title a:focus-visible::after {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+.pcard__format {
+  font-size: 12px;
+  color: var(--on-dark-faint);
+}
+.pcard__notes {
+  margin-top: 4px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--on-dark-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pcard__foot {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pcard__price {
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  color: var(--on-dark);
+  white-space: nowrap;
+}
+.pcard__price span {
+  font-family: var(--f-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--on-dark-faint);
+}
+
+.pcard__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  min-width: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(198, 165, 104, 0.5);
+  color: var(--gold-hi);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s var(--ease),
+    border-color 0.35s;
+}
+.pcard__add svg {
+  width: 16px;
+  height: 16px;
+}
+.pcard__add:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.pcard__add.is-added {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+@media (max-width: 520px) {
+  .pcard__body {
+    padding: 12px 10px 10px;
+  }
+  .pcard__add span {
+    display: none;
+  }
+  .pcard__add {
+    padding: 0;
+    width: 42px;
+  }
+  .pcard__price {
+    font-size: 1.08rem;
+  }
+  .pcard__family {
+    font-size: 9px;
+    left: 8px;
+    top: 8px;
+    padding: 3px 8px;
+  }
+}

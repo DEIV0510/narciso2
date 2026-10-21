@@ -1,0 +1,23 @@
+{
+  "name": "narciso-parfum",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Narciso Parfum — boutique digital de perfumería (Ibagué, Tolima).",
+  "scripts": {
+    "dev": "vite --port 5274",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "preview": "node scripts/serve.mjs",
+    "assets": "node scripts/build-assets.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.2",
+    "sharp": "^0.33.5",
+    "vite": "^5.4.8"
+  }
+}
