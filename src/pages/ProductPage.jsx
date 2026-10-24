@@ -96,6 +96,11 @@ function Gallery({ product }) {
     <div className="pdp__gallery">
       <div className="pdp__stage">
         <span className="pdp__halo" aria-hidden="true" />
+        {product.code && (
+          <p className="pdp__code">
+            <span>Código</span> <strong className="tabular">{product.code}</strong>
+          </p>
+        )}
         <div className="pdp__arch" key={active}>
           {active === 0 && <ProductImage product={product} sizes="(min-width: 1000px) 520px, 88vw" eager />}
           {active === 1 && (

@@ -25,10 +25,13 @@ function matchesQuery(p, q) {
   const hay = normalize(
     [p.name, p.title, p.brand, info?.family, ...(info?.topNotes || []), ...(info?.heartNotes || []), ...(info?.baseNotes || [])].join(' ')
   )
+  // El código se compara por el comienzo: "d05" o "uni" lo encuentran, pero un
+  // número suelto ("5", "1 million") no trae perfumes solo por su código.
+  const code = normalize(p.code || '')
   return normalize(q)
     .split(/\s+/)
     .filter(Boolean)
-    .every((t) => hay.includes(t))
+    .every((t) => hay.includes(t) || code.startsWith(t))
 }
 
 export default function CatalogPage() {
@@ -149,13 +152,13 @@ export default function CatalogPage() {
           <div className="cat__search" id="buscar">
             <IconSearch />
             <label htmlFor="cat-q" className="sr-only">
-              Buscar por nombre, casa o nota
+              Buscar por nombre, código, casa o nota
             </label>
             <input
               ref={searchRef}
               id="cat-q"
               type="search"
-              placeholder="Nombre, casa o nota…"
+              placeholder="Nombre, código, casa o nota…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               enterKeyHint="search"

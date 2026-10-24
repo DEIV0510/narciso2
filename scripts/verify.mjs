@@ -42,6 +42,7 @@ for (const r of CATALOG) {
   if (seenIds.has(r.id)) err(`Catálogo: id repetido ${r.id}`)
   seenIds.add(r.id)
   if (!r.code) err(`Catálogo: falta código en ${tag}`)
+  else if (!/^(D|C|UNI)\d{3}$/.test(r.code)) err(`Catálogo: código con formato inesperado en ${tag}`)
   if (seenCodes.has(r.code)) err(`Catálogo: código repetido ${r.code}`)
   seenCodes.add(r.code)
   if (!GENDERS.has(r.gender)) err(`Catálogo: sección inválida "${r.gender}" en ${tag}`)
@@ -100,7 +101,15 @@ if (!fs.existsSync(DIST)) {
     fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]))
   const htmlFiles = walk(DIST).filter((f) => f.endsWith('.html'))
 
-  for (const r of CATALOG) if (!fs.existsSync(path.join(DIST, 'perfumes', `${r.id}.html`))) err(`Falta la página perfumes/${r.id}.html`)
+  for (const r of CATALOG) {
+    const file = path.join(DIST, 'perfumes', `${r.id}.html`)
+    if (!fs.existsSync(file)) {
+      err(`Falta la página perfumes/${r.id}.html`)
+      continue
+    }
+    // El código del Excel, visible en la esquina de la ficha.
+    if (!fs.readFileSync(file, 'utf8').includes(`<strong class="tabular">${r.code}</strong>`)) err(`perfumes/${r.id}.html: no muestra su código ${r.code}`)
+  }
   for (const f of ['index.html', 'perfumes/index.html', '404.html', 'sitemap.xml', 'robots.txt', '.htaccess', 'assets/.htaccess']) {
     if (!fs.existsSync(path.join(DIST, f))) err(`Falta dist/${f}`)
   }

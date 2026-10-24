@@ -92,7 +92,7 @@ export function productMeta(product) {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: `${name} — Narciso Parfum (inspirado en ${reference(product)})`,
-        sku: product.id,
+        sku: product.code || product.id,
         image: [abs(img)],
         description: info?.profile || description,
         category: product.category,

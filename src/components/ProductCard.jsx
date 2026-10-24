@@ -49,7 +49,14 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
         <span className="pcard__arch">
           <ProductImage product={product} sizes={CARD_SIZES} eager={eager} alt="" />
         </span>
-        {info && <span className="pcard__family">{info.family}</span>}
+        <span className="pcard__tags">
+          {info && (
+            <span className="pcard__family">
+              <span>{info.family}</span>
+            </span>
+          )}
+          {product.code && <span className="pcard__code tabular">{product.code}</span>}
+        </span>
         <span className="pcard__view">Ver ficha</span>
       </Link>
 
@@ -59,8 +66,9 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
           <Link to={href}>{name}</Link>
         </Heading>
         <p className="pcard__format">{brand.productFormat}</p>
-        {/* La etiqueta visible de la familia vive en el enlace decorativo (aria-hidden). */}
+        {/* La familia y el código visibles viven en el enlace decorativo (aria-hidden). */}
         {info && <p className="sr-only">Familia olfativa: {info.family}</p>}
+        {product.code && <p className="sr-only">Código {product.code}</p>}
         {notes.length > 0 && (
           <p className="pcard__notes">
             <span className="sr-only">Notas principales: </span>

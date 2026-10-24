@@ -66,25 +66,58 @@
   transform: scale(1.06);
 }
 
-.pcard__family {
+/* Fila superior de la foto: familia a la izquierda y código a la derecha. En
+   flex no pueden montarse con ninguna fuente ni tamaño de letra: la familia
+   toma el espacio que deja el código y, si no le alcanza, pasa a dos líneas. */
+.pcard__tags {
   position: absolute;
-  left: 12px;
-  top: 12px;
-  max-width: calc(100% - 24px);
+  inset: 12px 12px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+/* El recorte va en el <span> interior: con el relleno en la misma caja,
+   asomaría la línea siguiente. */
+.pcard__family {
+  min-width: 0;
   padding: 4px 10px;
   border: 1px solid color-mix(in srgb, var(--t-accent) 35%, transparent);
-  border-radius: 999px;
+  border-radius: 12px;
   background: rgba(10, 9, 8, 0.55);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   color: var(--t-accent);
   font-size: 10px;
   font-weight: 600;
+  line-height: 1.35;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  white-space: nowrap;
+}
+.pcard__family > span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+/* Código del catálogo del cliente (columna CODIGO del Excel: D001, C082,
+   UNI040…), en la esquina superior derecha, fuera del arco de la foto. */
+.pcard__code {
+  flex: none;
+  margin-left: auto;
+  padding: 4px 8px;
+  border: 1px solid rgba(245, 240, 231, 0.22);
+  border-radius: var(--radius);
+  background: rgba(10, 9, 8, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--on-dark);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 .pcard__view {
@@ -272,11 +305,32 @@
   .pcard__price {
     font-size: 1.08rem;
   }
+  .pcard__tags {
+    inset: 8px 8px auto;
+    gap: 6px;
+  }
   .pcard__family {
     font-size: 9px;
-    left: 8px;
-    top: 8px;
     padding: 3px 8px;
+  }
+  /* En tarjetas de celular la familia puede ocupar tres líneas y se lee entera;
+     una palabra más ancha que la caja se parte con guion (lang es-CO). */
+  .pcard__family > span {
+    -webkit-line-clamp: 3;
+    overflow-wrap: anywhere;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .pcard__code {
+    font-size: 9px;
+    padding: 3px 6px;
+    letter-spacing: 0.06em;
+  }
+}
+@media (max-width: 359px) {
+  .pcard__family {
+    padding: 3px 6px;
+    letter-spacing: 0.04em;
   }
 }
 .pcard__sizes + .pcard__foot {

@@ -84,6 +84,9 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   Cada fila se cruzó con el catálogo anterior (un agente empareja, otro intenta refutar, un
   tercero desempata): 258 conservan id, foto y ficha; 5 son nuevas, con ficha verificada en dos
   fuentes; salen 25 que no están en el Excel. Detalle y dudas en `docs/revision-catalogo.md`.
+- **Código**: el de la columna CODIGO del Excel (D001…, C001…, UNI001…), en la esquina superior
+  derecha de cada tarjeta y de la foto de la ficha. Se puede buscar por código en el catálogo y es el
+  `sku` del JSON-LD. La fila C133 del Excel está vacía y no se publica.
 - **Precios**: 50 ml $40.000 y 100 ml $60.000 COP para todo el catálogo (`SIZES` en
   `products.js`); cada tarjeta y ficha tiene selector de presentación.
 - **Nombres comerciales** del Excel (columna "INSPIRACION"): son el nombre principal de cada

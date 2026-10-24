@@ -38,6 +38,48 @@
   background: radial-gradient(circle, color-mix(in srgb, var(--t-glow) 45%, transparent), transparent 64%);
   opacity: 0.8;
 }
+/* Código del catálogo del cliente, en la esquina superior derecha de la foto. */
+.pdp__code {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(245, 240, 231, 0.22);
+  border-radius: var(--radius);
+  background: rgba(10, 9, 8, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.pdp__code span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+.pdp__code strong {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--on-dark);
+}
+@media (max-width: 599px) {
+  .pdp__code {
+    gap: 6px;
+    padding: 4px 8px;
+  }
+  .pdp__code span {
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+  }
+  .pdp__code strong {
+    font-size: 12px;
+  }
+}
 .pdp__arch {
   position: relative;
   width: 84%;
