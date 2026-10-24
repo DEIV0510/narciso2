@@ -84,9 +84,11 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   fuentes; salen 25 que no están en el Excel. Detalle y dudas en `docs/revision-catalogo.md`.
 - **Precios**: 50 ml $40.000 y 100 ml $60.000 COP para todo el catálogo (`SIZES` en
   `products.js`); cada tarjeta y ficha tiene selector de presentación.
-- **Nombres comerciales** del Excel (columna "INSPIRACION"): guardados en `catalog.js` pero
-  ocultos (`SHOW_COMMERCIAL_NAMES = false`) porque varios se repiten entre perfumes distintos o
-  copian marcas registradas. Con `true`, el sitio los muestra con "Inspirado en …".
+- **Nombres comerciales** del Excel (columna "INSPIRACION"): son el nombre principal de cada
+  fragancia, con "Inspirado en <perfume> de <casa>" debajo. Se publican tal como los mandó el
+  cliente (2026-10-24), con solo mayúsculas y errores de tipeo evidentes corregidos, aunque
+  algunos se repitan entre perfumes distintos. `SHOW_COMMERCIAL_NAMES = false` en `products.js`
+  vuelve a mostrar solo el nombre del perfume original.
 - **Promoción**: la de 3 por $130.000 se retiró por decisión del cliente. Sin promociones activas
   desaparecen el enlace del menú, el bloque de portada y el aviso del carrito.
 - **Pago**: no hay pasarela integrada. El pedido se envía por WhatsApp (transferencia o Addi) y la
@@ -99,8 +101,9 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
 Estos datos no existen todavía; el sitio está preparado y no muestra nada inventado:
 
 1. **Tarifa de envío** — `shipping.rate` en `src/data/site.js`. Con un valor, el carrito la suma.
-2. **Nombres comerciales y dudas del Excel** — ver `docs/revision-catalogo.md` (duplicados, marcas
-   registradas, identificaciones dudosas como "Carolina Herrera" D050, cambios de sección).
+2. **Observaciones del Excel (opcionales)** — ver `docs/revision-catalogo.md`: nombres
+   comerciales repetidos o que copian marcas, identificaciones dudosas como "Carolina Herrera"
+   D050 y cambios de sección. El sitio ya está publicado con todo tal como lo mandó el cliente.
 3. **Foto de "Carolina Herrera" (D050)** — única fragancia sin foto propia (usa el frasco recortado).
 4. **Inventario** — no hay sistema de existencias; la disponibilidad se confirma por WhatsApp.
 5. **Pasarela de pago** — si se contrata (Wompi, Mercado Pago, Bold…), conectarla en `lib/order.js`.

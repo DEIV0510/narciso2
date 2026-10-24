@@ -11,9 +11,8 @@
 // - image: solo cuando la foto no se llama como el id ('catalog-bottle' = sin
 //   foto propia, se muestra el frasco recortado).
 // - commercialName: nombre comercial Narciso de la columna "INSPIRACION" del
-//   Excel (con mayúsculas y errores de tipeo evidentes corregidos). NO se
-//   muestra en el sitio hasta que el cliente revise los nombres duplicados o
-//   con marcas registradas (SHOW_COMMERCIAL_NAMES en products.js).
+//   Excel (con mayúsculas y errores de tipeo evidentes corregidos). Es el
+//   nombre principal en el sitio (SHOW_COMMERCIAL_NAMES en products.js).
 export const CATALOG = [
   { code: 'D001', gender: 'mujer', title: 'Acqua di Gioia', brand: 'Giorgio Armani', id: 'acqua-di-gioia-giorgio-armani-mujer', commercialName: 'Brisa Marina' },
   { code: 'D002', gender: 'mujer', title: 'Ari', brand: 'Ariana Grande', id: 'ari-ariana-grande-mujer', commercialName: 'Estrella Dulce' },

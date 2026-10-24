@@ -6,7 +6,7 @@ Cruce fila por fila de las 263 fragancias del Excel (hoja "Hoja1", 2026-10-23) c
 
 - **263 fragancias** en el orden y la sección del Excel: 91 Dama, 132 Caballero, 40 Unisex.
 - **50 ml $40.000 y 100 ml $60.000** en todas. Sin promoción.
-- Las fichas se muestran con el nombre del perfume original ("Inspirado en …"). Los nombres comerciales del Excel están guardados, pero ocultos hasta que revisen la sección 4.
+- Cada fragancia se muestra con su **nombre comercial del Excel** y, debajo, "Inspirado en <perfume> de <casa>" (desde el 2026-10-24, tal como lo pidió el cliente).
 
 ### Fragancias nuevas (no estaban en el catálogo anterior)
 
@@ -106,9 +106,9 @@ Se respetó la sección del Excel. Estos perfumes figuran en otra categoría en 
 - UNI023 L'Immensité (Louis Vuitton): Excel = Unisex, perfume real = Caballero
 - UNI031 Althaïr (Parfums de Marly): Excel = Unisex, perfume real = Caballero
 
-## 4. Nombres comerciales: revisar antes de mostrarlos
+## 4. Nombres comerciales: observaciones
 
-Ya se corrigieron mayúsculas y errores de tipeo evidentes. Quedan decisiones del cliente:
+Desde el 2026-10-24 el sitio muestra los nombres comerciales tal como los mandó el cliente, con solo mayúsculas y errores de tipeo evidentes corregidos. Estas observaciones quedan como sugerencias por si en algún momento quieren ajustarlos:
 
 ### Duplicados o casi duplicados
 

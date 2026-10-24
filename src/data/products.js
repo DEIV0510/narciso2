@@ -19,12 +19,13 @@ export const SIZES = [
   { label: '100 ml', price: 60000 },
 ]
 
-// El Excel trae un nombre comercial Narciso por fragancia (commercialName),
-// pero varios están duplicados entre perfumes distintos o repiten marcas
-// registradas (ver README, "Pendiente de confirmar"). Hasta que el cliente los
-// revise, el sitio muestra el nombre del perfume original. Con `true`, cada
-// tarjeta y ficha pasa a mostrar el nombre comercial y "Inspirado en …".
-export const SHOW_COMMERCIAL_NAMES = false
+// Cada fragancia se muestra con su nombre comercial Narciso del Excel
+// (commercialName) y, debajo, "Inspirado en <perfume> de <casa>". El cliente
+// pidió publicarlos tal como los mandó (2026-10-24), aunque algunos se repitan
+// entre perfumes distintos; la lista de observaciones está en
+// docs/revision-catalogo.md. Con `false` se vuelve a mostrar solo el nombre del
+// perfume original.
+export const SHOW_COMMERCIAL_NAMES = true
 
 function toProduct(row) {
   return {
