@@ -14,18 +14,42 @@ import './House.css'
 function CraftVideo() {
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef(null)
+  // El botón desaparece al reproducir: el foco pasa al reproductor.
   const play = () => {
     setPlaying(true)
-    requestAnimationFrame(() => videoRef.current?.play().catch(() => {}))
+    requestAnimationFrame(() => {
+      const v = videoRef.current
+      if (!v) return
+      v.focus()
+      v.play().catch(() => {})
+    })
   }
   return (
     <div className="house__video curtain" data-reveal>
+      {/* Alternativa en texto de lo que solo se ve en el video. */}
+      <p id="craft-video-desc" className="sr-only">
+        Video de 50 segundos con música y sin narración: se pesa la esencia en una balanza digital, se mezcla con una
+        varilla, se envasa en un frasco Narciso esmerilado, se le pone la tapa negra y dorada y termina con el logo de
+        Narciso Parfum.
+      </p>
       {playing ? (
-        <video ref={videoRef} src={craftVideo} poster={craftPosterJpg} controls playsInline preload="auto" width="720" height="1280">
+        <video
+          ref={videoRef}
+          src={craftVideo}
+          poster={craftPosterJpg}
+          controls
+          playsInline
+          preload="auto"
+          width="720"
+          height="1280"
+          tabIndex={0}
+          aria-label="Video del proceso de elaboración"
+          aria-describedby="craft-video-desc"
+        >
           Tu navegador no reproduce video.
         </video>
       ) : (
-        <button type="button" className="house__play" onClick={play} aria-label="Reproducir el video del proceso de elaboración">
+        <button type="button" className="house__play" onClick={play} aria-describedby="craft-video-desc">
           <picture>
             <source type="image/avif" srcSet={craftPosterAvif} />
             <source type="image/webp" srcSet={craftPosterWebp} />
@@ -34,7 +58,9 @@ function CraftVideo() {
           <span className="house__play-btn" aria-hidden="true">
             <IconPlay />
           </span>
-          <span className="house__play-label">El proceso · Ver video</span>
+          <span className="house__play-label">
+            El proceso <span aria-hidden="true">·</span> Ver video<span className="sr-only"> de la elaboración</span>
+          </span>
         </button>
       )}
     </div>

@@ -6,12 +6,12 @@
 // con la misma forma { id, label, submit(order) } que cree la transacción en
 // el servidor y redirija al checkout del proveedor; el pedido solo debe darse
 // por pagado cuando el webhook del proveedor lo confirme.
-import { brand, payment, shipping, waLink } from '../data/site'
+import { brand, payment, shippingFlat, waLink } from '../data/site'
 import { formatCOPLong } from './format'
 import { DEFAULT_SIZE_LABEL } from '../context/CartContext'
 import { longName } from './product'
 
-export function buildOrderMessage(items, customer, { wantsPromo = false } = {}) {
+export function buildOrderMessage(items, customer, { promo = null } = {}) {
   const lines = items.map((item) => {
     const size = item.sizeLabel && item.sizeLabel !== DEFAULT_SIZE_LABEL ? ` · ${item.sizeLabel}` : ''
     return `• ${item.qty} × ${longName(item)}${size} — ${formatCOPLong(item.price * item.qty)}`
@@ -25,8 +25,10 @@ export function buildOrderMessage(items, customer, { wantsPromo = false } = {}) 
     ...lines,
     '',
     `Subtotal: ${formatCOPLong(subtotal)}`,
-    wantsPromo ? 'Quiero aplicar la promoción 3 fragancias por $130.000 COP.' : null,
-    shipping.rate == null ? 'Envío: por confirmar según mi ciudad.' : null,
+    promo ? `Quiero aplicar la promoción ${promo.units} fragancias por ${formatCOPLong(promo.price)}.` : null,
+    ...(shippingFlat == null
+      ? ['Envío: por confirmar según mi ciudad.']
+      : [`Envío: ${formatCOPLong(shippingFlat)}`, `Total: ${formatCOPLong(subtotal + shippingFlat)}`]),
     '',
     'Mis datos:',
     `Nombre: ${customer.name}`,

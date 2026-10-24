@@ -114,3 +114,11 @@
     padding-right: calc(var(--gutter) + 60px);
   }
 }
+
+/* Por debajo de 1000 px el botón flotante de WhatsApp queda sobre el final del
+   pie: se reserva su altura (16 px de margen + 54 px) bajo el texto legal. */
+@media (max-width: 999px) {
+  .ftr__legal {
+    padding-bottom: calc(max(28px, env(safe-area-inset-bottom)) + 70px);
+  }
+}

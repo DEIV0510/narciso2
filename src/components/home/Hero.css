@@ -200,9 +200,10 @@
   position: relative;
   animation: bottle-in 1.8s var(--ease) 0.25s both;
 }
+/* Sin opacidad: el frasco es el elemento LCP y debe pintarse visible desde el
+   primer cuadro (con opacity 0 Chrome lo descarta como candidato). */
 @keyframes bottle-in {
   from {
-    opacity: 0;
     transform: translate3d(0, 40px, 0) scale(0.96);
   }
 }
@@ -219,6 +220,9 @@
   inset: 0;
   -webkit-mask: url('/img/hero/bottle-760.webp') center top / 100% auto no-repeat;
   mask: url('/img/hero/bottle-760.webp') center top / 100% auto no-repeat;
+  /* Con soporte, la misma imagen AVIF que ya bajó el <img> (una sola descarga). */
+  -webkit-mask: image-set(url('/img/hero/bottle-760.avif') type('image/avif'), url('/img/hero/bottle-760.webp') type('image/webp')) center top / 100% auto no-repeat;
+  mask: image-set(url('/img/hero/bottle-760.avif') type('image/avif'), url('/img/hero/bottle-760.webp') type('image/webp')) center top / 100% auto no-repeat;
   pointer-events: none;
 }
 .hero__rim {
@@ -349,7 +353,8 @@
     display: none;
   }
   .hero__ctas .btn {
-    flex: 1 1 200px;
+    /* Base = su contenido: si no caben juntos se apilan, nunca se recortan. */
+    flex: 1 1 auto;
   }
 }
 

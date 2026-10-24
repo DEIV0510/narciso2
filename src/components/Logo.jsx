@@ -4,9 +4,12 @@
 export default function Logo({ tone = 'dark', className = '', eager = false, height = 56 }) {
   const name = tone === 'dark' ? 'logo-reverse' : 'logo'
   const width = Math.round((height * 414) / 360)
+  // Tono oscuro: la versión liviana de la pantalla de carga (193 px, ya en
+  // caché por su precarga) basta para el encabezado y el menú hasta DPR 3.
+  const srcSet = tone === 'dark' ? '/brand/logo-intro.webp 193w, /brand/logo-reverse.webp 414w' : `/brand/${name}.webp`
   return (
     <picture className={className}>
-      <source srcSet={`/brand/${name}.webp`} type="image/webp" />
+      <source srcSet={srcSet} sizes={tone === 'dark' ? `${width}px` : undefined} type="image/webp" />
       <img
         src={`/brand/${name}.png`}
         alt="Narciso Parfum"

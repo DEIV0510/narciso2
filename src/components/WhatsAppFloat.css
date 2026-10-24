@@ -38,7 +38,8 @@
   opacity: 0;
   pointer-events: none;
 }
-@media (max-width: 899px) {
+/* Debe coincidir con el corte de .buy__sticky en ProductPage.css (oculta desde 1000 px) */
+@media (max-width: 999px) {
   .wafloat--raised {
     bottom: calc(max(16px, env(safe-area-inset-bottom)) + 76px);
   }

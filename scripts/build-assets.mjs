@@ -8,10 +8,12 @@
 //   public/brand/   logo (fondo claro), logo invertido (fondo oscuro), emblema,
 //                   favicons e imagen Open Graph.
 //   public/img/hero frasco recortado con alfa + fondo de boutique desenfocado.
-//   public/img/perfumes/<id>-640.{avif,webp} a partir de <id>.jpg (la foto
-//                   original del cliente, 880–1100 px; las -1100.{avif,webp}
-//                   ya vienen optimizadas del proyecto anterior). Para agregar
-//                   un perfume: copiar su <id>.jpg aquí y correr este script.
+//   public/img/perfumes/<id>-640.{avif,webp} y -1100 a partir de <id>.jpg (la
+//                   foto original del cliente, 880–1100 px). Para agregar o
+//                   cambiar un perfume: copiar su <id>.jpg aquí y correr este
+//                   script (se regenera si el .jpg es más nuevo).
+//   src/assets/img/gender-*-600.{avif,webp}  variantes de 600 px de las fotos
+//                   de colecciones (Collections.jsx usa 600w y 1000w).
 import fs from 'node:fs'
 import path from 'node:path'
 import sharp from 'sharp'
@@ -68,6 +70,9 @@ function reverseWordmark({ data, info }, cutRatio) {
   return { data: out, info }
 }
 
+// true si falta la salida o la fuente es más nueva (foto reemplazada).
+const stale = (target, src) => !fs.existsSync(target) || fs.statSync(target).mtimeMs < fs.statSync(src).mtimeMs
+
 const raw = ({ data, info }) => sharp(data, { raw: { width: info.width, height: info.height, channels: info.channels } })
 
 async function brandAssets() {
@@ -79,10 +84,18 @@ async function brandAssets() {
   const CUT = 0.7
   const reversed = reverseWordmark(transparent, CUT)
 
+  // El WebP siempre se emite (Logo y Emblem lo piden fijo) y no debe pesar más
+  // que el PNG de respaldo: si pasa, se baja la calidad.
   const write = async (img, name, height) => {
     const base = img.clone().resize({ height, withoutEnlargement: true })
-    await base.clone().webp({ quality: 90, alphaQuality: 92 }).toFile(path.join(BRAND, `${name}.webp`))
-    await base.clone().png({ compressionLevel: 9, palette: true, quality: 95 }).toFile(path.join(BRAND, `${name}.png`))
+    const png = path.join(BRAND, `${name}.png`)
+    const webp = path.join(BRAND, `${name}.webp`)
+    await base.clone().png({ compressionLevel: 9, palette: true, quality: 95 }).toFile(png)
+    for (const quality of [75, 65, 55]) {
+      await base.clone().webp({ quality, alphaQuality: quality + 10, effort: 6 }).toFile(webp)
+      if (fs.statSync(webp).size <= fs.statSync(png).size) return
+    }
+    console.warn(`aviso: ${name}.webp pesa más que ${name}.png`)
   }
   const lightPng = await raw(transparent).png().toBuffer()
   const darkPng = await raw(reversed).png().toBuffer()
@@ -164,13 +177,13 @@ async function productAssets() {
         const id = files[i].replace(/\.jpg$/, '')
         const src = path.join(dir, files[i])
         const target640 = path.join(PERFUMES, `${id}-640.avif`)
-        if (!fs.existsSync(target640)) {
+        if (stale(target640, src)) {
           const img = sharp(src).resize({ width: 640 })
           await img.clone().avif({ quality: 55, effort: 5 }).toFile(target640)
           await img.clone().webp({ quality: 80 }).toFile(path.join(PERFUMES, `${id}-640.webp`))
         }
         const big = path.join(PERFUMES, `${id}-1100.avif`)
-        if (!fs.existsSync(big)) {
+        if (stale(big, src)) {
           const img = sharp(src).resize({ width: 1100, withoutEnlargement: true })
           await img.clone().avif({ quality: 58, effort: 5 }).toFile(big)
           await img.clone().webp({ quality: 84 }).toFile(path.join(PERFUMES, `${id}-1100.webp`))
@@ -182,8 +195,21 @@ async function productAssets() {
   console.log(`perfumes: ${done}`)
 }
 
+async function collectionAssets() {
+  const dir = path.join(ROOT, 'src', 'assets', 'img')
+  for (const key of ['caballero', 'dama', 'unisex']) {
+    const src = path.join(dir, `gender-${key}.jpg`)
+    const avif = path.join(dir, `gender-${key}-600.avif`)
+    if (!stale(avif, src)) continue
+    const img = sharp(src).resize({ width: 600 })
+    await img.clone().avif({ quality: 55, effort: 6 }).toFile(avif)
+    await img.clone().webp({ quality: 80 }).toFile(path.join(dir, `gender-${key}-600.webp`))
+  }
+}
+
 const brand = await brandAssets()
 const hero = await heroAssets()
 await ogImage(brand, hero)
 await productAssets()
+await collectionAssets()
 console.log('listo')

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import './styles/base.css'
 import { CartProvider } from './context/CartContext'
@@ -7,26 +6,12 @@ import Footer from './components/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
 import WhatsAppFloat from './components/WhatsAppFloat'
+import ScrollManager from './components/ScrollManager'
 import HomePage from './pages/HomePage'
 import CatalogPage from './pages/CatalogPage'
 import ProductPage from './pages/ProductPage'
 import NotFoundPage from './pages/NotFoundPage'
 import useDocumentMeta from './hooks/useDocumentMeta'
-
-function ScrollManager() {
-  const { pathname, hash } = useLocation()
-  useEffect(() => {
-    if (hash) {
-      const el = document.getElementById(decodeURIComponent(hash.slice(1)))
-      if (el) {
-        requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }))
-        return
-      }
-    }
-    window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [pathname, hash])
-  return null
-}
 
 export default function App() {
   const { pathname } = useLocation()

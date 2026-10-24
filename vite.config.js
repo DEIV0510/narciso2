@@ -6,6 +6,7 @@ export default defineConfig({
   // Año fijo al compilar: el HTML prerenderizado y el cliente muestran lo mismo.
   define: {
     __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()),
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
   },
   build: {
     target: 'es2019',

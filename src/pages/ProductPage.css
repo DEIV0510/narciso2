@@ -10,6 +10,8 @@
 }
 .pdp__grid {
   display: grid;
+  /* minmax(0, 1fr): ningún contenido puede ensanchar la columna en 320 px */
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
 }
 
@@ -64,6 +66,7 @@
 }
 .pdp__thumbs {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
 }
@@ -217,7 +220,8 @@
 }
 .buy__ctas {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* 290 px = contenido real con icono; si no caben, se apilan a todo el ancho */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
   gap: 10px;
 }
 .buy__facts {
@@ -279,6 +283,7 @@
   flex: none;
 }
 
+/* Desde 1000 px no hay barra fija de compra: debe coincidir con WhatsAppFloat.css */
 @media (min-width: 1000px) {
   .pdp__grid {
     grid-template-columns: 1.05fr 0.95fr;
@@ -297,8 +302,10 @@
   }
 }
 @media (max-width: 999px) {
-  .pdp {
-    padding-bottom: 72px;
+  /* La barra fija de compra tapa el final del documento (el pie): se reserva
+     ese espacio debajo del pie solo en las fichas, donde la barra existe. */
+  body:has(.buy__sticky) .ftr {
+    padding-bottom: calc(58px + max(10px, env(safe-area-inset-bottom)));
   }
   .pdp__stage {
     max-width: 520px;

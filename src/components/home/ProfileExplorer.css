@@ -56,9 +56,9 @@
   background: var(--t-glow);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--t-glow) 22%, transparent);
 }
+/* Hereda el color de su pestaña (con opacidad no llegaba a 4.5:1). */
 .pex__tab-count {
   font-size: 11px;
-  opacity: 0.6;
 }
 
 @media (min-width: 1000px) {
@@ -276,6 +276,12 @@
   margin-bottom: 10px;
   background: var(--ink);
 }
+/* El <picture> necesita altura para que el height: 100% del <img> funcione. */
+.pex__pick-img picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .pex__pick-img img {
   width: 100%;
   height: 100%;
@@ -288,9 +294,14 @@
 .pex__pick-insp {
   font-size: 10px;
   font-weight: 700;
+  line-height: 1.45;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold-on-ivory);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .pex__pick-title {
   font-family: var(--f-display);

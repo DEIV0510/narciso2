@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ProductImage from './ProductImage'
 import { Emblem } from './Logo'
 import { IconArrow, IconChevron, IconClose, IconMinus, IconPlus, IconTrash, IconWhatsApp, IconCheck } from './Icons'
 import { useCart, DEFAULT_SIZE_LABEL } from '../context/CartContext'
 import useDialog from '../hooks/useDialog'
-import { payment, shipping } from '../data/site'
+import { payment, shippingFlat } from '../data/site'
 import { activePromotions } from '../data/promotions'
 import { buildOrderMessage, checkoutProviders } from '../lib/order'
 import { formatCOP } from '../lib/format'
@@ -46,7 +46,12 @@ function QtyStepper({ item }) {
       <output className="tabular" aria-live="polite">
         {item.qty}
       </output>
-      <button type="button" onClick={() => setQty(item.lineId, item.qty + 1)} disabled={item.qty >= maxQty} aria-label="Sumar uno">
+      <button
+        type="button"
+        onClick={() => item.qty < maxQty && setQty(item.lineId, item.qty + 1)}
+        aria-disabled={item.qty >= maxQty || undefined}
+        aria-label="Sumar uno"
+      >
         <IconPlus />
       </button>
     </div>
@@ -70,7 +75,7 @@ function CartView({ onCheckout, onBrowse }) {
     )
   }
 
-  const shippingCost = shipping.rate?.flat ?? null
+  const shippingCost = shippingFlat
   const total = subtotal + (shippingCost ?? 0)
 
   return (
@@ -156,7 +161,7 @@ function CheckoutView({ customer, setCustomer, wantsPromo, setWantsPromo, onBack
       document.getElementById(`ck-${first.key}`)?.focus()
       return
     }
-    const message = buildOrderMessage(items, customer, { wantsPromo: promoEligible && wantsPromo })
+    const message = buildOrderMessage(items, customer, { promo: promoEligible && wantsPromo ? promo : null })
     const url = checkoutProviders.whatsapp.submit(message)
     onSent(url)
   }
@@ -170,7 +175,7 @@ function CheckoutView({ customer, setCustomer, wantsPromo, setWantsPromo, onBack
       <fieldset className="checkout__set">
         <legend>Datos de envío</legend>
         <div className="checkout__grid">
-          {FIELDS.map((f, i) => (
+          {FIELDS.map((f) => (
             <div key={f.key} className={`field ${f.wide ? 'field--wide' : ''} ${errors[f.key] ? 'has-error' : ''}`}>
               <label htmlFor={`ck-${f.key}`}>{f.label}</label>
               <input
@@ -184,7 +189,6 @@ function CheckoutView({ customer, setCustomer, wantsPromo, setWantsPromo, onBack
                 required={f.required}
                 aria-invalid={errors[f.key] ? 'true' : undefined}
                 aria-describedby={errors[f.key] ? `ck-${f.key}-err` : undefined}
-                data-autofocus={i === 0 ? '' : undefined}
               />
               {errors[f.key] && (
                 <p id={`ck-${f.key}-err`} className="field__err">
@@ -233,9 +237,10 @@ function CheckoutView({ customer, setCustomer, wantsPromo, setWantsPromo, onBack
 
       <div className="checkout__sum">
         <span>
-          {totalItems} {totalItems === 1 ? 'fragancia' : 'fragancias'} · envío por confirmar
+          {totalItems} {totalItems === 1 ? 'fragancia' : 'fragancias'} ·{' '}
+          {shippingFlat == null ? 'envío por confirmar' : `envío ${formatCOP(shippingFlat)}`}
         </span>
-        <strong className="tabular">{formatCOP(subtotal)} COP</strong>
+        <strong className="tabular">{formatCOP(subtotal + (shippingFlat ?? 0))} COP</strong>
       </div>
 
       <button type="submit" className="btn btn--block">
@@ -276,8 +281,9 @@ function SentView({ url, onFinish, onKeep }) {
 const TITLES = { cart: 'Tu selección', checkout: 'Finalizar pedido', sent: 'Pedido enviado' }
 
 export default function CartDrawer() {
-  const { view, setView, closeCart, totalItems, clearCart, hydrated } = useCart()
+  const { view, setView, closeCart, totalItems, items, clearCart, hydrated } = useCart()
   const navigate = useNavigate()
+  const { key: locationKey } = useLocation()
   const open = view !== 'closed'
   const ref = useDialog(open, closeCart)
   const [customer, setCustomer] = useState(emptyCustomer)
@@ -298,6 +304,25 @@ export default function CartDrawer() {
     }
   }, [view, shownView])
 
+  // Cualquier navegación (enlace de una línea, Atrás/Adelante) cierra el cajón.
+  useEffect(() => {
+    closeCart()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationKey])
+
+  // Al cambiar de paso o quitar una línea, el botón con el foco desaparece: el
+  // foco pasa al destino del paso nuevo o al título, que lo anuncia. Solo
+  // actúa si el foco se perdió, así que no compite con useDialog al abrir.
+  useEffect(() => {
+    const panel = ref.current
+    if (!open || !panel) return
+    const a = document.activeElement
+    if (a && a !== document.body && panel.contains(a)) return
+    const target = panel.querySelector('.drawer__body [data-autofocus]') || panel.querySelector('#drawer-title')
+    target?.focus({ preventScroll: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shownView, items.length])
+
   if (!hydrated) return null
 
   return (
@@ -305,7 +330,7 @@ export default function CartDrawer() {
       <div className="drawer__scrim" onClick={closeCart} />
       <aside ref={ref} className="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
         <header className="drawer__head">
-          <h2 id="drawer-title" className="display">
+          <h2 id="drawer-title" className="display" tabIndex={-1}>
             {TITLES[shownView]}
             {shownView === 'cart' && totalItems > 0 && <span className="drawer__count tabular">{totalItems}</span>}
           </h2>

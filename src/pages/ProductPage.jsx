@@ -20,12 +20,20 @@ import ambientWebp from '../assets/img/hero-bottle.webp'
 import ambientJpg from '../assets/img/hero-bottle.jpg'
 import './ProductPage.css'
 
-const MAX_QTY = 20
+const POSITION = new Map(products.map((p, i) => [p.id, i]))
 
 // Recomendaciones: mismo género primero, luego familias olfativas en común y
-// misma casa de inspiración. Siempre productos reales del catálogo.
+// misma casa de inspiración. Siempre productos reales del catálogo. A igual
+// puntaje gana la fragancia más cercana en el catálogo, así los enlaces se
+// reparten entre todas las fichas en vez de caer siempre en las mismas.
 function related(product, limit = 4) {
   const mine = new Set(productProfiles(product))
+  const here = POSITION.get(product.id)
+  const n = products.length
+  const dist = (p) => {
+    const d = Math.abs(POSITION.get(p.id) - here)
+    return Math.min(d, n - d)
+  }
   return products
     .filter((p) => p.id !== product.id)
     .map((p) => {
@@ -34,20 +42,43 @@ function related(product, limit = 4) {
       return { p, s }
     })
     .filter(({ s }) => s > 4)
-    .sort((a, b) => b.s - a.s)
+    .sort((a, b) => b.s - a.s || dist(a.p) - dist(b.p))
     .slice(0, limit)
     .map(({ p }) => p)
 }
 
-const joinEs = (list) =>
-  list.length <= 1 ? list.join('') : `${list.slice(0, -1).join(', ')} y ${list[list.length - 1]}`
+// Une con comas y "y"; la "y" pasa a "e" ante el sonido /i/ ("otoño e invierno").
+const joinEs = (list) => {
+  if (list.length <= 1) return list.join('')
+  const last = list[list.length - 1]
+  const conj = /^h?[ií](?![aeoáéó])/i.test(last) ? 'e' : 'y'
+  return `${list.slice(0, -1).join(', ')} ${conj} ${last}`
+}
+
+const OCASION_ES = {
+  'Día a día': 'el día a día',
+  Trabajo: 'el trabajo',
+  Salida: 'salidas',
+  Cita: 'citas',
+  Evento: 'eventos',
+  Deporte: 'hacer deporte',
+}
 
 // "Para quién": frase construida solo con ocasión, momento y estación verificados.
 function audienceLine(info) {
   const t = info.timeOfDay || []
   const when =
-    t.includes('Día') && t.includes('Noche') ? 'para el día y la noche' : t.includes('Noche') ? 'de noche' : 'de día'
-  const occ = (info.occasions || []).map((o) => o.toLowerCase())
+    t.includes('Día') && t.includes('Noche')
+      ? 'para el día y la noche'
+      : t.includes('Tarde') && t.includes('Noche')
+        ? 'de tarde y noche'
+        : t.includes('Día') && t.includes('Tarde')
+          ? 'de día y de tarde'
+          : t.includes('Noche')
+            ? 'de noche'
+            : 'de día'
+  // 'Noche' ya queda dicha en el momento del día.
+  const occ = (info.occasions || []).filter((o) => o !== 'Noche').map((o) => OCASION_ES[o] ?? o.toLowerCase())
   const seasons = (info.season || []).map((s) => s.toLowerCase())
   return `Para quien busca una fragancia ${when}${occ.length ? `, pensada para ${joinEs(occ)}` : ''}${
     seasons.length === 4 ? ', en cualquier época del año' : seasons.length ? `, en ${joinEs(seasons)}` : ''
@@ -95,15 +126,15 @@ function Gallery({ product }) {
 }
 
 function Purchase({ product }) {
-  const { addItem, openCart } = useCart()
+  const { addItem, openCart, maxQty } = useCart()
   const sizes = product.sizes || []
   const [sizeLabel, setSizeLabel] = useState(sizes[0]?.label)
   const [qty, setQty] = useState(1)
   const unit = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
   const total = unit * qty
-  const waMessage = `Hola, ${brand.name}. Quiero comprar ${qty} × ${longName(product)}${
-    sizeLabel ? `, ${sizeLabel}` : ''
-  } por ${formatCOP(total)} COP. ¿Me confirman disponibilidad?`
+  // El mismo detalle (cantidad, presentación y total) en WhatsApp y en Addi.
+  const orderDetail = `${qty} × ${longName(product)}${sizeLabel ? `, ${sizeLabel}` : ''} por ${formatCOP(total)} COP`
+  const waMessage = `Hola, ${brand.name}. Quiero comprar ${orderDetail}. ¿Me confirman disponibilidad?`
 
   const add = () => {
     addItem(product, { sizeLabel, qty, silent: true })
@@ -141,13 +172,24 @@ function Purchase({ product }) {
         </span>
         <div className="buy__row">
           <div className="qty qty--lg" role="group" aria-labelledby="qty-label">
-            <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1} aria-label="Restar uno">
+            {/* aria-disabled (no disabled) para que el foco no se pierda al llegar al límite. */}
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              aria-disabled={qty <= 1 || undefined}
+              aria-label="Restar uno"
+            >
               <IconMinus />
             </button>
             <output className="tabular" aria-live="polite">
               {qty}
             </output>
-            <button type="button" onClick={() => setQty((q) => Math.min(MAX_QTY, q + 1))} disabled={qty >= MAX_QTY} aria-label="Sumar uno">
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
+              aria-disabled={qty >= maxQty || undefined}
+              aria-label="Sumar uno"
+            >
               <IconPlus />
             </button>
           </div>
@@ -172,7 +214,7 @@ function Purchase({ product }) {
           <IconCard />
           <span>
             Transferencia o{' '}
-            <a href={waLink(waMessages.addi(longName(product)))} target="_blank" rel="noopener noreferrer">
+            <a href={waLink(waMessages.addi(orderDetail))} target="_blank" rel="noopener noreferrer">
               <span className="addi__badge">Addi</span> hasta {payment.addi.installments} cuotas, {payment.addi.interest}
             </a>
             .
@@ -220,8 +262,8 @@ function Pyramid({ info }) {
             </span>
           </div>
           <ul className="pyr__notes" role="list">
-            {t.notes.map((n) => (
-              <li key={n} className="chip">
+            {t.notes.map((n, j) => (
+              <li key={`${n}-${j}`} className="chip">
                 {n}
               </li>
             ))}
@@ -389,7 +431,7 @@ export default function ProductPage() {
                 También podría <em className="gold-ink">gustarte</em>
               </h2>
               <Link to={`/perfumes?genero=${product.gender}`} className="link-arrow" data-reveal>
-                Ver {gender?.plural.toLowerCase()} <IconArrow />
+                Ver más fragancias {gender?.plural.toLowerCase()} <IconArrow />
               </Link>
             </header>
             <ul className="pdp__recs-grid" role="list">

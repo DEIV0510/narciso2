@@ -133,6 +133,21 @@
   appearance: none;
   cursor: pointer;
 }
+/* Móvil: el buscador en su propia fila para que el texto se lea entero. */
+@media (max-width: 899px) {
+  .cat__search,
+  .cat__sort {
+    grid-column: 1 / -1;
+  }
+  .cat__sort select {
+    width: 100%;
+    max-width: none;
+  }
+}
+.cat__search input:placeholder-shown {
+  padding-right: 12px;
+}
+
 .cat__sort option {
   background: var(--ink-2);
   color: var(--on-dark);
@@ -293,4 +308,57 @@
 .cat__empty .display {
   font-size: 2.2rem;
   color: var(--on-dark);
+}
+
+/* Índice de todas las fichas (plegado). */
+.cat__index {
+  padding-bottom: clamp(56px, 8vw, 100px);
+}
+.cat__index details {
+  border-top: 1px solid var(--line-dark);
+  padding-top: 22px;
+}
+.cat__index summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+.cat__index summary:hover {
+  color: var(--on-dark);
+}
+.cat__index-cols {
+  display: grid;
+  gap: 28px;
+  margin-top: 18px;
+}
+@media (min-width: 760px) {
+  .cat__index-cols {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.cat__index h2 {
+  margin-bottom: 10px;
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+.cat__index li a {
+  display: block;
+  padding-block: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--on-dark-muted);
+}
+.cat__index li a:hover {
+  color: var(--on-dark);
+}
+.cat__index li span {
+  color: var(--on-dark-faint);
 }

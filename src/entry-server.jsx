@@ -5,6 +5,7 @@ import App from './App'
 
 export { metaForPath, renderHead } from './lib/seo'
 export { products } from './data/products'
+export { BOTTLE_SRC, BOTTLE_SIZES } from './data/heroBottle'
 
 export function render(url) {
   return renderToString(

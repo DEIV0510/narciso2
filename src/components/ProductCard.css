@@ -49,6 +49,12 @@
     0 30px 50px -20px rgba(0, 0, 0, 0.8);
   background: var(--t-deep);
 }
+/* El <picture> necesita altura para que el height: 100% del <img> funcione. */
+.pcard__arch picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .pcard__arch img {
   width: 100%;
   height: 100%;
@@ -238,6 +244,7 @@
     border-color 0.35s;
 }
 .pcard__add svg {
+  flex: none;
   width: 16px;
   height: 16px;
 }

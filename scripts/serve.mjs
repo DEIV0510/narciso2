@@ -34,6 +34,14 @@ function resolve(urlPath) {
 
 http
   .createServer((req, res) => {
+    // Igual que .htaccess: /index.html y /ruta.html redirigen a la URL limpia.
+    const [pathname, query = ''] = req.url.split('?')
+    if (pathname !== '/404.html' && /\.html$/.test(pathname)) {
+      const clean = pathname.replace(/\/index\.html$/, '/').replace(/(.)\/$/, '$1').replace(/(.)\.html$/, '$1')
+      res.writeHead(301, { Location: clean + (query ? `?${query}` : '') })
+      res.end()
+      return
+    }
     const file = resolve(req.url)
     const status = file ? 200 : 404
     const target = file || path.join(DIST, '404.html')

@@ -10,18 +10,26 @@ export default function useReveal(deps = []) {
       els.forEach((el) => el.classList.add('is-visible'))
       return
     }
+    // Chrome descuenta el clip-path del propio objetivo: un .curtain con
+    // inset(100%) nunca supera el umbral. Se observa su padre (sin recorte),
+    // que puede agrupar varios elementos.
+    const groups = new Map()
+    for (const el of els) {
+      const target = el.classList.contains('curtain') && el.parentElement ? el.parentElement : el
+      if (!groups.has(target)) groups.set(target, [])
+      groups.get(target).push(el)
+    }
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-visible')
-            io.unobserve(e.target)
-          }
+          if (!e.isIntersecting) continue
+          groups.get(e.target)?.forEach((el) => el.classList.add('is-visible'))
+          io.unobserve(e.target)
         }
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
     )
-    els.forEach((el) => io.observe(el))
+    groups.forEach((_, target) => io.observe(target))
     return () => io.disconnect()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)

@@ -68,10 +68,13 @@ export function productMeta(product) {
   const name = displayName(product)
   const cop = (n) => `$${n.toLocaleString('es-CO')}`
   const priceText = sizes.map((s) => (s.label ? `${s.label} a ${cop(s.price)}` : cop(s.price))).join(' y ')
+  // El precio va pronto: Google muestra unos 155 caracteres. "Pirámide
+  // olfativa:" evita "Notas de Notas verdes…" cuando la nota es genérica.
   const description = [
-    `${name}: fragancia${familyText} de Narciso Parfum inspirada en ${reference(product)}.`,
-    notes.length ? `Notas de ${notes.join(', ')}.` : '',
-    `${brand.productFormat} en ${priceText} COP. Envíos a toda Colombia.`,
+    `${name}: fragancia${familyText} inspirada en ${reference(product)}.`,
+    `${brand.productFormat} ${priceText} COP.`,
+    notes.length ? `Pirámide olfativa: ${notes.slice(0, 3).join(', ')}.` : '',
+    'Envíos a toda Colombia.',
   ]
     .filter(Boolean)
     .join(' ')

@@ -55,6 +55,10 @@ export const payment = {
   addi: { installments: 3, interest: '0% de interés' },
 }
 
+// Envío fijo (si se define shipping.rate.flat): lo usan el carrito, el resumen
+// del pedido y el mensaje de WhatsApp, para que los tres digan lo mismo.
+export const shippingFlat = shipping.rate?.flat ?? null
+
 export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(brand.address.full)}`
 
 export function waLink(message) {
@@ -69,7 +73,6 @@ export const waMessages = {
     name
       ? `Hola, Narciso Parfum. Quiero comprar ${name} y pagar con Addi (hasta 3 cuotas, 0% de interés). ¿Me ayudan?`
       : 'Hola, Narciso Parfum. Quiero hacer un pedido y pagar con Addi (hasta 3 cuotas, 0% de interés). ¿Me ayudan?',
-  promo: 'Hola, Narciso Parfum. Vi la promoción especial (elige 3 fragancias por $130.000 COP) y quiero armar mi combo.',
   visit: 'Hola, Narciso Parfum. Quiero visitarlos en Ibagué. ¿Me confirman horario?',
 }
 

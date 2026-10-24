@@ -4,13 +4,8 @@ import { IconArrow } from '../Icons'
 import { products } from '../../data/products'
 import { brand, shipping, payment } from '../../data/site'
 import { activePromotions } from '../../data/promotions'
+import { BOTTLE_SRC, BOTTLE_SIZES } from '../../data/heroBottle'
 import './Hero.css'
-
-const BOTTLE_SRC = {
-  avif: '/img/hero/bottle-760.avif 280w, /img/hero/bottle-1400.avif 515w',
-  webp: '/img/hero/bottle-760.webp 280w, /img/hero/bottle-1400.webp 515w',
-}
-const BOTTLE_SIZES = '(min-width: 900px) 300px, 210px'
 
 function Bottle({ className, eager = false, alt = '' }) {
   return (
@@ -97,7 +92,7 @@ export default function Hero() {
               </Link>
             ) : (
               <Link to="/#perfil" className="btn btn--ghost">
-                Explorar colección
+                Explorar por aroma
               </Link>
             )}
           </div>

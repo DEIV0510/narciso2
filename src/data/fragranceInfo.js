@@ -97,12 +97,12 @@ export const fragranceInfo = {
   'stronger-with-you-intensely-giorgio-armani-hombre': {
     family: "Oriental fougère",
     topNotes: ["Pimienta rosa", "Enebro", "Violeta"],
-    heartNotes: ["Tófe", "Canela", "Lavanda", "Salvia"],
+    heartNotes: ["Tofe", "Canela", "Lavanda", "Salvia"],
     baseNotes: ["Vainilla", "Ámbar", "Haba tonka", "Gamuza"],
     occasions: ["Salida", "Noche"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Fragancia oriental fougère envolvente y cálida: la pimienta rosa, el enebro y la violeta dan paso a un corazón goloso de tófe (caramelo), canela, lavanda y salvia, resuelto en una base cremosa de vainilla, ámbar, haba tonka y gamuza; proyección alta y muy buena duración (8-10 horas aproximadamente).",
+    profile: "Fragancia oriental fougère envolvente y cálida: la pimienta rosa, el enebro y la violeta dan paso a un corazón goloso de tofe (caramelo), canela, lavanda y salvia, resuelto en una base cremosa de vainilla, ámbar, haba tonka y gamuza; proyección alta.",
   },
   'acqua-di-gio-profumo-giorgio-armani-hombre': {
     family: "Aromática acuática",
@@ -112,7 +112,7 @@ export const fragranceInfo = {
     occasions: ["Cita", "Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Tarde", "Noche"],
-    profile: "Interpretación más mineral, ahumada e intensa de Acqua di Giò; el frescor marino se funde con hierbas aromáticas y un fondo resinoso de incienso, con proyección y duración notablemente superiores a la versión Eau de Toilette original.",
+    profile: "Interpretación más mineral, ahumada e intensa de Acqua di Giò; el frescor marino se funde con hierbas aromáticas y un fondo resinoso de incienso.",
   },
   'aqva-pour-homme-bvlgari-hombre': {
     family: "Aromática acuática",
@@ -1164,7 +1164,7 @@ export const fragranceInfo = {
     occasions: ["Cita", "Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Composición amaderada y aromática de perfil actual: la salida se centra en notas especiadas, el corazón revela lavanda silvestre y el fondo se apoya en maderas cálidas; una fragancia todavía joven en el catálogo, con pirámide simplificada según Fragrantica.",
+    profile: "Composición amaderada y aromática de perfil actual: la salida se centra en notas especiadas, el corazón revela lavanda silvestre y el fondo se apoya en maderas cálidas.",
   },
   'uomo-born-in-roma-green-stravaganza-valentino-hombre': {
     family: "Oriental fougère",
@@ -1214,7 +1214,7 @@ export const fragranceInfo = {
     occasions: ["Cita", "Salida", "Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Contraste entre una apertura mentolada y fresca y un fondo cálido, dulce y amaderado; proyección alta y estela duradera de 6 a 8 horas.",
+    profile: "Contraste entre una apertura mentolada y fresca y un fondo cálido, dulce y amaderado; proyección alta y estela duradera.",
   },
   'swiss-army-classic-victorinox-hombre': {
     family: "Amaderada aromática",
@@ -1234,7 +1234,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Apertura especiada de pimienta negra que se abre a un corazón floral de azahar, sobre un fondo envolvente de vainilla, ámbar y maderas con pachulí; cálido, sensual y de gran persistencia, más denso que la versión Eau de Parfum.",
+    profile: "Apertura especiada de pimienta negra que se abre a un corazón floral de azahar, sobre un fondo envolvente de vainilla, ámbar y maderas con pachulí; cálido, sensual y de gran persistencia.",
   },
   '9pm-afnan-hombre': {
     family: "Oriental vainilla",
@@ -1324,7 +1324,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Apertura especiada de nuez moscada, canela, cardamomo y toronja que se suaviza con lavanda, asentándose sobre un fondo amaderado de regaliz, sándalo, ámbar, pachulí y vetiver de Haití; concentración elevada, proyección alta y excelente persistencia.",
+    profile: "Apertura especiada de nuez moscada, canela, cardamomo y toronja que se suaviza con lavanda, asentándose sobre un fondo amaderado de regaliz, sándalo, ámbar, pachulí y vetiver de Haití; proyección alta y excelente persistencia.",
   },
   'ck-in2u-calvin-klein-mujer': {
     family: "Floral oriental",
@@ -1594,7 +1594,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Salida", "Evento"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Dulce y golosa desde el primer instante, con un realista acorde de chicle suavizado por rosa búlgara; proyección moderada y duración discreta, de una a tres horas sobre la piel.",
+    profile: "Dulce y golosa desde el primer instante, con un realista acorde de chicle suavizado por rosa búlgara; proyección moderada y estela discreta.",
   },
   'toy-2-moschino-mujer': {
     family: "Almizcle floral amaderado",
@@ -1614,7 +1614,7 @@ export const fragranceInfo = {
     occasions: ["Cita", "Noche", "Evento"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Noche"],
-    profile: "Almizclada floral amaderada con una apertura tropical de mango y bergamota; corazón floral realzado por incienso de olíbano y una base cálida de vainilla y sándalo; buena proyección y una duración prolongada, de unas 8 horas o más.",
+    profile: "Almizclada floral amaderada con una apertura tropical de mango y bergamota; corazón floral realzado por incienso de olíbano y una base cálida de vainilla y sándalo; buena proyección.",
   },
   'lady-million-paco-rabanne-mujer': {
     family: "Floral frutal",
@@ -1634,7 +1634,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Cita", "Salida", "Noche"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Dulce y frutal con un llamativo corazón de avellana, rosa y jazmín; fondo de miel, madera de cachemira, sándalo y cedro; proyección moderada tras la primera hora y duración de entre 6 y 8 horas.",
+    profile: "Dulce y frutal con un llamativo corazón de avellana, rosa y jazmín; fondo de miel, madera de cachemira, sándalo y cedro.",
   },
   'lady-million-royal-paco-rabanne-mujer': {
     family: "Floral frutal",
@@ -1644,7 +1644,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Floral frutal con una apertura de granada jugosa, un corazón de flores blancas y un fondo de notas amaderadas; pirámide oficial simple, según Fragrantica, con buena proyección y estela de duración media.",
+    profile: "Floral frutal con una apertura de granada jugosa, un corazón de flores blancas y un fondo de notas amaderadas, con buena proyección y estela de duración media.",
   },
   'olympea-parfum-paco-rabanne-mujer': {
     family: "Floral",
@@ -1694,7 +1694,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Oriental floral intensa, con un envolvente acorde de jazmín y jazmín sambac sobre una base cálida de vainilla y maderas; proyección potente y una duración de 6 a 10 horas.",
+    profile: "Oriental floral intensa, con un envolvente acorde de jazmín y jazmín sambac sobre una base cálida de vainilla y maderas; proyección potente.",
   },
   'bright-crystal-parfum-versace-mujer': {
     family: "Floral frutal",
@@ -1744,7 +1744,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Salida"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Aromática tropical y cremosa: coco y vainilla se combinan con un toque floral de lirio de los valles y manzanilla, y un matiz verde de sábila; composición lineal, ligera y veraniega, típica de bruma corporal, según la nota única publicada por Fragrantica.",
+    profile: "Aromática tropical y cremosa: coco y vainilla se combinan con un toque floral de lirio de los valles y manzanilla, y un matiz verde de sábila; composición lineal, ligera y veraniega.",
   },
   'pure-seduction-victoria-s-secret-mujer': {
     family: "Floral afrutada",
@@ -1754,7 +1754,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Salida"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Floral frutal ligera y golosa: apertura jugosa de melón y ciruela, un toque floral de freesia y un fondo suave de manzanilla; composición sencilla, proyección discreta y estela dulce, típica de las brumas corporales de la marca.",
+    profile: "Floral frutal ligera y golosa: apertura jugosa de melón y ciruela, un toque floral de freesia y un fondo suave de manzanilla; composición sencilla, proyección discreta y estela dulce.",
   },
   'love-addict-victoria-s-secret-mujer': {
     family: "Oriental vainilla",
@@ -1764,7 +1764,7 @@ export const fragranceInfo = {
     occasions: ["Día a día"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Fragancia golosa y láctea, con un carácter dulce y untuoso de fresa madura, almendra cremosa y leche; composición lineal y reconfortante, con proyección suave típica de una bruma corporal.",
+    profile: "Fragancia golosa y láctea, con un carácter dulce y untuoso de fresa madura, almendra cremosa y leche; composición lineal y reconfortante, de proyección suave.",
   },
   'velvet-petals-victoria-s-secret-mujer': {
     family: "Floral",
@@ -1774,7 +1774,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Salida"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Floral gourmand suave y cremosa: Fragrantica no desglosa una pirámide completa de salida y corazón para esta fragancia; el fondo confirmado combina notas florales indefinidas con un toque goloso de praliné, sobre acordes principales floral, dulce, lácteo, avellanado y ambarado. Proyección suave, cercana a la piel, típica de bruma corporal.",
+    profile: "Floral gourmand suave y cremosa: notas florales con un toque goloso de praliné, sobre acordes florales, dulces, lácteos, avellanados y ambarados; proyección suave, cercana a la piel.",
   },
   'carmina-creed-mujer': {
     family: "Floral amaderada almizclada",
@@ -1984,7 +1984,7 @@ export const fragranceInfo = {
     occasions: ["Día a día"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Apertura suave de palo de rosa, naranja siciliana y bergamota que da paso a un corazón floral de manzanilla, girasol y rosa, sobre un fondo empolvado de vainilla, iris y durazno blanco; delicado, de baja intensidad y fórmula sin alcohol, pensada para pieles sensibles.",
+    profile: "Apertura suave de palo de rosa, naranja siciliana y bergamota que da paso a un corazón floral de manzanilla, girasol y rosa, sobre un fondo empolvado de vainilla, iris y durazno blanco; delicado, limpio y de baja intensidad.",
   },
   '9am-dive-afnan-unisex': {
     family: "Aromática acuática",
@@ -1994,17 +1994,17 @@ export const fragranceInfo = {
     occasions: ["Salida"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Apertura fresca y afrutada con un toque acuático, corazón especiado-floral y fondo amaderado; energético, con proyección moderada-alta de 4 a 5 horas.",
+    profile: "Apertura fresca y afrutada con un toque acuático, corazón especiado-floral y fondo amaderado; energético, con proyección moderada-alta.",
   },
   'karpos-ahli-unisex': {
-    family: "Ámbar amaderada",
+    family: "Ambarada amaderada",
     topNotes: [],
     heartNotes: ["Anís", "Ámbar"],
     baseNotes: ["Notas amaderadas"],
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Fragancia ámbar-amaderada de firma, con un acorde cálido de ámbar y el toque distintivo del anís sobre una base de maderas profundas; concentración alta (25%) y estela duradera, según la descripción oficial de la casa.",
+    profile: "Fragancia ámbar-amaderada de firma, con un acorde cálido de ámbar y el toque distintivo del anís sobre una base de maderas profundas; estela cálida y duradera.",
   },
   'octans-ahli-unisex': {
     family: "Cítrica ambarada",
@@ -2014,7 +2014,7 @@ export const fragranceInfo = {
     occasions: ["Noche"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Apertura vibrante y cítrica de limón y flor de azahar, sobre un fondo cálido de ámbar con matices especiados; fresca al inicio y envolvente en el fondo, de buena persistencia según la descripción oficial de la casa.",
+    profile: "Apertura vibrante y cítrica de limón y flor de azahar, sobre un fondo cálido de ámbar con matices especiados; fresca al inicio y envolvente en el fondo, de buena persistencia.",
   },
   'canes-ahli-unisex': {
     family: "Amaderada acuática",
@@ -2024,7 +2024,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Noche", "Evento"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Apertura marina y ligeramente especiada que evoluciona hacia un corazón floral-ambarado, asentándose en una base amaderada duradera; la marca señala una persistencia superior a las 8 horas.",
+    profile: "Apertura marina y ligeramente especiada que evoluciona hacia un corazón floral-ambarado, asentándose en una base amaderada duradera.",
   },
   'island-bliss-armaf-unisex': {
     family: "Floral afrutada gourmand",
@@ -2134,7 +2134,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Fresco y verde en la apertura de naranja tangerina, con un corazón floral profundo de violeta, iris, jazmín, rosa y jacinto, y una base amaderada-ambarada de almizcle blanco, ámbar, pachulí y vetiver; sofisticado y de buena persistencia, propio de un extrait de parfum.",
+    profile: "Fresco y verde en la apertura de naranja tangerina, con un corazón floral profundo de violeta, iris, jazmín, rosa y jacinto, y una base amaderada-ambarada de almizcle blanco, ámbar, pachulí y vetiver; sofisticado y de buena persistencia.",
   },
   'il-dolce-ilmin-unisex': {
     family: "Floral afrutada gourmand",
@@ -2157,7 +2157,7 @@ export const fragranceInfo = {
     profile: "Apertura afrutada y especiada que revela un corazón amaderado cálido de cedro y cipriol, asentándose en un fondo envolvente de sándalo, tabaco, vainilla y labdano; sensual y persistente.",
   },
   'il-kakuno-ilmin-unisex': {
-    family: "Ámbar amaderada",
+    family: "Ambarada amaderada",
     topNotes: ["Caramelo", "Bayas silvestres", "Pimienta rosa", "Durazno", "Ládano", "Fresa"],
     heartNotes: ["Cipriol", "Jengibre", "Cuero", "Rosa", "Pachulí", "Azafrán"],
     baseNotes: ["Bálsamo del Perú", "Madera de oud", "Benjuí", "Vainilla", "Almizcle"],
@@ -2214,7 +2214,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Trabajo", "Salida", "Noche"],
     season: ["Primavera", "Otoño"],
     timeOfDay: ["Día", "Noche"],
-    profile: "Apertura afrutada y floral de manzana, lichi y rosa que se funde con un corazón de ciruela y jazmín, para cerrar en un fondo musgoso, avainillado y amaderado con pachulí; fresca, afrutada y de carácter amaderado suave pese al nombre de la colección, sin oud en su pirámide.",
+    profile: "Apertura afrutada y floral de manzana, lichi y rosa que se funde con un corazón de ciruela y jazmín, para cerrar en un fondo musgoso, avainillado y amaderado con pachulí; fresca, afrutada y de carácter amaderado suave.",
   },
   'khamrah-qahwa-lattafa-unisex': {
     family: "Oriental vainilla",
@@ -2274,7 +2274,7 @@ export const fragranceInfo = {
     occasions: ["Día a día", "Salida"],
     season: ["Primavera", "Verano"],
     timeOfDay: ["Día"],
-    profile: "Composición cítrica fresca y luminosa, con el dulce picor del jengibre sobre un cóctel de toronja y bergamota; sin división oficial en pirámide, Louis Vuitton la describe como una frescura sin límites.",
+    profile: "Composición cítrica fresca y luminosa, con el dulce picor del jengibre sobre un cóctel de toronja y bergamota: una frescura sin límites.",
   },
   'baccarat-rouge-540-maison-francis-kurkdjian-unisex': {
     family: "Oriental floral",
@@ -2294,7 +2294,7 @@ export const fragranceInfo = {
     occasions: ["Noche", "Evento"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "El maracuyá y las notas afrutadas se abren paso junto a azafrán y rosa turca en la salida, dan paso a un corazón profundo de oud, benjuí y pachulí de Indonesia, y cierran en una base de cuero, Akigalawood, ámbar, vainilla y ládano; extrait de parfum de carácter animálico y amaderado, con el cuero como seña de identidad.",
+    profile: "El maracuyá y las notas afrutadas se abren paso junto a azafrán y rosa turca en la salida, dan paso a un corazón profundo de oud, benjuí y pachulí de Indonesia, y cierran en una base de cuero, Akigalawood, ámbar, vainilla y ládano; de carácter animálico y amaderado, con el cuero como seña de identidad.",
   },
   'red-tobacco-mancera-unisex': {
     family: "Amaderada especiada",
@@ -2557,7 +2557,7 @@ export const fragranceInfo = {
     profile: "Apertura marina y amaderada de algas y madera a la deriva realzada por oud y cardamomo, evoluciona a un corazón cítrico-herbal de ciprés, lavanda y mirto, y cierra en una base resinosa de incienso, vetiver y vainilla; fresca, salada y sofisticada.",
   },
   'millesime-imperial-creed-unisex': {
-    family: "Almizcle amaderada floral",
+    family: "Almizcle amaderado floral",
     topNotes: ["Sal de mar", "Notas afrutadas"],
     heartNotes: ["Limón siciliano", "Bergamota", "Iris", "Mandarina"],
     baseNotes: ["Notas marinas", "Almizcle", "Notas amaderadas"],
@@ -2654,7 +2654,7 @@ export const fragranceInfo = {
     occasions: ["Salida", "Cita", "Noche"],
     season: ["Otoño", "Invierno"],
     timeOfDay: ["Noche"],
-    profile: "Apertura eléctrica de cítricos y grosella negra con un toque marino, corazón especiado de geranio y clavo, y un fondo intenso de cuero, cedro y vainilla con un fondo animal; audaz, adictivo y de gran proyección.",
+    profile: "Apertura eléctrica de cítricos y grosella negra con un toque marino, corazón especiado de geranio y clavo, y un fondo intenso de cuero, cedro y vainilla con un matiz animal; audaz, adictivo y de gran proyección.",
   },
   'amber-rouge-orientica-unisex': {
     family: "Amaderada Especiada",
@@ -2875,6 +2875,16 @@ export const fragranceInfo = {
   },
 }
 
+// La familia se muestra tal cual en la ficha y dentro de frases (meta
+// descripción): se normaliza a mayúscula inicial ("Aromática acuática") para
+// que todas las fichas, nuevas o viejas, salgan uniformes.
+const cache = new Map()
+const sentenceCase = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+
 export function getFragranceInfo(id) {
-  return fragranceInfo[id] || fragranceInfoNuevas[id] || null
+  if (cache.has(id)) return cache.get(id)
+  const raw = fragranceInfo[id] || fragranceInfoNuevas[id] || null
+  const info = raw && { ...raw, family: sentenceCase(raw.family) }
+  cache.set(id, info)
+  return info
 }

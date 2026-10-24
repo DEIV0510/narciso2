@@ -65,10 +65,19 @@ function reducer(state, action) {
   }
 }
 
+// Carrito guardado → líneas resueltas contra el catálogo vigente.
+function readSaved(raw) {
+  const saved = JSON.parse(raw || '[]')
+  return Array.isArray(saved) ? saved.map((i) => resolveLine(i.productId, i.sizeLabel, i.qty)).filter(Boolean) : []
+}
+
 const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
   const [items, dispatch] = useReducer(reducer, [])
+  const itemsRef = useRef(items)
+  itemsRef.current = items
+  const skipSave = useRef(false)
   const [hydrated, setHydrated] = useState(false)
   // 'closed' | 'cart' | 'checkout' | 'sent'
   const [view, setView] = useState('closed')
@@ -79,19 +88,36 @@ export function CartProvider({ children }) {
   // con [] pisaría el carrito guardado — visible con StrictMode en desarrollo).
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-      if (Array.isArray(saved)) {
-        const lines = saved.map((i) => resolveLine(i.productId, i.sizeLabel, i.qty)).filter(Boolean)
-        dispatch({ type: 'HYDRATE', items: lines })
-      }
+      dispatch({ type: 'HYDRATE', items: readSaved(localStorage.getItem(STORAGE_KEY)) })
     } catch {
       // almacenamiento no disponible o JSON dañado: carrito vacío
     }
     setHydrated(true)
   }, [])
 
+  // Otra pestaña cambió el carrito: se refleja aquí sin volver a escribirlo
+  // (si no, cada pestaña pisaría lo que agregó o vació la otra).
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key !== null && e.key !== STORAGE_KEY) return // key null = localStorage.clear()
+      try {
+        const next = readSaved(e.newValue)
+        skipSave.current = true
+        dispatch({ type: 'HYDRATE', items: next })
+      } catch {
+        // JSON dañado: se conserva lo que hay
+      }
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
+
   useEffect(() => {
     if (!hydrated) return
+    if (skipSave.current) {
+      skipSave.current = false
+      return
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
     } catch {
@@ -108,8 +134,12 @@ export function CartProvider({ children }) {
   const addItem = useCallback(
     (product, { sizeLabel, qty = 1, silent = false } = {}) => {
       const label = sizeLabel || product.sizes?.[0]?.label || DEFAULT_SIZE_LABEL
+      const current = itemsRef.current.find((i) => i.lineId === lineId(product.id, label))?.qty ?? 0
       dispatch({ type: 'ADD', productId: product.id, sizeLabel: label, qty })
-      if (!silent) notify(`${product.name || product.title} se agregó a tu selección`)
+      // El tope se avisa siempre (también en añadidos silenciosos): el cliente
+      // no debe creer que lleva unidades que no quedan en el pedido.
+      if (current + qty > MAX_QTY) notify(`Máximo ${MAX_QTY} unidades por presentación. Para más, escríbenos por WhatsApp.`)
+      else if (!silent) notify(`${product.name || product.title} se agregó a tu selección`)
     },
     [notify]
   )

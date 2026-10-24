@@ -16,7 +16,7 @@ const CARD_SIZES = '(min-width: 1200px) 300px, (min-width: 760px) 30vw, 46vw'
 // vacío (pirámides sin niveles), se completa con las siguientes.
 function keyNotes(info) {
   const tiers = [info.topNotes || [], info.heartNotes || [], info.baseNotes || []]
-  const picked = tiers.map((t) => t[0]).filter(Boolean)
+  const picked = [...new Set(tiers.map((t) => t[0]).filter(Boolean))]
   for (const n of tiers.flatMap((t) => t.slice(1))) {
     if (picked.length >= 3) break
     if (!picked.includes(n)) picked.push(n)
@@ -59,6 +59,8 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
           <Link to={href}>{name}</Link>
         </Heading>
         <p className="pcard__format">{brand.productFormat}</p>
+        {/* La etiqueta visible de la familia vive en el enlace decorativo (aria-hidden). */}
+        {info && <p className="sr-only">Familia olfativa: {info.family}</p>}
         {notes.length > 0 && (
           <p className="pcard__notes">
             <span className="sr-only">Notas principales: </span>

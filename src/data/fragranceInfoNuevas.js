@@ -170,7 +170,7 @@ export const fragranceInfoNuevas = {
       "Bergamota"
     ],
     "heartNotes": [
-      "Tófe",
+      "Tofe",
       "Gamuza",
       "Cardamomo",
       "Cedro",
@@ -198,6 +198,6 @@ export const fragranceInfoNuevas = {
       "Tarde",
       "Noche"
     ],
-    "profile": "Apertura afrutada y aromática de pitahaya, manzana y bergamota con lavanda y un toque de coñac, que da paso a un corazón cálido y especiado de tófe, gamuza, cardamomo y cedro, sobre un fondo amaderado de haba tonka, Akigalawood, Ambrofix y pachulí. Dulce, especiado y de espíritu nocturno."
+    "profile": "Apertura afrutada y aromática de pitahaya, manzana y bergamota con lavanda y un toque de coñac, que da paso a un corazón cálido y especiado de tofe, gamuza, cardamomo y cedro, sobre un fondo amaderado de haba tonka, Akigalawood, Ambrofix y pachulí. Dulce, especiado y de espíritu nocturno."
   },
 }

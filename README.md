@@ -44,11 +44,13 @@ src/
 scripts/
   build-assets.mjs   recursos optimizados a partir de source-material/
   prerender.mjs      HTML estático por ruta + sitemap.xml + robots.txt
-  serve.mjs          servidor local de dist/
+  verify.mjs         verificación automática al final del build (datos, enlaces, SEO)
+  serve.mjs          servidor local de dist/ con las mismas reglas que .htaccess
 public/
   brand/             logo oficial (fondo claro y fondo oscuro), emblema, og-image
   img/perfumes/      <id>.jpg (foto original) + <id>-640/-1100 .avif/.webp
-  .htaccess          reglas para hosting Apache (FTP): URLs limpias, 404, caché
+  .htaccess          reglas para hosting Apache (FTP): URLs limpias, 404, caché, www → sin www
+  assets/.htaccess   caché de un año solo para lo que lleva hash (lo genera Vite en /assets)
 vercel.json          equivalente para Vercel
 docs/revision-catalogo.md  revisión del Excel del cliente: aplicado, dudas y nombres comerciales
 ```
@@ -90,7 +92,9 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   algunos se repitan entre perfumes distintos. `SHOW_COMMERCIAL_NAMES = false` en `products.js`
   vuelve a mostrar solo el nombre del perfume original.
 - **Promoción**: la de 3 por $130.000 se retiró por decisión del cliente. Sin promociones activas
-  desaparecen el enlace del menú, el bloque de portada y el aviso del carrito.
+  desaparecen el enlace del menú, el bloque de portada y el aviso del carrito. Si una promoción
+  lleva `validUntil`, la vigencia se calcula con la fecha del build: hay que recompilar y publicar
+  el día siguiente al vencimiento para que deje de verse.
 - **Pago**: no hay pasarela integrada. El pedido se envía por WhatsApp (transferencia o Addi) y la
   interfaz lo muestra como *pendiente de confirmación y pago*, nunca como pagado. El carrito solo
   se vacía cuando el cliente confirma que envió el mensaje. `lib/order.js` documenta cómo añadir
@@ -124,6 +128,11 @@ Administrador de archivos de hPanel, sin FTP:
    `public_html` (así descomprime dentro de `public_html` sin crear subcarpetas).
 4. Enviar los zips a la papelera.
 
-El `.htaccess` declara los tipos AVIF/WebP (el servidor servía `.avif` como texto) y antepone
-`index.html` al `default.php` de Hostinger. Verificado tras publicar: las 263 fichas y sus fotos
+El `.htaccess` declara los tipos AVIF/WebP (el servidor servía `.avif` como texto), antepone
+`index.html` al `default.php` de Hostinger, manda www y las URL con `.html` a la URL limpia
+en un solo salto y responde 404 en carpetas sin `index.html` (sin esto LiteSpeed entraba en un
+bucle de redirecciones). Caché: el HTML siempre fresco; fotos, logo e íconos (sin hash, se
+reemplazan con el mismo nombre) 7 días; `/assets` (con hash) un año, por `assets/.htaccess`,
+que debe ir en el zip. Una foto de perfume reemplazada se regenera con `npm run assets` (compara
+fechas) y llega a todos en una semana como máximo. Verificado tras publicar: las 263 fichas y sus fotos
 responden 200, rutas inexistentes dan 404 real, HTTP redirige a HTTPS y no hay errores de consola.

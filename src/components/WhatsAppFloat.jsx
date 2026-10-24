@@ -4,7 +4,7 @@ import { waLink, waMessages } from '../data/site'
 import { useCart } from '../context/CartContext'
 import './WhatsAppFloat.css'
 
-// Acceso directo a asesoría. En la ficha de producto en móvil sube para no
+// Acceso directo a asesoría. En la ficha de producto, por debajo de 1000 px, sube para no
 // tapar la barra fija de compra; con el carrito abierto se oculta.
 export default function WhatsAppFloat() {
   const { pathname } = useLocation()

@@ -66,6 +66,12 @@ for (const p of products) {
     continue
   }
   for (const k of ['family', 'profile']) if (!info[k]?.trim()) err(`Ficha ${p.id}: falta ${k}`)
+  // El perfil se muestra como descripción del producto Narciso: no puede
+  // prometer duraciones, concentraciones ni usos del original, ni traer notas
+  // internas de investigación.
+  if (/horas|\d+\s?%|extrait|concentraci|eau de (toilette|parfum)|fragrantica|según|\bbrumas?\b|body mist|desglosa|pirámide|descripción oficial|sin alcohol|piel(es)? sensible/i.test(info.profile || '')) {
+    err(`Ficha ${p.id}: el perfil afirma duración, concentración o trae notas de investigación`)
+  }
   // Hay casas que publican las notas sin niveles: basta con que haya notas.
   for (const k of ['topNotes', 'heartNotes', 'baseNotes']) if (!Array.isArray(info[k])) err(`Ficha ${p.id}: ${k} no es una lista`)
   if (![...(info.topNotes || []), ...(info.heartNotes || []), ...(info.baseNotes || [])].length) err(`Ficha ${p.id}: no tiene notas`)
@@ -95,7 +101,7 @@ if (!fs.existsSync(DIST)) {
   const htmlFiles = walk(DIST).filter((f) => f.endsWith('.html'))
 
   for (const r of CATALOG) if (!fs.existsSync(path.join(DIST, 'perfumes', `${r.id}.html`))) err(`Falta la página perfumes/${r.id}.html`)
-  for (const f of ['index.html', 'perfumes/index.html', '404.html', 'sitemap.xml', 'robots.txt', '.htaccess']) {
+  for (const f of ['index.html', 'perfumes/index.html', '404.html', 'sitemap.xml', 'robots.txt', '.htaccess', 'assets/.htaccess']) {
     if (!fs.existsSync(path.join(DIST, f))) err(`Falta dist/${f}`)
   }
 
@@ -118,6 +124,18 @@ if (!fs.existsSync(DIST)) {
       titles.set(title, rel)
       descs.set(desc, rel)
     }
+    // Texto visible: conjunción "e" ante /i/ y sin la promoción retirada.
+    const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<!-- -->/g, '')
+    if (/\sy [Ii]nvierno/.test(text)) err(`${rel}: dice "y invierno" (debe ser "e invierno")`)
+    if (/130\.000/.test(text)) err(`${rel}: menciona la promoción retirada de $130.000`)
+    if (/Notas de Notas/i.test(html)) err(`${rel}: dice "Notas de Notas"`)
+    // Una nota repetida en la misma tarjeta ("Lavanda · Lavanda").
+    for (const m of text.matchAll(/class="pcard__notes">([\s\S]*?)<\/p>/g)) {
+      const list = m[1].replace(/<[^>]+>/g, '').replace(/^Notas principales:\s*/, '').split(' · ')
+      if (new Set(list).size !== list.length) err(`${rel}: nota repetida en una tarjeta (${list.join(' · ')})`)
+    }
+    // Un ancla (/#perfil) nunca es la página actual.
+    if (/<a[^>]*aria-current="page"[^>]*href="\/#/.test(html)) err(`${rel}: un enlace a una sección lleva aria-current="page"`)
     for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       try {
         JSON.parse(m[1])
@@ -138,6 +156,12 @@ if (!fs.existsSync(DIST)) {
       if (!resolvePath(key)) err(`${rel}: enlace o recurso roto ${key}`)
     }
   }
+
+  // La precarga del frasco del hero debe pedir el mismo candidato que el <picture>.
+  const home = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8')
+  const preSizes = home.match(/imagesizes="([^"]*)"/)?.[1]
+  const picSizes = home.match(/<source type="image\/avif" srcSet="\/img\/hero[^"]*" sizes="([^"]*)"/)?.[1]
+  if (!preSizes || preSizes !== picSizes) err(`index.html: la precarga del frasco (${preSizes}) no coincide con el <picture> (${picSizes})`)
 
   const sitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8')
   const locs = [...sitemap.matchAll(/<loc>https?:\/\/[^/]+([^<]*)<\/loc>/g)].map((m) => m[1] || '/')

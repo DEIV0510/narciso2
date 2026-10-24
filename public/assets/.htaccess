@@ -1,0 +1,19 @@
+# Solo archivos con hash de contenido (los genera Vite): nunca cambian con el
+# mismo nombre, así que se guardan un año. Se declaran todos los tipos porque
+# los ExpiresByType de la raíz se heredan y ganan sobre ExpiresDefault.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

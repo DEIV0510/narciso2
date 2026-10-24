@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Logo from './Logo'
 import { IconBag, IconClose, IconMenu, IconSearch, IconWhatsApp, IconInstagram, IconTikTok } from './Icons'
 import { useCart } from '../context/CartContext'
@@ -16,8 +16,10 @@ const LINKS = [
 ]
 
 export default function Header() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
+  const navigate = useNavigate()
   const { totalItems, openCart, hydrated } = useCart()
+  const count = hydrated ? totalItems : 0
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useDialog(menuOpen, () => setMenuOpen(false))
@@ -31,6 +33,7 @@ export default function Header() {
   }, [])
 
   useEffect(() => setMenuOpen(false), [pathname])
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <>
@@ -47,12 +50,20 @@ export default function Header() {
             <IconMenu />
           </button>
 
-          <nav className="hdr__nav" aria-label="Principal">
-            {LINKS.map((l) => (
-              <NavLink key={l.to} to={l.to} className="hdr__link" end>
-                {l.label}
-              </NavLink>
-            ))}
+          <nav className={`hdr__nav${LINKS.length > 3 ? ' hdr__nav--compact' : ''}`} aria-label="Principal">
+            {/* NavLink solo en rutas reales: un ancla (/#perfil) coincidiría por
+                pathname y quedaría marcada como página actual. */}
+            {LINKS.map((l) =>
+              l.to.includes('#') ? (
+                <Link key={l.to} to={l.to} className="hdr__link">
+                  {l.label}
+                </Link>
+              ) : (
+                <NavLink key={l.to} to={l.to} className="hdr__link" end>
+                  {l.label}
+                </NavLink>
+              )
+            )}
           </nav>
 
           <Link to="/" className="hdr__logo" aria-label="Narciso Parfum, inicio">
@@ -60,7 +71,17 @@ export default function Header() {
           </Link>
 
           <div className="hdr__actions">
-            <Link to="/perfumes#buscar" className="hdr__icon hdr__search" aria-label="Buscar fragancias">
+            <Link
+              to="/perfumes#buscar"
+              className="hdr__icon hdr__search"
+              aria-label="Buscar fragancias"
+              onClick={(e) => {
+                // Dentro del catálogo se conservan los filtros activos.
+                if (pathname !== '/perfumes') return
+                e.preventDefault()
+                navigate({ search, hash: '#buscar' }, { replace: true })
+              }}
+            >
               <IconSearch />
             </Link>
             <a
@@ -76,12 +97,12 @@ export default function Header() {
               type="button"
               className="hdr__icon hdr__cart"
               onClick={openCart}
-              aria-label={`Abrir tu selección (${hydrated ? totalItems : 0} productos)`}
+              aria-label={`Abrir tu selección (${count} ${count === 1 ? 'fragancia' : 'fragancias'})`}
             >
               <IconBag />
-              {hydrated && totalItems > 0 && (
-                <span key={totalItems} className="hdr__count tabular" aria-hidden="true">
-                  {totalItems}
+              {count > 0 && (
+                <span key={count} className="hdr__count tabular" aria-hidden="true">
+                  {count}
                 </span>
               )}
             </button>
@@ -101,16 +122,16 @@ export default function Header() {
       >
         <div className="menu__top wrap">
           <Logo tone="dark" height={48} />
-          <button type="button" className="hdr__icon" onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" data-autofocus>
+          <button type="button" className="hdr__icon" onClick={closeMenu} aria-label="Cerrar menú" data-autofocus>
             <IconClose />
           </button>
         </div>
         <nav className="menu__nav wrap" aria-label="Menú móvil">
-          <Link to="/" className="menu__link" style={{ '--i': 0 }}>
+          <Link to="/" className="menu__link" style={{ '--i': 0 }} onClick={closeMenu}>
             Inicio
           </Link>
           {LINKS.map((l, i) => (
-            <Link key={l.to} to={l.to} className="menu__link" style={{ '--i': i + 1 }} onClick={() => setMenuOpen(false)}>
+            <Link key={l.to} to={l.to} className="menu__link" style={{ '--i': i + 1 }} onClick={closeMenu}>
               {l.label}
             </Link>
           ))}

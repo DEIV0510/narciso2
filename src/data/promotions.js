@@ -7,8 +7,10 @@
 // Con la lista vacía, el sitio no muestra ofertas: desaparecen el enlace
 // "Promociones" del menú, el bloque de la portada y el aviso del carrito.
 // Para publicar una promoción, añadir un objeto con esta forma (todo dato debe
-// venir del cliente; `validUntil` AAAA-MM-DD es opcional y la oculta sola al
-// vencer):
+// venir del cliente). `validUntil` (AAAA-MM-DD) es opcional: la vigencia se
+// calcula con la fecha de la compilación, para que el HTML prerenderizado y la
+// app coincidan; la promoción deja de verse en el primer build posterior a esa
+// fecha, así que hay que recompilar y publicar el día siguiente al vencimiento:
 //
 // {
 //   id: 'tres-por-x',
@@ -26,6 +28,10 @@
 // }
 export const promotions = []
 
+// __BUILD_DATE__ lo define vite.config.js; fuera de Vite (scripts/verify.mjs)
+// se usa la fecha actual.
+const buildDate = typeof __BUILD_DATE__ !== 'undefined' ? new Date(__BUILD_DATE__) : new Date()
+
 export const activePromotions = promotions.filter(
-  (p) => p.active && (!p.validUntil || new Date(`${p.validUntil}T23:59:59-05:00`) >= new Date())
+  (p) => p.active && (!p.validUntil || new Date(`${p.validUntil}T23:59:59-05:00`) >= buildDate)
 )

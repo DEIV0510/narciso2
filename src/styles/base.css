@@ -19,7 +19,7 @@
 
   --on-dark: #f5f0e7;
   --on-dark-muted: rgba(245, 240, 231, 0.68);
-  --on-dark-faint: rgba(245, 240, 231, 0.46);
+  --on-dark-faint: rgba(245, 240, 231, 0.56);
   --line-dark: rgba(198, 165, 104, 0.2);
   --on-light: #191613;
   --on-light-muted: #5d554b;
@@ -61,6 +61,18 @@ html {
 html.is-locked {
   overflow: hidden;
   padding-right: var(--scrollbar, 0);
+}
+/* Los elementos fijos no reciben el padding del <html>: se compensan aparte
+   para que no salten al quitar la barra de desplazamiento. */
+html.is-locked .hdr {
+  padding-right: var(--scrollbar, 0px);
+}
+html.is-locked .wafloat {
+  right: calc(max(16px, env(safe-area-inset-right)) + var(--scrollbar, 0px));
+}
+/* Destinos que reciben el foco por código al navegar (ScrollManager). */
+.route-focus:focus {
+  outline: none;
 }
 
 body {
@@ -335,6 +347,7 @@ dd {
   transform: scale(0.98);
 }
 .btn svg {
+  flex: none;
   width: 16px;
   height: 16px;
   transition: transform 0.45s var(--ease);

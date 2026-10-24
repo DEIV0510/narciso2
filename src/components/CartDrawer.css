@@ -91,6 +91,16 @@
   border-color: var(--gold);
   color: var(--gold);
 }
+/* En móvil el título ya dice el paso; los círculos se confundían con el contador. */
+@media (max-width: 419.98px) {
+  .drawer__steps {
+    display: none;
+  }
+}
+/* El título recibe el foco por código al cambiar de paso. */
+#drawer-title:focus:not(:focus-visible) {
+  outline: none;
+}
 .drawer__close {
   display: grid;
   place-items: center;
@@ -168,6 +178,12 @@
   overflow: hidden;
   background: var(--ink);
 }
+/* El <picture> necesita altura para que el height: 100% del <img> funcione. */
+.line__img picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .line__img img {
   width: 100%;
   height: 100%;
@@ -240,11 +256,11 @@
     color 0.3s,
     background-color 0.3s;
 }
-.qty button:hover:not(:disabled) {
+.qty button:hover:not([aria-disabled='true']) {
   color: var(--gold-hi);
   background: rgba(245, 240, 231, 0.05);
 }
-.qty button:disabled {
+.qty button[aria-disabled='true'] {
   opacity: 0.35;
   cursor: not-allowed;
 }
@@ -548,4 +564,12 @@
 }
 .sent__keep:hover {
   color: var(--on-dark);
+}
+
+/* Pantallas angostas: los botones de bloque del panel caben con su icono. */
+@media (max-width: 419.98px) {
+  .drawer .btn--block {
+    padding-inline: 16px;
+    letter-spacing: 0.14em;
+  }
 }

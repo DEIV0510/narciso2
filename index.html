@@ -11,7 +11,10 @@
       - Solo en la primera página de la sesión (sessionStorage).
       - Se cierra cuando la página cargó y las tipografías están listas, con un
         mínimo de 0,85 s (0,25 s con movimiento reducido) y un máximo de 2,4 s.
-      - Sin JavaScript no aparece: el contenido prerenderizado se ve igual.
+      - Sin JavaScript no aparece; si el JS del sitio no llega a arrancar
+        (main.jsx marca window.__npApp), se quita .js al terminar de cargar el
+        documento y el contenido prerenderizado se ve sin animaciones.
+      - Si Google Fonts falla o está bloqueado, no se espera a las tipografías.
       - Al cerrarse agrega .intro-done al <html>; ahí arrancan las animaciones
         del hero (pausadas mientras tanto, ver Hero.css).
     -->
@@ -19,10 +22,22 @@
       ;(function (d) {
         var h = d.documentElement
         h.classList.add('js')
+        d.addEventListener('DOMContentLoaded', function () {
+          if (!window.__npApp) h.classList.remove('js')
+        })
         var seen = false
         try {
           seen = sessionStorage.getItem('np-intro') === '1'
-        } catch (e) {}
+        } catch (e) {
+          // Sin almacenamiento: una recarga o un atrás/adelante no es el inicio
+          // de la visita.
+          try {
+            var p = window.performance
+            var n = p && p.getEntriesByType && p.getEntriesByType('navigation')[0]
+            var type = n ? n.type : p && p.navigation ? ['navigate', 'reload', 'back_forward'][p.navigation.type] : ''
+            seen = type === 'reload' || type === 'back_forward' || d.referrer.indexOf(location.origin + '/') === 0
+          } catch (e2) {}
+        }
         if (seen) {
           h.classList.add('intro-done')
           return
@@ -161,6 +176,7 @@
       as="style"
       href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@400;500;600;700&display=swap"
       onload="this.onload=null;this.rel='stylesheet';window.__npFontsCss&&window.__npFontsCss()"
+      onerror="this.onerror=null;window.__npFontsCss&&window.__npFontsCss()"
     />
     <noscript>
       <link
