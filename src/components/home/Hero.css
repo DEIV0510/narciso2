@@ -398,3 +398,10 @@
     }
   }
 }
+
+/* Mientras la pantalla de carga está visible (primera visita de la sesión),
+   las animaciones de entrada esperan; arrancan al agregarse .intro-done. */
+.intro-on:not(.intro-done) .hero *,
+.intro-on:not(.intro-done) .hero::before {
+  animation-play-state: paused !important;
+}

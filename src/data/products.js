@@ -3,7 +3,7 @@
 // arma cada producto con sus presentaciones y precios. El historial de cargas
 // anteriores (fotos por lote, correcciones de nombres) quedó documentado en el
 // repositorio anterior (DEIV0510/narciso) y en el README.
-import { CATALOG } from './catalog'
+import { CATALOG } from './catalog.js'
 
 export const CATEGORIES = {
   hombre: 'Perfumería Caballero',

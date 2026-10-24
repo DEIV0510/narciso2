@@ -1,4 +1,4 @@
-import { fragranceInfoNuevas } from './fragranceInfoNuevas'
+import { fragranceInfoNuevas } from './fragranceInfoNuevas.js'
 
 // Perfiles olfativos reales por fragancia (familia, notas de salida/corazón/
 // fondo, y una clasificación orientativa de ocasión/estación/momento del

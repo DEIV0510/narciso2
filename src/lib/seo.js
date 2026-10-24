@@ -54,7 +54,16 @@ function storeJsonLd() {
 export function productMeta(product) {
   const info = getFragranceInfo(product.id)
   const sizes = product.sizes?.length ? product.sizes : [{ label: null, price: product.price }]
-  const notes = info ? [...info.topNotes.slice(0, 2), ...info.heartNotes.slice(0, 1), ...info.baseNotes.slice(0, 1)] : []
+  // Hasta 4 notas: dos de salida, una de corazón y una de fondo; si algún nivel
+  // viene vacío (pirámides sin niveles), se completa con el resto.
+  const notes = []
+  if (info) {
+    const t = [info.topNotes || [], info.heartNotes || [], info.baseNotes || []]
+    for (const n of [...t[0].slice(0, 2), ...t[1].slice(0, 1), ...t[2].slice(0, 1), ...t.flat()]) {
+      if (notes.length >= 4) break
+      if (!notes.includes(n)) notes.push(n)
+    }
+  }
   const familyText = info ? ` ${info.family.toLowerCase()}` : ''
   const name = displayName(product)
   const cop = (n) => `$${n.toLocaleString('es-CO')}`

@@ -3,21 +3,179 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#101010" />
-    <script>document.documentElement.classList.add('js')</script>
+    <meta name="theme-color" content="#0a0908" />
     <meta name="color-scheme" content="dark light" />
+    <!--
+      Pantalla de carga. Va entera en el HTML (estilo + script en línea) para
+      pintarse en el primer cuadro, antes que el CSS y el JS del sitio.
+      - Solo en la primera página de la sesión (sessionStorage).
+      - Se cierra cuando la página cargó y las tipografías están listas, con un
+        mínimo de 0,85 s (0,25 s con movimiento reducido) y un máximo de 2,4 s.
+      - Sin JavaScript no aparece: el contenido prerenderizado se ve igual.
+      - Al cerrarse agrega .intro-done al <html>; ahí arrancan las animaciones
+        del hero (pausadas mientras tanto, ver Hero.css).
+    -->
+    <script>
+      ;(function (d) {
+        var h = d.documentElement
+        h.classList.add('js')
+        var seen = false
+        try {
+          seen = sessionStorage.getItem('np-intro') === '1'
+        } catch (e) {}
+        if (seen) {
+          h.classList.add('intro-done')
+          return
+        }
+        h.classList.add('intro-on')
+        var t0 = Date.now()
+        var done = false
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches
+        function hide() {
+          if (done) return
+          done = true
+          try {
+            sessionStorage.setItem('np-intro', '1')
+          } catch (e) {}
+          h.classList.add('intro-done')
+          var el = d.getElementById('intro')
+          if (!el) return
+          el.classList.add('is-out')
+          setTimeout(function () {
+            if (el.parentNode) el.parentNode.removeChild(el)
+          }, 800)
+        }
+        function ready() {
+          setTimeout(hide, Math.max(0, (reduce ? 250 : 850) - (Date.now() - t0)))
+        }
+        // Espera la hoja de Google Fonts (se carga sin bloquear) y las dos
+        // familias del sitio, para que al abrirse no se vea el cambio de letra.
+        var cssReady = new Promise(function (r) {
+          window.__npFontsCss = r
+        })
+        function fontsReady() {
+          if (!d.fonts || !d.fonts.load) return Promise.resolve()
+          return cssReady.then(function () {
+            return Promise.all([
+              d.fonts.load('400 1em "Bodoni Moda"'),
+              d.fonts.load('italic 400 1em "Bodoni Moda"'),
+              d.fonts.load('600 1em Manrope'),
+            ])
+          })
+        }
+        window.addEventListener('load', function () {
+          fontsReady().then(ready, ready)
+        })
+        setTimeout(hide, 2400)
+      })(document)
+    </script>
+    <style>
+      #intro {
+        display: none;
+      }
+      .intro-on #intro {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        background: #0a0908;
+        transition:
+          opacity 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+          visibility 0s linear 0.7s;
+      }
+      .intro-on:not(.intro-done) body {
+        overflow: hidden;
+      }
+      .intro__glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(38% 34% at 50% 46%, rgba(198, 165, 104, 0.2), transparent 72%);
+      }
+      .intro__logo {
+        position: relative;
+        width: 128px;
+        height: auto;
+        opacity: 0;
+        transform: scale(0.96);
+        animation: intro-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .intro__line {
+        position: relative;
+        width: 120px;
+        height: 1px;
+        overflow: hidden;
+        background: rgba(198, 165, 104, 0.22);
+      }
+      .intro__line span {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, #e3c993, transparent);
+        transform: translateX(-100%);
+        animation: intro-line 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.25s infinite;
+      }
+      #intro.is-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+      #intro.is-out .intro__logo {
+        transform: scale(1.05);
+      }
+      @keyframes intro-in {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes intro-line {
+        to {
+          transform: translateX(100%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .intro__logo {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .intro__line span {
+          animation: none;
+          transform: none;
+          opacity: 0.5;
+        }
+      }
+    </style>
+    <link rel="preload" as="image" href="/brand/logo-intro.webp" fetchpriority="high" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Tipografías sin bloquear la primera pintura (display=swap). -->
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet';window.__npFontsCss&&window.__npFontsCss()"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
     <!--app-head-->
   </head>
   <body>
+    <div id="intro" aria-hidden="true">
+      <span class="intro__glow"></span>
+      <img class="intro__logo" src="/brand/logo-intro.webp" width="193" height="168" alt="" decoding="async" />
+      <span class="intro__line"><span></span></span>
+    </div>
     <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

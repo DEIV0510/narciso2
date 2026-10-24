@@ -88,6 +88,8 @@ async function brandAssets() {
   const darkPng = await raw(reversed).png().toBuffer()
   await write(sharp(lightPng), 'logo', 360)
   await write(sharp(darkPng), 'logo-reverse', 360)
+  // Versión liviana (~19 KB) para la pantalla de carga, que se pinta antes que todo.
+  await sharp(darkPng).resize({ height: 168 }).webp({ quality: 70, alphaQuality: 80, effort: 6 }).toFile(path.join(BRAND, 'logo-intro.webp'))
 
   const crownH = Math.round(meta.height * CUT)
   const crownArea = await sharp(lightPng).extract({ left: 0, top: 0, width: meta.width, height: crownH }).png().toBuffer()

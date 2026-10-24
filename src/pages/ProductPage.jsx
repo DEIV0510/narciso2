@@ -198,11 +198,16 @@ function Purchase({ product }) {
 }
 
 function Pyramid({ info }) {
-  const tiers = [
-    { key: 'top', label: 'Notas de salida', hint: 'Lo primero que percibes', notes: info.topNotes },
-    { key: 'heart', label: 'Notas de corazón', hint: 'El carácter, tras unos minutos', notes: info.heartNotes },
-    { key: 'base', label: 'Notas de fondo', hint: 'La estela que permanece', notes: info.baseNotes },
-  ]
+  // Algunas casas publican las notas sin niveles (o solo dos niveles): se
+  // muestran solo los niveles con notas y, si hay uno solo, como bloque único.
+  let tiers = [
+    { key: 'top', label: 'Notas de salida', hint: 'Lo primero que percibes', notes: info.topNotes || [] },
+    { key: 'heart', label: 'Notas de corazón', hint: 'El carácter, tras unos minutos', notes: info.heartNotes || [] },
+    { key: 'base', label: 'Notas de fondo', hint: 'La estela que permanece', notes: info.baseNotes || [] },
+  ].filter((t) => t.notes.length > 0)
+  if (tiers.length === 1) {
+    tiers = [{ ...tiers[0], key: 'heart', label: 'Notas principales', hint: 'La casa las publica en conjunto, sin niveles' }]
+  }
   return (
     <ol className="pyr" role="list">
       {tiers.map((t, i) => (

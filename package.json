@@ -6,7 +6,8 @@
   "description": "Narciso Parfum — boutique digital de perfumería (Ibagué, Tolima).",
   "scripts": {
     "dev": "vite --port 5274",
-    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/verify.mjs",
+    "verify": "node scripts/verify.mjs",
     "preview": "node scripts/serve.mjs",
     "assets": "node scripts/build-assets.mjs"
   },

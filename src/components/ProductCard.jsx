@@ -12,6 +12,18 @@ import './ProductCard.css'
 
 const CARD_SIZES = '(min-width: 1200px) 300px, (min-width: 760px) 30vw, 46vw'
 
+// Tres notas representativas: la primera de cada nivel y, si algún nivel viene
+// vacío (pirámides sin niveles), se completa con las siguientes.
+function keyNotes(info) {
+  const tiers = [info.topNotes || [], info.heartNotes || [], info.baseNotes || []]
+  const picked = tiers.map((t) => t[0]).filter(Boolean)
+  for (const n of tiers.flatMap((t) => t.slice(1))) {
+    if (picked.length >= 3) break
+    if (!picked.includes(n)) picked.push(n)
+  }
+  return picked.slice(0, 3)
+}
+
 export default function ProductCard({ product, eager = false, headingLevel = 3 }) {
   const { addItem } = useCart()
   const sizes = product.sizes || []
@@ -19,7 +31,7 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
   const [added, setAdded] = useState(false)
   const info = getFragranceInfo(product.id)
   const price = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
-  const notes = info ? [info.topNotes[0], info.heartNotes[0], info.baseNotes[0]].filter(Boolean) : []
+  const notes = info ? keyNotes(info) : []
   const href = `/perfumes/${product.id}`
   const Heading = `h${headingLevel}`
   const name = displayName(product)
