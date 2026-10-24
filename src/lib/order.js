@@ -9,11 +9,12 @@
 import { brand, payment, shipping, waLink } from '../data/site'
 import { formatCOPLong } from './format'
 import { DEFAULT_SIZE_LABEL } from '../context/CartContext'
+import { longName } from './product'
 
 export function buildOrderMessage(items, customer, { wantsPromo = false } = {}) {
   const lines = items.map((item) => {
     const size = item.sizeLabel && item.sizeLabel !== DEFAULT_SIZE_LABEL ? ` · ${item.sizeLabel}` : ''
-    return `• ${item.qty} × ${item.title} (inspiración ${item.brand})${size} — ${formatCOPLong(item.price * item.qty)}`
+    return `• ${item.qty} × ${longName(item)}${size} — ${formatCOPLong(item.price * item.qty)}`
   })
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0)
   const method = payment.methods.find((m) => m.id === customer.paymentMethod)

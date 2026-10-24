@@ -1,35 +1,30 @@
-// Promociones comerciales reales. Fuente: pieza oficial del cliente
-// (source-material/promo-especial.png): "Promoción especial — elige 3
-// fragancias por solo 3 x 130.000 COP".
+// Promociones comerciales reales. Hoy no hay ninguna activa: la de "3
+// fragancias por $130.000" (source-material/promo-especial.png) se retiró por
+// decisión del cliente (2026-10-21, reconfirmado 2026-10-23: "sin
+// promoción"); con los precios nuevos, 3 fragancias de 50 ml ya cuestan
+// $120.000.
 //
-// Para agregar una promoción: añadir un objeto a `promotions`. Para retirarla:
-// `active: false` (la sección muestra entonces un estado "próximas ediciones"
-// sin ofertas ficticias). `validUntil` (AAAA-MM-DD) se muestra solo si existe:
-// el cliente no ha dado fecha de cierre, así que queda en null.
+// Con la lista vacía, el sitio no muestra ofertas: desaparecen el enlace
+// "Promociones" del menú, el bloque de la portada y el aviso del carrito.
+// Para publicar una promoción, añadir un objeto con esta forma (todo dato debe
+// venir del cliente; `validUntil` AAAA-MM-DD es opcional y la oculta sola al
+// vencer):
 //
-// Pendiente de confirmar con el cliente (no se muestra en el sitio): si el
-// combo incluye Torino21 y Unstoppable Hong Kong, que se venden a $60.000.
-export const promotions = [
-  {
-    id: 'tres-por-130',
-    active: true,
-    eyebrow: 'Promoción especial',
-    title: 'Elige 3 fragancias',
-    units: 3,
-    price: 130000,
-    // Precio individual real del catálogo (50 ml).
-    unitPrice: 55000,
-    includes: 'Tres fragancias de tu elección del catálogo Narciso Parfum.',
-    conditions: [
-      'Eliges las 3 fragancias y te confirmamos el combo por WhatsApp.',
-      'Sujeto a disponibilidad de las fragancias elegidas.',
-      'El costo de envío se confirma por WhatsApp según tu ciudad.',
-    ],
-    validUntil: null,
-    whatsappMessage:
-      'Hola, Narciso Parfum. Vi la promoción especial (elige 3 fragancias por $130.000 COP) y quiero armar mi combo.',
-  },
-]
+// {
+//   id: 'tres-por-x',
+//   active: true,
+//   eyebrow: 'Promoción especial',
+//   title: 'Elige 3 fragancias',
+//   units: 3,
+//   price: 130000,
+//   sizeLabel: '100 ml',          // presentación a la que aplica
+//   unitPrice: 60000,             // precio individual real de esa presentación
+//   includes: 'Tres fragancias de 100 ml de tu elección.',
+//   conditions: ['…'],
+//   validUntil: null,
+//   whatsappMessage: 'Hola, Narciso Parfum. Vi la promoción…',
+// }
+export const promotions = []
 
 export const activePromotions = promotions.filter(
   (p) => p.active && (!p.validUntil || new Date(`${p.validUntil}T23:59:59-05:00`) >= new Date())

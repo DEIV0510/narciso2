@@ -215,3 +215,62 @@
     grid-column: auto;
   }
 }
+
+/* ── Presentaciones (sin promoción activa) ─────────────────────────────── */
+
+.sizes {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+.sizes__scene .promo__stone {
+  left: 16%;
+  right: 16%;
+}
+.sizes__bottle--big {
+  left: 52%;
+  width: 26%;
+  z-index: 2;
+}
+.sizes__bottle--small {
+  left: 28%;
+  width: 19%;
+  filter: brightness(0.78);
+}
+.sizes__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+.sizes__list li {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0;
+}
+.sizes__list li + li {
+  padding-left: 22px;
+  border-left: 1px solid var(--line-dark);
+}
+.sizes__ml {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-style: italic;
+  line-height: 1;
+}
+.sizes__price {
+  font-family: var(--f-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  color: var(--gold);
+}
+.sizes__price small {
+  font-family: var(--f-body);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--on-dark-muted);
+}
+@media (min-width: 980px) {
+  .sizes {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+  }
+}

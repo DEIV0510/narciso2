@@ -32,10 +32,14 @@ page('/', 'index.html', { preload: preloadHero })
 page('/perfumes', 'perfumes/index.html')
 for (const p of products) {
   const img = `/img/perfumes/${p.image}`
+  // Sin foto propia no se precarga nada (el frasco recortado ya es liviano).
+  const ownPhoto = p.image !== 'catalog-bottle'
   page(`/perfumes/${p.id}`, `perfumes/${p.id}.html`, {
-    preload: [
-      `<link rel="preload" as="image" type="image/avif" imagesrcset="${img}-640.avif 640w, ${img}-1100.avif 1100w" imagesizes="(min-width: 1000px) 520px, 88vw" fetchpriority="high" />`,
-    ],
+    preload: ownPhoto
+      ? [
+          `<link rel="preload" as="image" type="image/avif" imagesrcset="${img}-640.avif 640w, ${img}-1100.avif 1100w" imagesizes="(min-width: 1000px) 520px, 88vw" fetchpriority="high" />`,
+        ]
+      : [],
   })
 }
 page('/404', '404.html')
@@ -44,7 +48,12 @@ const today = new Date().toISOString().slice(0, 10)
 const urls = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },
   { loc: '/perfumes', priority: '0.9', changefreq: 'weekly' },
-  ...products.map((p) => ({ loc: `/perfumes/${p.id}`, priority: '0.7', changefreq: 'monthly', image: `/img/perfumes/${p.image}.jpg` })),
+  ...products.map((p) => ({
+    loc: `/perfumes/${p.id}`,
+    priority: '0.7',
+    changefreq: 'monthly',
+    image: p.image !== 'catalog-bottle' ? `/img/perfumes/${p.image}.jpg` : null,
+  })),
 ]
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">

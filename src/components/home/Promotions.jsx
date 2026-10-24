@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { IconArrow, IconWhatsApp, IconCard } from '../Icons'
 import { activePromotions } from '../../data/promotions'
+import { SIZES } from '../../data/products'
 import { payment, waLink, waMessages } from '../../data/site'
 import { formatCOP } from '../../lib/format'
 import './Promotions.css'
@@ -62,7 +63,8 @@ function PromoFeature({ promo }) {
           <div>
             <dt>Precio individual</dt>
             <dd className="tabular">
-              {formatCOP(promo.unitPrice)} COP cada una (50 ml) · {promo.units} por separado: {formatCOP(regular)} COP
+              {formatCOP(promo.unitPrice)} COP cada una{promo.sizeLabel ? ` (${promo.sizeLabel})` : ''} · {promo.units} por separado:{' '}
+              {formatCOP(regular)} COP
             </dd>
           </div>
           <div>
@@ -96,29 +98,70 @@ function PromoFeature({ promo }) {
   )
 }
 
+// Sin promociones activas la portada no muestra ofertas: en su lugar presenta
+// las dos presentaciones reales del frasco (dato comercial verificado).
+function Sizes() {
+  return (
+    <article className="sizes" aria-labelledby="sizes-title">
+      <div className="promo__scene sizes__scene" aria-hidden="true">
+        <span className="promo__spot" />
+        <span className="promo__stone" />
+        <Bottle className="promo__bottle sizes__bottle--small" />
+        <Bottle className="promo__bottle sizes__bottle--big" />
+      </div>
+      <div className="promo__copy">
+        <p className="eyebrow" data-reveal>
+          El frasco de la casa
+        </p>
+        <h2 id="sizes-title" className="display h-lg" data-reveal style={{ '--d': 1 }}>
+          Dos presentaciones, <em className="gold-ink">una misma esencia</em>
+        </h2>
+        <p className="lead" data-reveal style={{ '--d': 2 }}>
+          Todas las fragancias del catálogo, en Eau de parfum, con el frasco negro mate y la tapa dorada de Narciso.
+        </p>
+        <ul className="sizes__list" role="list" data-reveal style={{ '--d': 3 }}>
+          {SIZES.map((s) => (
+            <li key={s.label}>
+              <span className="sizes__ml display">{s.label}</span>
+              <span className="sizes__price tabular">
+                {formatCOP(s.price)} <small>COP</small>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className="promo__ctas" data-reveal style={{ '--d': 4 }}>
+          <Link to="/perfumes" className="btn">
+            Elegir mi fragancia <IconArrow />
+          </Link>
+          <a className="btn btn--wa" href={waLink(waMessages.hello)} target="_blank" rel="noopener noreferrer">
+            <IconWhatsApp /> Asesoría por WhatsApp
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 export default function Promotions() {
   const promo = activePromotions[0]
   return (
-    <section id="promociones" className="section theme-dark grain promos" aria-labelledby="promos-title">
+    <section
+      id={promo ? 'promociones' : 'presentaciones'}
+      className="section theme-dark grain promos"
+      aria-labelledby={promo ? 'promos-title' : 'sizes-title'}
+    >
       <div className="wrap">
-        <header className="promos__head">
-          <h2 id="promos-title" className="display h-lg" data-reveal>
-            Promociones <em className="gold-ink">de la casa</em>
-          </h2>
-        </header>
-
         {promo ? (
-          <PromoFeature promo={promo} />
+          <>
+            <header className="promos__head">
+              <h2 id="promos-title" className="display h-lg" data-reveal>
+                Promociones <em className="gold-ink">de la casa</em>
+              </h2>
+            </header>
+            <PromoFeature promo={promo} />
+          </>
         ) : (
-          // Sin promociones activas: espacio preparado, sin ofertas ficticias.
-          <div className="promos__empty">
-            <p className="lead">
-              En este momento no tenemos promociones activas. Escríbenos y te contamos cuando llegue la próxima edición.
-            </p>
-            <a className="btn btn--wa" href={waLink(waMessages.hello)} target="_blank" rel="noopener noreferrer">
-              <IconWhatsApp /> Avísenme por WhatsApp
-            </a>
-          </div>
+          <Sizes />
         )}
 
         <aside className="addi" aria-label="Pago con Addi" data-reveal>

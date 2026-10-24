@@ -1,4 +1,5 @@
 import { productImage } from '../lib/images'
+import { displayName, reference } from '../lib/product'
 
 // Foto original del producto (nunca se altera: solo se sirve en AVIF/WebP en
 // el tamaño adecuado, con dimensiones fijas para no mover el diseño).
@@ -10,12 +11,13 @@ export default function ProductImage({ product, sizes, eager = false, className 
       <source type="image/webp" srcSet={img.webp} sizes={sizes} />
       <img
         src={img.jpg}
-        alt={alt ?? `${product.title}, fragancia de Narciso Parfum inspirada en ${product.brand}`}
-        width="880"
-        height="1173"
+        alt={alt ?? `${displayName(product)}, fragancia de Narciso Parfum inspirada en ${reference(product)}`}
+        width={img.cutout ? 280 : 880}
+        height={img.cutout ? 760 : 1173}
         loading={eager ? 'eager' : 'lazy'}
         fetchpriority={eager ? 'high' : undefined}
         decoding="async"
+        data-cutout={img.cutout ? '' : undefined}
       />
     </picture>
   )

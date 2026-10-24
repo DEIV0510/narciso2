@@ -13,6 +13,17 @@ export const CATEGORIES = {
   UNISEX: 'Perfumería Unisex',
 }
 
+// Presentaciones y precios reales dados por el cliente (2026-10-23): todo el
+// catálogo se vende en 50 ml a $40.000 y 100 ml a $60.000 COP, sin
+// excepciones (Torino21 y Unstoppable Hong Kong, antes a $60.000 sin talla,
+// pasan a las mismas dos presentaciones). `price` es el precio "desde" (la
+// presentación más pequeña).
+export const SIZES = [
+  { label: '50 ml', price: 40000 },
+  { label: '100 ml', price: 60000 },
+]
+
+
 // Fotos reales individuales por producto (agosto 2026): el cliente mandó
 // Desktop\portadas con una foto por referencia — mismo frasco Narciso real
 // en primer plano, nítido, con el frasco de la fragancia real en la que se
@@ -322,8 +333,8 @@ const caballeroAgosto2026 = [
   // caballero. Se quitaron las insignias flotantes al agregarlas aquí.
   // Excluidas explícitamente del cambio a $55.000/50ml del mismo día: el
   // cliente las nombró como excepción, así que mantienen $60.000 sin talla.
-  { title: 'Torino21', brand: 'Xerjoff', style: 'Fresco', price: 60000, size: null },
-  { title: 'Unstoppable Hong Kong', brand: 'Elivi Parfums', style: 'Intenso', price: 60000, size: null },
+  { title: 'Torino21', brand: 'Xerjoff', style: 'Fresco' },
+  { title: 'Unstoppable Hong Kong', brand: 'Elivi Parfums', style: 'Intenso' },
   // 2026-10-06: lote de 12 pedido por el cliente en una lista informal (con
   // errores de tipeo). Cada nombre se verificó contra Fragrantica y la marca;
   // todas con ficha completa en fragranceInfo.js; foto propia compuesta el
@@ -538,12 +549,7 @@ function slugify(...parts) {
     .replace(/(^-|-$)/g, '')
 }
 
-// Precio y presentación reales dados por el cliente (2026-09-10): $55.000
-// COP en frasco de 50 ml para todo el catálogo — excepto Torino21 (Xerjoff)
-// y Unstoppable Hong Kong (Elivi Parfums), que el cliente pidió dejar fuera
-// del cambio (mantienen su precio/presentación anterior, sin talla fija) al
-// pasar `price`/`size` explícitos en su entrada.
-function toProduct({ title, brand, style, price = 55000, size = '50 ml' }, category, gender) {
+function toProduct({ title, brand, style }, category, gender) {
   const id = slugify(title, brand, gender)
   return {
     id,
@@ -551,8 +557,8 @@ function toProduct({ title, brand, style, price = 55000, size = '50 ml' }, categ
     brand,
     style,
     fullName: `${title} by ${brand}`,
-    price,
-    ...(size ? { sizes: [{ label: size, price }] } : {}),
+    price: SIZES[0].price,
+    sizes: SIZES,
     category,
     gender,
     image: PRODUCTS_WITH_OWN_PHOTO.has(id) ? id : 'catalog-bottle',

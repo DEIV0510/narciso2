@@ -116,12 +116,14 @@
 .pcard__insp {
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  line-height: 1.45;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--t-accent);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .pcard__title {
   font-family: var(--f-display);
@@ -132,10 +134,11 @@
   overflow-wrap: anywhere;
 }
 .pcard__title a::after {
-  /* toda la parte superior es clicable sin duplicar el enlace para lectores */
+  /* toda la tarjeta es clicable sin duplicar el enlace para lectores; los
+     botones de presentación y de añadir quedan por encima */
   content: '';
   position: absolute;
-  inset: 0 0 64px;
+  inset: 0;
 }
 .pcard__title a:focus-visible {
   outline: none;
@@ -159,11 +162,44 @@
   overflow: hidden;
 }
 
+/* Selector de presentación: queda por encima del enlace que cubre la tarjeta. */
+.pcard__sizes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+.pcard__sizes button {
+  flex: 1;
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid rgba(245, 240, 231, 0.16);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--on-dark-muted);
+  transition:
+    border-color 0.3s,
+    color 0.3s,
+    background-color 0.3s;
+}
+.pcard__sizes button:hover {
+  border-color: color-mix(in srgb, var(--t-accent) 60%, transparent);
+  color: var(--on-dark);
+}
+.pcard__sizes button[aria-pressed='true'] {
+  border-color: var(--t-accent);
+  background: color-mix(in srgb, var(--t-accent) 14%, transparent);
+  color: var(--on-dark);
+}
+
 .pcard__foot {
   position: relative;
   z-index: 1;
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -235,4 +271,16 @@
     top: 8px;
     padding: 3px 8px;
   }
+}
+.pcard__sizes + .pcard__foot {
+  margin-top: 0;
+}
+
+/* Productos sin foto propia: el frasco Narciso recortado, entero y centrado
+   sobre el fondo de su familia olfativa (nunca recortado ni estirado). */
+.pcard__arch img[data-cutout] {
+  object-fit: contain;
+  object-position: 50% 100%;
+  padding: 16% 22% 8%;
+  filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.7));
 }

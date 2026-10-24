@@ -7,22 +7,25 @@ import { getFragranceInfo } from '../data/fragranceInfo'
 import { productTheme } from '../data/profiles'
 import { brand } from '../data/site'
 import { formatCOP } from '../lib/format'
+import { displayName, inspiredBy } from '../lib/product'
 import './ProductCard.css'
 
 const CARD_SIZES = '(min-width: 1200px) 300px, (min-width: 760px) 30vw, 46vw'
 
 export default function ProductCard({ product, eager = false, headingLevel = 3 }) {
   const { addItem } = useCart()
+  const sizes = product.sizes || []
+  const [sizeLabel, setSizeLabel] = useState(sizes[0]?.label)
   const [added, setAdded] = useState(false)
   const info = getFragranceInfo(product.id)
-  const size = product.sizes?.[0]
-  const price = size?.price ?? product.price
+  const price = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
   const notes = info ? [info.topNotes[0], info.heartNotes[0], info.baseNotes[0]].filter(Boolean) : []
   const href = `/perfumes/${product.id}`
   const Heading = `h${headingLevel}`
+  const name = displayName(product)
 
   const onAdd = () => {
-    addItem(product)
+    addItem(product, { sizeLabel })
     setAdded(true)
     setTimeout(() => setAdded(false), 1600)
   }
@@ -39,20 +42,33 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
       </Link>
 
       <div className="pcard__body">
-        <p className="pcard__insp">Inspirado en {product.brand}</p>
+        <p className="pcard__insp">{inspiredBy(product)}</p>
         <Heading className="pcard__title">
-          <Link to={href}>{product.title}</Link>
+          <Link to={href}>{name}</Link>
         </Heading>
-        <p className="pcard__format">
-          {brand.productFormat}
-          {size ? ` · ${size.label}` : ''}
-        </p>
+        <p className="pcard__format">{brand.productFormat}</p>
         {notes.length > 0 && (
           <p className="pcard__notes">
             <span className="sr-only">Notas principales: </span>
             {notes.join(' · ')}
           </p>
         )}
+
+        {sizes.length > 1 && (
+          <div className="pcard__sizes" role="group" aria-label={`Presentación de ${name}`}>
+            {sizes.map((s) => (
+              <button
+                key={s.label}
+                type="button"
+                aria-pressed={sizeLabel === s.label}
+                onClick={() => setSizeLabel(s.label)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="pcard__foot">
           <p className="pcard__price tabular">
             {formatCOP(price)} <span>COP</span>
@@ -61,7 +77,7 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
             type="button"
             className={`pcard__add ${added ? 'is-added' : ''}`}
             onClick={onAdd}
-            aria-label={`Añadir ${product.title} a tu selección`}
+            aria-label={`Añadir ${name}${sizeLabel ? `, ${sizeLabel}` : ''}, a tu selección`}
           >
             {added ? <IconCheck /> : <IconBag />}
             <span>{added ? 'Añadido' : 'Añadir'}</span>

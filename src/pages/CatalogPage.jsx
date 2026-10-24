@@ -7,6 +7,7 @@ import { PROFILES, PROFILE_BY_KEY, GENDERS, GENDER_BY_KEY, hasProfile, normalize
 import { getFragranceInfo } from '../data/fragranceInfo'
 import useHydrated from '../hooks/useHydrated'
 import useReveal from '../hooks/useReveal'
+import { displayName } from '../lib/product'
 import './CatalogPage.css'
 
 const PAGE = 24
@@ -14,6 +15,7 @@ const SORTS = [
   { key: 'destacados', label: 'Orden de la casa' },
   { key: 'az', label: 'Nombre (A–Z)' },
   { key: 'marca', label: 'Casa de inspiración (A–Z)' },
+  { key: 'original', label: 'Perfume original (A–Z)' },
 ]
 const EMPTY = new URLSearchParams()
 
@@ -21,7 +23,7 @@ function matchesQuery(p, q) {
   if (!q) return true
   const info = getFragranceInfo(p.id)
   const hay = normalize(
-    [p.title, p.brand, info?.family, ...(info?.topNotes || []), ...(info?.heartNotes || []), ...(info?.baseNotes || [])].join(' ')
+    [p.name, p.title, p.brand, info?.family, ...(info?.topNotes || []), ...(info?.heartNotes || []), ...(info?.baseNotes || [])].join(' ')
   )
   return normalize(q)
     .split(/\s+/)
@@ -73,7 +75,8 @@ export default function CatalogPage() {
     let list = products.filter(
       (p) => (genero === 'todos' || p.gender === genero) && (!perfil || hasProfile(p, perfil)) && matchesQuery(p, q)
     )
-    if (orden === 'az') list = [...list].sort((a, b) => a.title.localeCompare(b.title, 'es'))
+    if (orden === 'az') list = [...list].sort((a, b) => displayName(a).localeCompare(displayName(b), 'es'))
+    if (orden === 'original') list = [...list].sort((a, b) => a.title.localeCompare(b.title, 'es'))
     if (orden === 'marca') list = [...list].sort((a, b) => a.brand.localeCompare(b.brand, 'es') || a.title.localeCompare(b.title, 'es'))
     return list
   }, [genero, perfil, orden, q])

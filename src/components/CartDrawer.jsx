@@ -9,6 +9,7 @@ import { payment, shipping } from '../data/site'
 import { activePromotions } from '../data/promotions'
 import { buildOrderMessage, checkoutProviders } from '../lib/order'
 import { formatCOP } from '../lib/format'
+import { displayName, inspiredBy } from '../lib/product'
 import './CartDrawer.css'
 
 const FIELDS = [
@@ -34,11 +35,11 @@ function validate(customer) {
 function QtyStepper({ item }) {
   const { setQty, removeItem, maxQty } = useCart()
   return (
-    <div className="qty" role="group" aria-label={`Cantidad de ${item.title}`}>
+    <div className="qty" role="group" aria-label={`Cantidad de ${displayName(item)}`}>
       <button
         type="button"
         onClick={() => (item.qty <= 1 ? removeItem(item.lineId) : setQty(item.lineId, item.qty - 1))}
-        aria-label={item.qty <= 1 ? `Quitar ${item.title}` : 'Restar uno'}
+        aria-label={item.qty <= 1 ? `Quitar ${displayName(item)}` : 'Restar uno'}
       >
         {item.qty <= 1 ? <IconTrash /> : <IconMinus />}
       </button>
@@ -78,12 +79,12 @@ function CartView({ onCheckout, onBrowse }) {
         {items.map((item) => (
           <li key={item.lineId} className="line">
             <Link to={`/perfumes/${item.productId}`} className="line__img" tabIndex={-1} aria-hidden="true">
-              <ProductImage product={{ image: item.image, title: item.title, brand: item.brand }} sizes="88px" alt="" />
+              <ProductImage product={{ image: item.image, name: item.name, title: item.title, brand: item.brand }} sizes="88px" alt="" />
             </Link>
             <div className="line__info">
-              <p className="line__insp">Inspirado en {item.brand}</p>
+              <p className="line__insp">{inspiredBy(item)}</p>
               <p className="line__title">
-                <Link to={`/perfumes/${item.productId}`}>{item.title}</Link>
+                <Link to={`/perfumes/${item.productId}`}>{displayName(item)}</Link>
               </p>
               <p className="line__meta tabular">
                 {item.sizeLabel !== DEFAULT_SIZE_LABEL ? `${item.sizeLabel} · ` : ''}
@@ -94,7 +95,7 @@ function CartView({ onCheckout, onBrowse }) {
                 <p className="line__total tabular">{formatCOP(item.price * item.qty)}</p>
               </div>
             </div>
-            <button type="button" className="line__remove" onClick={() => removeItem(item.lineId)} aria-label={`Eliminar ${item.title}`}>
+            <button type="button" className="line__remove" onClick={() => removeItem(item.lineId)} aria-label={`Eliminar ${displayName(item)}`}>
               <IconClose />
             </button>
           </li>

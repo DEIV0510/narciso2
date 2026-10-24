@@ -4,6 +4,7 @@ import ProductImage from '../ProductImage'
 import { IconArrow } from '../Icons'
 import { PROFILES, PROFILE_BY_KEY, productsByProfile, profileCounts, GENDERS } from '../../data/profiles'
 import { formatCOP } from '../../lib/format'
+import { displayName } from '../../lib/product'
 import './ProfileExplorer.css'
 
 // Alterna géneros (hombre, mujer, unisex, hombre…) para que la muestra de
@@ -118,9 +119,9 @@ export default function ProfileExplorer() {
                       <span className="pex__pick-img">
                         <ProductImage product={p} sizes="(min-width: 1000px) 160px, 40vw" alt="" />
                       </span>
-                      <span className="pex__pick-insp">{p.brand}</span>
-                      <span className="pex__pick-title">{p.title}</span>
-                      <span className="pex__pick-price tabular">{formatCOP(p.sizes?.[0]?.price ?? p.price)}</span>
+                      <span className="pex__pick-insp">{p.name ? `${p.title} · ${p.brand}` : p.brand}</span>
+                      <span className="pex__pick-title">{displayName(p)}</span>
+                      <span className="pex__pick-price tabular">Desde {formatCOP(p.price)}</span>
                     </Link>
                   </li>
                 ))}

@@ -5,12 +5,13 @@ import { products, getProductById } from '../data/products'
 import { getFragranceInfo } from '../data/fragranceInfo'
 import { brand, SITE_URL } from '../data/site'
 import { productImage } from './images'
+import { displayName, reference } from './product'
 
 const DEFAULT_IMAGE = '/brand/og-image.jpg'
 
 export const HOME_META = {
   title: 'Narciso Parfum | Fragancias que te definen · Perfumería en Ibagué',
-  description: `Boutique de perfumería de inspiración: ${products.length} fragancias para hombre, mujer y unisex en Eau de parfum. Elaboradas en Ibagué, Tolima, con envíos a toda Colombia y pago con Addi.`,
+  description: `Boutique de perfumería de inspiración: ${products.length} fragancias para hombre, mujer y unisex en Eau de parfum de 50 y 100 ml. Elaboradas en Ibagué, Tolima, con envíos a toda Colombia y pago con Addi.`,
   path: '/',
 }
 
@@ -52,14 +53,16 @@ function storeJsonLd() {
 
 export function productMeta(product) {
   const info = getFragranceInfo(product.id)
-  const price = product.sizes?.[0]?.price ?? product.price
-  const size = product.sizes?.[0]?.label
+  const sizes = product.sizes?.length ? product.sizes : [{ label: null, price: product.price }]
   const notes = info ? [...info.topNotes.slice(0, 2), ...info.heartNotes.slice(0, 1), ...info.baseNotes.slice(0, 1)] : []
   const familyText = info ? ` ${info.family.toLowerCase()}` : ''
+  const name = displayName(product)
+  const cop = (n) => `$${n.toLocaleString('es-CO')}`
+  const priceText = sizes.map((s) => (s.label ? `${s.label} a ${cop(s.price)}` : cop(s.price))).join(' y ')
   const description = [
-    `${product.title}: fragancia${familyText} de Narciso Parfum inspirada en ${product.title} de ${product.brand}.`,
+    `${name}: fragancia${familyText} de Narciso Parfum inspirada en ${reference(product)}.`,
     notes.length ? `Notas de ${notes.join(', ')}.` : '',
-    `${brand.productFormat}${size ? ` ${size}` : ''} por $${price.toLocaleString('es-CO')} COP. Envíos a toda Colombia.`,
+    `${brand.productFormat} en ${priceText} COP. Envíos a toda Colombia.`,
   ]
     .filter(Boolean)
     .join(' ')
@@ -67,7 +70,7 @@ export function productMeta(product) {
   const img = productImage(product.image).og
 
   return {
-    title: `${product.title} — inspirado en ${product.brand} | Narciso Parfum`,
+    title: `${name} — inspirado en ${product.name ? reference(product) : product.brand} | Narciso Parfum`,
     description,
     path,
     image: img,
@@ -76,21 +79,22 @@ export function productMeta(product) {
       {
         '@context': 'https://schema.org',
         '@type': 'Product',
-        name: `${product.title} (inspiración ${product.brand}) — Narciso Parfum`,
+        name: `${name} — Narciso Parfum (inspirado en ${reference(product)})`,
         sku: product.id,
         image: [abs(img)],
         description: info?.profile || description,
         category: product.category,
         brand: { '@type': 'Brand', name: brand.name },
-        ...(size ? { size } : {}),
-        offers: {
+        // Una oferta por presentación (50 ml y 100 ml).
+        offers: sizes.map((s) => ({
           '@type': 'Offer',
+          ...(s.label ? { name: s.label } : {}),
           url: abs(path),
-          price: String(price),
+          price: String(s.price),
           priceCurrency: 'COP',
           itemCondition: 'https://schema.org/NewCondition',
           seller: { '@type': 'Organization', name: brand.name },
-        },
+        })),
       },
       {
         '@context': 'https://schema.org',
@@ -98,7 +102,7 @@ export function productMeta(product) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Inicio', item: abs('/') },
           { '@type': 'ListItem', position: 2, name: 'Fragancias', item: abs('/perfumes') },
-          { '@type': 'ListItem', position: 3, name: product.title, item: abs(path) },
+          { '@type': 'ListItem', position: 3, name, item: abs(path) },
         ],
       },
     ],

@@ -28,6 +28,7 @@ function resolveLine(productId, rawSizeLabel, qty) {
   return {
     lineId: lineId(productId, sizeLabel),
     productId,
+    name: product.name || null,
     title: product.title,
     brand: product.brand,
     fullName: product.fullName,
@@ -108,7 +109,7 @@ export function CartProvider({ children }) {
     (product, { sizeLabel, qty = 1, silent = false } = {}) => {
       const label = sizeLabel || product.sizes?.[0]?.label || DEFAULT_SIZE_LABEL
       dispatch({ type: 'ADD', productId: product.id, sizeLabel: label, qty })
-      if (!silent) notify(`${product.title} se agregó a tu selección`)
+      if (!silent) notify(`${product.name || product.title} se agregó a tu selección`)
     },
     [notify]
   )

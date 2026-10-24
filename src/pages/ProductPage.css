@@ -561,3 +561,15 @@
     gap: 20px;
   }
 }
+
+.pdp__arch img[data-cutout] {
+  object-fit: contain;
+  object-position: 50% 100%;
+  padding: 14% 24% 6%;
+  filter: drop-shadow(0 30px 30px rgba(0, 0, 0, 0.75));
+}
+.pex__pick-img img[data-cutout],
+.line__img img[data-cutout] {
+  object-fit: contain;
+  padding: 10% 18% 4%;
+}

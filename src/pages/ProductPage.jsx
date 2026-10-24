@@ -11,6 +11,7 @@ import { brand, payment, shipping, waLink, waMessages } from '../data/site'
 import { useCart } from '../context/CartContext'
 import useReveal from '../hooks/useReveal'
 import { formatCOP } from '../lib/format'
+import { displayName, inspiredBy, longName, reference } from '../lib/product'
 import labelAvif from '../assets/img/label-detail.avif'
 import labelWebp from '../assets/img/label-detail.webp'
 import labelJpg from '../assets/img/label-detail.jpg'
@@ -100,7 +101,7 @@ function Purchase({ product }) {
   const [qty, setQty] = useState(1)
   const unit = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
   const total = unit * qty
-  const waMessage = `Hola, ${brand.name}. Quiero comprar ${qty} × ${product.title} (inspiración ${product.brand})${
+  const waMessage = `Hola, ${brand.name}. Quiero comprar ${qty} × ${longName(product)}${
     sizeLabel ? `, ${sizeLabel}` : ''
   } por ${formatCOP(total)} COP. ¿Me confirman disponibilidad?`
 
@@ -171,7 +172,7 @@ function Purchase({ product }) {
           <IconCard />
           <span>
             Transferencia o{' '}
-            <a href={waLink(waMessages.addi(`${product.title} (inspiración ${product.brand})`))} target="_blank" rel="noopener noreferrer">
+            <a href={waLink(waMessages.addi(longName(product)))} target="_blank" rel="noopener noreferrer">
               <span className="addi__badge">Addi</span> hasta {payment.addi.installments} cuotas, {payment.addi.interest}
             </a>
             .
@@ -185,7 +186,7 @@ function Purchase({ product }) {
       {/* Barra fija de compra en móvil: precio y botón siempre a mano. */}
       <div className="buy__sticky">
         <div>
-          <p className="buy__sticky-title">{product.title}</p>
+          <p className="buy__sticky-title">{displayName(product)}</p>
           <p className="tabular">{formatCOP(total)} COP</p>
         </div>
         <button type="button" className="btn btn--sm" onClick={add}>
@@ -239,7 +240,8 @@ export default function ProductPage() {
   const profiles = productProfiles(product).map((k) => PROFILE_BY_KEY[k])
   const gender = GENDER_BY_KEY[product.gender]
   const familyTokens = info ? info.family.split(/\s+/).map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase()) : []
-  const reference = info?.year ? `${product.title} de ${product.brand} (${info.year})` : `${product.title} de ${product.brand}`
+  const referenceText = info?.year ? `${reference(product)} (${info.year})` : reference(product)
+  const name = displayName(product)
 
   return (
     <article className="pdp" data-theme={theme} key={product.id}>
@@ -253,10 +255,10 @@ export default function ProductPage() {
               <span aria-hidden="true">/</span>
               <Link to={`/perfumes?genero=${product.gender}`}>{gender?.plural}</Link>
               <span aria-hidden="true">/</span>
-              <span aria-current="page">{product.title}</span>
+              <span aria-current="page">{name}</span>
             </nav>
-            <p className="eyebrow pdp__insp">Inspirado en {product.brand}</p>
-            <h1 className="display pdp__title">{product.title}</h1>
+            <p className="eyebrow pdp__insp">{inspiredBy(product)}</p>
+            <h1 className="display pdp__title">{name}</h1>
             <p className="pdp__meta">
               {info ? <span className="pdp__family">{info.family}</span> : null}
               <span>{product.category.replace('Perfumería ', 'Colección ')}</span>
@@ -276,7 +278,7 @@ export default function ProductPage() {
                   Bloque olfativo
                 </p>
                 <h2 id="olf-title" className="display h-lg" data-reveal style={{ '--d': 1 }}>
-                  La pirámide de <em className="gold-ink">{product.title}</em>
+                  La pirámide de <em className="gold-ink">{name}</em>
                 </h2>
                 <dl className="pdp__facts" data-reveal style={{ '--d': 2 }}>
                   <div>
@@ -301,7 +303,7 @@ export default function ProductPage() {
                   )}
                   <div>
                     <dt>Referencia olfativa</dt>
-                    <dd>{reference}</dd>
+                    <dd>{referenceText}</dd>
                   </div>
                 </dl>
               </header>
