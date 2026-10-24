@@ -127,6 +127,8 @@ Administrador de archivos de hPanel, sin FTP:
 3. Subir cada zip a `public_html` y usar **Extract** con destino `..` y nombre de carpeta
    `public_html` (así descomprime dentro de `public_html` sin crear subcarpetas).
 4. Enviar los zips a la papelera.
+5. Si cambió el `.htaccess`, vaciar la caché de la CDN (hPanel → Rendimiento → CDN → Flush
+   cache): la CDN guarda también las redirecciones y seguiría sirviendo las viejas.
 
 El `.htaccess` declara los tipos AVIF/WebP (el servidor servía `.avif` como texto), antepone
 `index.html` al `default.php` de Hostinger, manda www y las URL con `.html` a la URL limpia
