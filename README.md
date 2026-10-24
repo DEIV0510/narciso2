@@ -8,12 +8,14 @@ Reemplaza al sitio anterior (repositorio `DEIV0510/narciso`, que en septiembre d
 había rebautizado "Gentleman Co"): vuelve la marca **Narciso Parfum** con su logo oficial y se
 conservan todos los datos comerciales reales de ese proyecto.
 
+**En línea en https://narcisoparfum.com** desde el 2026-10-24 (ver "Publicación").
+
 ## Desarrollo
 
 ```bash
 npm install
 npm run dev       # http://localhost:5274
-npm run build     # dist/: compila, prerenderiza las 286 páginas y genera sitemap/robots
+npm run build     # dist/: compila, prerenderiza las 266 páginas y genera sitemap/robots
 npm run preview   # sirve dist/ con las mismas reglas de URL que producción (puerto 5275)
 npm run assets    # regenera logo, favicons, Open Graph, hero y fotos de catálogo
 ```
@@ -27,11 +29,12 @@ librerías de animación). Sin dependencias en tiempo de ejecución aparte de Re
 src/
   App.jsx, main.jsx, entry-server.jsx   rutas, hidratación y render para el prerender
   data/
-    products.js       catálogo real (283 fragancias, precios y presentaciones) — sin cambios de datos
-    fragranceInfo.js  fichas olfativas verificadas (280 de 283) — sin cambios de datos
+    catalog.js        catálogo exacto del cliente (263 fragancias, orden y sección del Excel)
+    products.js       arma cada producto: presentaciones 50/100 ml y precios
+    fragranceInfo.js  fichas olfativas verificadas (+ fragranceInfoNuevas.js para las 5 nuevas)
     site.js           marca, contacto, envíos, pagos, mensajes de WhatsApp
     profiles.js       8 perfiles olfativos calculados desde las fichas + temas visuales
-    promotions.js     promociones reales (hoy: 3 fragancias por $130.000)
+    promotions.js     promociones reales (hoy ninguna activa)
     featured.js       selección editorial de la portada
   context/CartContext.jsx  carrito (persistido en localStorage, precios validados contra el catálogo)
   lib/  seo.js (metadatos + JSON-LD por ruta), order.js (pedido y proveedores de pago), images.js, format.js
@@ -47,13 +50,14 @@ public/
   img/perfumes/      <id>.jpg (foto original) + <id>-640/-1100 .avif/.webp
   .htaccess          reglas para hosting Apache (FTP): URLs limpias, 404, caché
 vercel.json          equivalente para Vercel
+docs/revision-catalogo.md  revisión del Excel del cliente: aplicado, dudas y nombres comerciales
 ```
 
 ## Rutas
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Hero cinematográfico, colecciones, selección, perfil olfativo, promociones, la casa, ubicación |
+| `/` | Hero cinematográfico, colecciones, selección, perfil olfativo, presentaciones y Addi (o la promoción activa), la casa, ubicación |
 | `/perfumes` | Catálogo con filtros por colección, familia olfativa, búsqueda (nombre, casa o nota) y orden. Los filtros viven en la URL: `/perfumes?genero=mujer&perfil=florales&q=vainilla` |
 | `/perfumes/<id>` | Ficha: compra (presentación, cantidad, carrito, WhatsApp, Addi), pirámide olfativa, experiencia y recomendaciones |
 
@@ -65,7 +69,7 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
 - **Logo**: `source-material/logo-oficial.png`. En fondos oscuros se usa la misma pieza con el
   relleno negro de la palabra NARCISO llevado a marfil (`logo-reverse`); el emblema y el bisel
   dorado no se tocan. En fondos claros, el original.
-- **Fotos**: las 283 fotos de producto son las originales del cliente (no se alteran: solo se
+- **Fotos**: las fotos de producto son las originales del cliente (no se alteran: solo se
   recodifican a AVIF/WebP). El hero y la promoción usan el recorte real del frasco
   (`botella-oficial.png`) y un desenfoque de la estantería real de esencias.
 - **"Inspirado en"**: el sitio nunca sugiere que vende el perfume original. El pie de página lo
@@ -73,9 +77,18 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
 - **Perfiles olfativos**: se calculan con la familia y las ocasiones verificadas de cada ficha
   (`profiles.js`); no hay asignaciones a mano. "Acordes de familia" son las palabras de la familia
   olfativa verificada; "Para quién" se arma solo con ocasión, momento y estación de la ficha.
-- **Promoción**: datos tomados de la pieza oficial (`source-material/promo-especial.png`). El
-  descuento no se aplica automáticamente en el carrito: el cliente marca que quiere la promoción y
-  se confirma por WhatsApp.
+- **Catálogo** (`catalog.js`): el Excel del cliente "catalogo narciso cantabria" (2026-10-23) es
+  la lista exacta: 263 fragancias (91 Dama, 132 Caballero, 40 Unisex), en su orden y sección.
+  Cada fila se cruzó con el catálogo anterior (un agente empareja, otro intenta refutar, un
+  tercero desempata): 258 conservan id, foto y ficha; 5 son nuevas, con ficha verificada en dos
+  fuentes; salen 25 que no están en el Excel. Detalle y dudas en `docs/revision-catalogo.md`.
+- **Precios**: 50 ml $40.000 y 100 ml $60.000 COP para todo el catálogo (`SIZES` en
+  `products.js`); cada tarjeta y ficha tiene selector de presentación.
+- **Nombres comerciales** del Excel (columna "INSPIRACION"): guardados en `catalog.js` pero
+  ocultos (`SHOW_COMMERCIAL_NAMES = false`) porque varios se repiten entre perfumes distintos o
+  copian marcas registradas. Con `true`, el sitio los muestra con "Inspirado en …".
+- **Promoción**: la de 3 por $130.000 se retiró por decisión del cliente. Sin promociones activas
+  desaparecen el enlace del menú, el bloque de portada y el aviso del carrito.
 - **Pago**: no hay pasarela integrada. El pedido se envía por WhatsApp (transferencia o Addi) y la
   interfaz lo muestra como *pendiente de confirmación y pago*, nunca como pagado. El carrito solo
   se vacía cuando el cliente confirma que envió el mensaje. `lib/order.js` documenta cómo añadir
@@ -86,10 +99,28 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
 Estos datos no existen todavía; el sitio está preparado y no muestra nada inventado:
 
 1. **Tarifa de envío** — `shipping.rate` en `src/data/site.js`. Con un valor, el carrito la suma.
-2. **Vigencia de la promoción** — `validUntil` en `src/data/promotions.js` (se muestra y la oculta sola al vencer).
-3. **¿La promoción incluye Torino21 y Unstoppable Hong Kong?** (se venden a $60.000, sin talla fija).
+2. **Nombres comerciales y dudas del Excel** — ver `docs/revision-catalogo.md` (duplicados, marcas
+   registradas, identificaciones dudosas como "Carolina Herrera" D050, cambios de sección).
+3. **Foto de "Carolina Herrera" (D050)** — única fragancia sin foto propia (usa el frasco recortado).
 4. **Inventario** — no hay sistema de existencias; la disponibilidad se confirma por WhatsApp.
 5. **Pasarela de pago** — si se contrata (Wompi, Mercado Pago, Bold…), conectarla en `lib/order.js`.
 6. **Fichas olfativas** de Eros Pour Femme, Vega y Arrurrú — sin fuente fiable; sus fichas lo dicen.
 7. **Horario de atención** de la tienda en Ibagué (no se publica porque no se conoce).
 8. **Dominio** — por defecto `https://narcisoparfum.com` (cambiar con `VITE_SITE_URL` al compilar).
+
+## Publicación (Hostinger)
+
+narcisoparfum.com está en Hostinger (plan Premium, carpeta `public_html`). Se publica desde el
+Administrador de archivos de hPanel, sin FTP:
+
+1. `npm run build`.
+2. Empaquetar `dist/` en zips de menos de 9 MB: las fotos de `img/perfumes` en varios y el resto
+   del sitio (con `.htaccess`) en uno. Las fotos van primero: el sitio solo cambia al
+   descomprimir el zip que trae `index.html`.
+3. Subir cada zip a `public_html` y usar **Extract** con destino `..` y nombre de carpeta
+   `public_html` (así descomprime dentro de `public_html` sin crear subcarpetas).
+4. Enviar los zips a la papelera.
+
+El `.htaccess` declara los tipos AVIF/WebP (el servidor servía `.avif` como texto) y antepone
+`index.html` al `default.php` de Hostinger. Verificado tras publicar: las 263 fichas y sus fotos
+responden 200, rutas inexistentes dan 404 real, HTTP redirige a HTTPS y no hay errores de consola.
