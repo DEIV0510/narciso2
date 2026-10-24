@@ -1,8 +1,17 @@
 # Hosting Apache (FTP): el sitio está prerenderizado, cada ruta es un HTML real.
 # /perfumes            -> perfumes/index.html
 # /perfumes/<slug>     -> perfumes/<slug>.html
+# index.html antes que el default.php de Hostinger (no hace falta borrarlo).
+DirectoryIndex index.html
 DirectorySlash Off
 Options -Indexes
+
+# Tipos que el servidor no trae por defecto (sin esto sirve .avif como text/plain).
+AddType image/avif .avif
+AddType image/webp .webp
+AddType application/manifest+json .webmanifest
+AddType video/mp4 .mp4
+
 RewriteEngine On
 
 RewriteCond %{HTTPS} off

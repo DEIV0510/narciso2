@@ -7,7 +7,7 @@ export const FEATURED_IDS = [
   'black-opium-yves-saint-laurent-mujer',
   'acqua-di-gio-parfum-giorgio-armani-hombre',
   'angels-share-kilian-paris-unisex',
-  'good-girl-carolina-herrera-mujer',
+  'libre-yves-saint-laurent-mujer',
   'sauvage-elixir-dior-hombre',
   'aventus-creed-unisex',
 ]

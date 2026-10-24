@@ -1,3 +1,5 @@
+import { fragranceInfoNuevas } from './fragranceInfoNuevas'
+
 // Perfiles olfativos reales por fragancia (familia, notas de salida/corazón/
 // fondo, y una clasificación orientativa de ocasión/estación/momento del
 // día) sobre la fragancia ORIGINAL en la que cada producto de Gentleman
@@ -2874,5 +2876,5 @@ export const fragranceInfo = {
 }
 
 export function getFragranceInfo(id) {
-  return fragranceInfo[id] || null
+  return fragranceInfo[id] || fragranceInfoNuevas[id] || null
 }
