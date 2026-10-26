@@ -29,7 +29,7 @@ librerías de animación). Sin dependencias en tiempo de ejecución aparte de Re
 src/
   App.jsx, main.jsx, entry-server.jsx   rutas, hidratación y render para el prerender
   data/
-    catalog.js        catálogo exacto del cliente (263 fragancias, orden y sección del Excel)
+    catalog.js        catálogo exacto del cliente (266 fragancias, orden y sección del Excel)
     products.js       arma cada producto: presentaciones 50/100 ml y precios
     fragranceInfo.js  fichas olfativas verificadas (+ fragranceInfoNuevas.js para las 5 nuevas)
     site.js           marca, contacto, envíos, pagos, mensajes de WhatsApp
@@ -80,13 +80,17 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   (`profiles.js`); no hay asignaciones a mano. "Acordes de familia" son las palabras de la familia
   olfativa verificada; "Para quién" se arma solo con ocasión, momento y estación de la ficha.
 - **Catálogo** (`catalog.js`): el Excel del cliente "catalogo narciso cantabria" (2026-10-23) es
-  la lista exacta: 263 fragancias (91 Dama, 132 Caballero, 40 Unisex), en su orden y sección.
+  la lista exacta: 263 fragancias (91 Dama, 132 Caballero, 40 Unisex), en su orden y sección. El
+  2026-10-26 el cliente agregó 3 por mensaje: D092 Good Girl ("Girl Clásico", con la foto y la ficha
+  del catálogo anterior), C133 Hawas Black ("Noche Oscura") y C134 1 Million Black ("Hombre de
+  Negro"); estas dos, con ficha verificada en dos fuentes y el frasco recortado mientras no haya foto.
+  Total: 266 (92 Dama, 134 Caballero, 40 Unisex).
   Cada fila se cruzó con el catálogo anterior (un agente empareja, otro intenta refutar, un
   tercero desempata): 258 conservan id, foto y ficha; 5 son nuevas, con ficha verificada en dos
   fuentes; salen 25 que no están en el Excel. Detalle y dudas en `docs/revision-catalogo.md`.
 - **Código**: el de la columna CODIGO del Excel (D001…, C001…, UNI001…), en la esquina superior
   derecha de cada tarjeta y de la foto de la ficha. Se puede buscar por código en el catálogo y es el
-  `sku` del JSON-LD. La fila C133 del Excel está vacía y no se publica.
+  `sku` del JSON-LD.
 - **Precios**: 50 ml $40.000 y 100 ml $60.000 COP para todo el catálogo (`SIZES` en
   `products.js`); cada tarjeta y ficha tiene selector de presentación.
 - **Nombres comerciales** del Excel (columna "INSPIRACION"): son el nombre principal de cada
@@ -111,7 +115,8 @@ Estos datos no existen todavía; el sitio está preparado y no muestra nada inve
 2. **Observaciones del Excel (opcionales)** — ver `docs/revision-catalogo.md`: nombres
    comerciales repetidos o que copian marcas, identificaciones dudosas como "Carolina Herrera"
    D050 y cambios de sección. El sitio ya está publicado con todo tal como lo mandó el cliente.
-3. **Foto de "Carolina Herrera" (D050)** — única fragancia sin foto propia (usa el frasco recortado).
+3. **Fotos de "Carolina Herrera" (D050), Hawas Black (C133) y 1 Million Black (C134)** — sin foto
+   propia (usan el frasco recortado).
 4. **Inventario** — no hay sistema de existencias; la disponibilidad se confirma por WhatsApp.
 5. **Pasarela de pago** — si se contrata (Wompi, Mercado Pago, Bold…), conectarla en `lib/order.js`.
 6. **Fichas olfativas** de Eros Pour Femme, Vega y Arrurrú — sin fuente fiable; sus fichas lo dicen.
@@ -139,5 +144,5 @@ en un solo salto y responde 404 en carpetas sin `index.html` (sin esto LiteSpeed
 bucle de redirecciones). Caché: el HTML siempre fresco; fotos, logo e íconos (sin hash, se
 reemplazan con el mismo nombre) 7 días; `/assets` (con hash) un año, por `assets/.htaccess`,
 que debe ir en el zip. Una foto de perfume reemplazada se regenera con `npm run assets` (compara
-fechas) y llega a todos en una semana como máximo. Verificado tras publicar: las 263 fichas y sus fotos
+fechas) y llega a todos en una semana como máximo. Verificado tras publicar: todas las fichas y sus fotos
 responden 200, rutas inexistentes dan 404 real, HTTP redirige a HTTPS y no hay errores de consola.

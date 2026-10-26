@@ -200,4 +200,39 @@ export const fragranceInfoNuevas = {
     ],
     "profile": "Apertura afrutada y aromática de pitahaya, manzana y bergamota con lavanda y un toque de coñac, que da paso a un corazón cálido y especiado de tofe, gamuza, cardamomo y cedro, sobre un fondo amaderado de haba tonka, Akigalawood, Ambrofix y pachulí. Dulce, especiado y de espíritu nocturno."
   },
+  // Agregada por el cliente el 2026-10-26 (C133). Fuentes que coinciden en las
+  // tres capas y la familia (chipre frutal, eau de parfum masculino de 2024):
+  // https://www.tendance-parfums.com/en/hawas-black-rasasi.html ,
+  // https://www.parfumo.com/Perfumes/Rasasi/hawas-black . Tendance la recomienda
+  // para la tarde y la noche en clima fresco.
+  'hawas-black-rasasi-hombre': {
+    "family": "Chipre frutal",
+    "topNotes": ["Bergamota", "Piña", "Pomelo"],
+    "heartNotes": ["Cedro", "Pachulí", "Jazmín"],
+    "baseNotes": ["Musgo de roble", "Ámbar", "Notas amaderadas"],
+    "year": 2024,
+    "occasions": ["Salida", "Noche"],
+    "season": ["Otoño", "Invierno"],
+    "timeOfDay": ["Tarde", "Noche"],
+    "profile": "Chipre frutal de apertura brillante: bergamota, piña y pomelo dan paso a un corazón seco y terroso de cedro y pachulí, suavizado por un toque de jazmín, sobre un fondo cálido de musgo de roble, ámbar y notas amaderadas. Para las tardes y noches de clima fresco."
+  },
+  // Agregada por el cliente el 2026-10-26 (C134). Lanzamiento de 2026 (Rabanne,
+  // perfumistas Christophe Raynaud y Quentin Bisch). Fuentes que coinciden en las
+  // tres capas y la familia (ambarada amaderada frutal):
+  // https://www.lookfantastic.com/p/rabanne-1-million-black-eau-de-parfum-100ml/17854053/ ,
+  // https://escentual.com/products/rabanne-1-million-black-eau-de-parfum ,
+  // https://www.harrods.com/en-gb/p/rabanne-1-million-black-eau-de-parfum-200ml-000000000000276982 .
+  // Ocasión, estación y momento: los de su familia ambarada y avainillada (aún
+  // no hay votos publicados de los usuarios).
+  '1-million-black-paco-rabanne-hombre': {
+    "family": "Ambarada amaderada frutal",
+    "topNotes": ["Piña tostada", "Naranja sanguina", "Cardamomo"],
+    "heartNotes": ["Vainilla", "Coco", "Salvia esclarea"],
+    "baseNotes": ["Madera de ébano", "Pachulí", "Haba tonka"],
+    "year": 2026,
+    "occasions": ["Salida", "Cita", "Noche", "Evento"],
+    "season": ["Otoño", "Invierno"],
+    "timeOfDay": ["Tarde", "Noche"],
+    "profile": "Ambarada, amaderada y frutal: piña tostada, naranja sanguina y cardamomo abren paso a un corazón cremoso de vainilla intensa, coco y salvia esclarea, sobre un fondo de madera de ébano, pachulí y haba tonka. La frescura de las frutas tropicales contrasta con la calidez de las maderas oscuras."
+  },
 }

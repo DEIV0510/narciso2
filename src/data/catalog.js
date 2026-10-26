@@ -1,6 +1,7 @@
 // Catálogo exacto de Narciso Parfum: Excel del cliente "catalogo narciso
 // cantabria" (hoja "Hoja1"), confirmado el 2026-10-23 como el catálogo que se
-// maneja. 263 fragancias, en el orden y la sección (mujer / hombre /
+// maneja, más las 3 que el cliente agregó el 2026-10-26 (D092 Good Girl, C133
+// Hawas Black y C134 1 Million Black). 266 fragancias, en el orden y la sección (mujer / hombre /
 // unisex) del Excel. Generado a partir de un cruce fila por fila con el
 // catálogo anterior, verificado de forma independiente (ver README, "Catálogo").
 //
@@ -105,6 +106,7 @@ export const CATALOG = [
   { code: 'D089', gender: 'mujer', title: 'Vulcan Baie', brand: 'French Avenue', id: 'vulcan-baie-french-avenue-mujer', commercialName: 'Serpiente Rosada' },
   { code: 'D090', gender: 'mujer', title: 'Arrurrú', brand: 'Arrurrú', id: 'arrurru-arrurru-unisex', commercialName: 'Bebé' },
   { code: 'D091', gender: 'mujer', title: 'Petits et Mamans', brand: 'Bvlgari', id: 'petits-et-mamans-bvlgari-unisex', commercialName: 'Talco' },
+  { code: 'D092', gender: 'mujer', title: 'Good Girl', brand: 'Carolina Herrera', id: 'good-girl-carolina-herrera-mujer', commercialName: 'Girl Clásico' },
   { code: 'C001', gender: 'hombre', title: 'Blue Seduction for Men', brand: 'Antonio Banderas', id: 'blue-seduction-antonio-banderas-hombre', commercialName: 'Seducción Azul' },
   { code: 'C002', gender: 'hombre', title: 'King of Seduction', brand: 'Antonio Banderas', id: 'king-of-seduction-antonio-banderas-hombre', commercialName: 'Rey del Encanto' },
   { code: 'C003', gender: 'hombre', title: 'Acqua di Gio', brand: 'Giorgio Armani', id: 'acqua-di-gio-giorgio-armani-hombre', commercialName: 'Brisa Mediterránea' },
@@ -237,6 +239,8 @@ export const CATALOG = [
   { code: 'C130', gender: 'hombre', title: 'Neroli Portofino', brand: 'Tom Ford', id: 'neroli-portofino-tom-ford-unisex', commercialName: 'Neroli Blue' },
   { code: 'C131', gender: 'hombre', title: 'Rehab', brand: 'Initio Parfums Privés', id: 'rehab-initio-parfums-prives-unisex', commercialName: 'Ecstatic Experience' },
   { code: 'C132', gender: 'hombre', title: 'Herod', brand: 'Parfums de Marly', id: 'herod-parfums-de-marly-unisex', commercialName: 'Herodes' },
+  { code: 'C133', gender: 'hombre', title: 'Hawas Black', brand: 'Rasasi', id: 'hawas-black-rasasi-hombre', image: 'catalog-bottle', commercialName: 'Noche Oscura' },
+  { code: 'C134', gender: 'hombre', title: '1 Million Black', brand: 'Paco Rabanne', id: '1-million-black-paco-rabanne-hombre', image: 'catalog-bottle', commercialName: 'Hombre de Negro' },
   { code: 'UNI001', gender: 'unisex', title: 'CK One Reflections', brand: 'Calvin Klein', id: 'ck-one-reflections-calvin-klein-unisex', commercialName: 'Ecos del Alba' },
   { code: 'UNI002', gender: 'unisex', title: 'CK One', brand: 'Calvin Klein', id: 'ck-one-calvin-klein-unisex', commercialName: 'Unidad Pura' },
   { code: 'UNI003', gender: 'unisex', title: '9AM Dive', brand: 'Afnan', id: '9am-dive-afnan-unisex', commercialName: 'Salto Matinal' },

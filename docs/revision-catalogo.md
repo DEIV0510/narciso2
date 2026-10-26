@@ -5,6 +5,9 @@ Cruce fila por fila de las 263 fragancias del Excel (hoja "Hoja1", 2026-10-23) c
 ## 1. Lo que ya está aplicado en el sitio
 
 - **263 fragancias** en el orden y la sección del Excel: 91 Dama, 132 Caballero, 40 Unisex.
+- **2026-10-26, agregadas por el cliente** (mensaje, no Excel): D092 Good Girl de Carolina Herrera
+  ("Girl Clásico"), C133 Hawas Black de Rasasi ("Noche Oscura", la fila C133 del Excel estaba
+  vacía) y C134 1 Million Black de Rabanne ("Hombre de Negro", lanzamiento de 2026). Total: 266.
 - **50 ml $40.000 y 100 ml $60.000** en todas. Sin promoción.
 - Cada fragancia se muestra con su **nombre comercial del Excel** y, debajo, "Inspirado en <perfume> de <casa>" (desde el 2026-10-24, tal como lo pidió el cliente).
 
