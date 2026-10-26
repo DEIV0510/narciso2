@@ -15,7 +15,8 @@ import { SHOW_PRICES } from '../data/products'
 export function buildOrderMessage(items, customer, { promo = null } = {}) {
   const lines = items.map((item) => {
     const size = item.sizeLabel && item.sizeLabel !== DEFAULT_SIZE_LABEL ? ` · ${item.sizeLabel}` : ''
-    return `• ${item.qty} × ${longName(item)}${size}${SHOW_PRICES ? ` — ${formatCOPLong(item.price * item.qty)}` : ''}`
+    const ref = item.code ? ` · Ref. ${item.code}` : ''
+    return `• ${item.qty} × ${longName(item)}${ref}${size}${SHOW_PRICES ? ` — ${formatCOPLong(item.price * item.qty)}` : ''}`
   })
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0)
   const method = payment.methods.find((m) => m.id === customer.paymentMethod)

@@ -66,9 +66,10 @@
   transform: scale(1.06);
 }
 
-/* Fila superior de la foto: familia a la izquierda y código a la derecha. En
-   flex no pueden montarse con ninguna fuente ni tamaño de letra: la familia
-   toma el espacio que deja el código y, si no le alcanza, pasa a dos líneas. */
+/* Fila superior de la foto: familia a la izquierda y referencia a la derecha.
+   En flex no pueden montarse con ninguna fuente ni tamaño de letra: la familia
+   toma el espacio que deja la referencia y, si no le alcanza, pasa a dos o
+   tres líneas; una palabra más ancha que la caja se parte con guion (es-CO). */
 .pcard__tags {
   position: absolute;
   inset: 12px 12px auto;
@@ -96,9 +97,12 @@
 }
 .pcard__family > span {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 /* Código del catálogo del cliente (columna CODIGO del Excel: D001, C082,
@@ -118,6 +122,18 @@
   line-height: 1.35;
   letter-spacing: 0.1em;
   white-space: nowrap;
+  /* "REF." encima del código: la etiqueta mide lo mismo que el código solo y
+     no le quita espacio a la familia. */
+  display: grid;
+  justify-items: center;
+}
+.pcard__code small {
+  font-size: 7.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
 }
 
 .pcard__view {
@@ -317,21 +333,21 @@
     font-size: 9px;
     padding: 3px 8px;
   }
-  /* En tarjetas de celular la familia puede ocupar tres líneas y se lee entera;
-     una palabra más ancha que la caja se parte con guion (lang es-CO). */
-  .pcard__family > span {
-    -webkit-line-clamp: 3;
-    overflow-wrap: anywhere;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
   .pcard__code {
     font-size: 9px;
     padding: 3px 6px;
     letter-spacing: 0.06em;
   }
+  .pcard__code small {
+    font-size: 7px;
+    letter-spacing: 0.12em;
+  }
 }
 @media (max-width: 359px) {
+  /* En pantallas muy angostas la familia puede ocupar hasta cuatro líneas. */
+  .pcard__family > span {
+    -webkit-line-clamp: 4;
+  }
   .pcard__family {
     padding: 3px 6px;
     letter-spacing: 0.04em;

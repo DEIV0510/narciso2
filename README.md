@@ -88,9 +88,10 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   Cada fila se cruzó con el catálogo anterior (un agente empareja, otro intenta refutar, un
   tercero desempata): 258 conservan id, foto y ficha; 5 son nuevas, con ficha verificada en dos
   fuentes; salen 25 que no están en el Excel. Detalle y dudas en `docs/revision-catalogo.md`.
-- **Código**: el de la columna CODIGO del Excel (D001…, C001…, UNI001…), en la esquina superior
-  derecha de cada tarjeta y de la foto de la ficha. Se puede buscar por código en el catálogo y es el
-  `sku` del JSON-LD.
+- **Referencia**: el código de la columna CODIGO del Excel (D001…, C001…, UNI001…). Sale como
+  "Ref. D001" en la esquina superior derecha de cada tarjeta, como "Referencia D001" en la foto de la
+  ficha, en cada línea del carrito y en los mensajes de WhatsApp y Addi, para que la tienda sepa qué
+  perfume cotizar. Se puede buscar por referencia en el catálogo.
 - **Precios**: ocultos en todo el sitio por pedido del cliente (2026-10-26): ni tarjetas, ni fichas, ni
   carrito, ni el mensaje de WhatsApp, ni la descripción para Google los muestran; el precio se confirma
   por WhatsApp. Siguen guardados en `SIZES` (`products.js`: 50 ml $40.000 y 100 ml $60.000 COP) y

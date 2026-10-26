@@ -98,7 +98,7 @@ function Gallery({ product }) {
         <span className="pdp__halo" aria-hidden="true" />
         {product.code && (
           <p className="pdp__code">
-            <span>Código</span> <strong className="tabular">{product.code}</strong>
+            <span>Referencia</span> <strong className="tabular">{product.code}</strong>
           </p>
         )}
         <div className="pdp__arch" key={active}>
@@ -138,7 +138,7 @@ function Purchase({ product }) {
   const unit = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
   const total = unit * qty
   // El mismo detalle (cantidad, presentación y total) en WhatsApp y en Addi.
-  const orderDetail = `${qty} × ${longName(product)}${sizeLabel ? `, ${sizeLabel}` : ''}${SHOW_PRICES ? ` por ${formatCOP(total)} COP` : ''}`
+  const orderDetail = `${qty} × ${longName(product)}${product.code ? `, Ref. ${product.code}` : ''}${sizeLabel ? `, ${sizeLabel}` : ''}${SHOW_PRICES ? ` por ${formatCOP(total)} COP` : ''}`
   const waMessage = `Hola, ${brand.name}. Quiero comprar ${orderDetail}. ¿Me confirman disponibilidad?`
 
   const add = () => {

@@ -28,6 +28,7 @@ function resolveLine(productId, rawSizeLabel, qty) {
   return {
     lineId: lineId(productId, sizeLabel),
     productId,
+    code: product.code || null,
     name: product.name || null,
     title: product.title,
     brand: product.brand,

@@ -93,7 +93,11 @@ function CartView({ onCheckout, onBrowse }) {
                 <Link to={`/perfumes/${item.productId}`}>{displayName(item)}</Link>
               </p>
               <p className="line__meta tabular">
-                {[item.sizeLabel !== DEFAULT_SIZE_LABEL ? item.sizeLabel : '', SHOW_PRICES ? `${formatCOP(item.price)} c/u` : '']
+                {[
+                  item.code ? `Ref. ${item.code}` : '',
+                  item.sizeLabel !== DEFAULT_SIZE_LABEL ? item.sizeLabel : '',
+                  SHOW_PRICES ? `${formatCOP(item.price)} c/u` : '',
+                ]
                   .filter(Boolean)
                   .join(' · ')}
               </p>
