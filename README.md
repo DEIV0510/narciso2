@@ -72,7 +72,11 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   relleno negro de la palabra NARCISO llevado a marfil (`logo-reverse`); el emblema y el bisel
   dorado no se tocan. En fondos claros, el original.
 - **Fotos**: las fotos de producto son las originales del cliente (no se alteran: solo se
-  recodifican a AVIF/WebP). El hero y la promoción usan el recorte real del frasco
+  recodifican a AVIF/WebP). Tres no tenían foto (D050 Carolina Herrera, C133 Hawas Black y C134
+  1 Million Black) y se compusieron (2026-10-26) con la misma escena de 30 fotos del cliente que
+  comparten base (fondo reconstruido por mediana, frasco Narciso intacto) y la foto oficial de
+  producto del perfume original detrás, desenfocada y con la luz de la escena. Si el cliente manda
+  sus fotos reales, basta reemplazar `public/img/perfumes/<id>.jpg` y correr `npm run assets`. El hero y la promoción usan el recorte real del frasco
   (`botella-oficial.png`) y un desenfoque de la estantería real de esencias.
 - **"Inspirado en"**: el sitio nunca sugiere que vende el perfume original. El pie de página lo
   aclara y cada ficha cita la referencia olfativa.
@@ -83,7 +87,7 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
   la lista exacta: 263 fragancias (91 Dama, 132 Caballero, 40 Unisex), en su orden y sección. El
   2026-10-26 el cliente agregó 3 por mensaje: D092 Good Girl ("Girl Clásico", con la foto y la ficha
   del catálogo anterior), C133 Hawas Black ("Noche Oscura") y C134 1 Million Black ("Hombre de
-  Negro"); estas dos, con ficha verificada en dos fuentes y el frasco recortado mientras no haya foto.
+  Negro"); estas dos, con ficha verificada en dos fuentes y foto compuesta (ver "Fotos").
   Total: 266 (92 Dama, 134 Caballero, 40 Unisex).
   Cada fila se cruzó con el catálogo anterior (un agente empareja, otro intenta refutar, un
   tercero desempata): 258 conservan id, foto y ficha; 5 son nuevas, con ficha verificada en dos
@@ -119,8 +123,8 @@ Estos datos no existen todavía; el sitio está preparado y no muestra nada inve
 2. **Observaciones del Excel (opcionales)** — ver `docs/revision-catalogo.md`: nombres
    comerciales repetidos o que copian marcas, identificaciones dudosas como "Carolina Herrera"
    D050 y cambios de sección. El sitio ya está publicado con todo tal como lo mandó el cliente.
-3. **Fotos de "Carolina Herrera" (D050), Hawas Black (C133) y 1 Million Black (C134)** — sin foto
-   propia (usan el frasco recortado).
+3. **Fotos reales de D050, C133 y C134** — hoy son composiciones (ver "Fotos"); si el cliente
+   las fotografía, se reemplazan.
 4. **Inventario** — no hay sistema de existencias; la disponibilidad se confirma por WhatsApp.
 5. **Pasarela de pago** — si se contrata (Wompi, Mercado Pago, Bold…), conectarla en `lib/order.js`.
 6. **Fichas olfativas** de Eros Pour Femme, Vega y Arrurrú — sin fuente fiable; sus fichas lo dicen.
