@@ -6,6 +6,7 @@ import { IconArrow, IconChevron, IconClose, IconMinus, IconPlus, IconTrash, Icon
 import { useCart, DEFAULT_SIZE_LABEL } from '../context/CartContext'
 import useDialog from '../hooks/useDialog'
 import { payment, shippingFlat } from '../data/site'
+import { SHOW_PRICES } from '../data/products'
 import { activePromotions } from '../data/promotions'
 import { buildOrderMessage, checkoutProviders } from '../lib/order'
 import { formatCOP } from '../lib/format'
@@ -92,12 +93,13 @@ function CartView({ onCheckout, onBrowse }) {
                 <Link to={`/perfumes/${item.productId}`}>{displayName(item)}</Link>
               </p>
               <p className="line__meta tabular">
-                {item.sizeLabel !== DEFAULT_SIZE_LABEL ? `${item.sizeLabel} · ` : ''}
-                {formatCOP(item.price)} c/u
+                {[item.sizeLabel !== DEFAULT_SIZE_LABEL ? item.sizeLabel : '', SHOW_PRICES ? `${formatCOP(item.price)} c/u` : '']
+                  .filter(Boolean)
+                  .join(' · ')}
               </p>
               <div className="line__row">
                 <QtyStepper item={item} />
-                <p className="line__total tabular">{formatCOP(item.price * item.qty)}</p>
+                {SHOW_PRICES && <p className="line__total tabular">{formatCOP(item.price * item.qty)}</p>}
               </div>
             </div>
             <button type="button" className="line__remove" onClick={() => removeItem(item.lineId)} aria-label={`Eliminar ${displayName(item)}`}>
@@ -114,20 +116,33 @@ function CartView({ onCheckout, onBrowse }) {
             confirmar tu pedido.
           </p>
         )}
-        <dl className="drawer__totals">
-          <div>
-            <dt>Subtotal ({totalItems})</dt>
-            <dd className="tabular">{formatCOP(subtotal)}</dd>
-          </div>
-          <div>
-            <dt>Envío</dt>
-            <dd>{shippingCost == null ? 'Se confirma según tu ciudad' : formatCOP(shippingCost)}</dd>
-          </div>
-          <div className="drawer__total">
-            <dt>Total{shippingCost == null ? ' sin envío' : ''}</dt>
-            <dd className="tabular">{formatCOP(total)} COP</dd>
-          </div>
-        </dl>
+        {SHOW_PRICES ? (
+          <dl className="drawer__totals">
+            <div>
+              <dt>Subtotal ({totalItems})</dt>
+              <dd className="tabular">{formatCOP(subtotal)}</dd>
+            </div>
+            <div>
+              <dt>Envío</dt>
+              <dd>{shippingCost == null ? 'Se confirma según tu ciudad' : formatCOP(shippingCost)}</dd>
+            </div>
+            <div className="drawer__total">
+              <dt>Total{shippingCost == null ? ' sin envío' : ''}</dt>
+              <dd className="tabular">{formatCOP(total)} COP</dd>
+            </div>
+          </dl>
+        ) : (
+          <dl className="drawer__totals">
+            <div>
+              <dt>Fragancias</dt>
+              <dd className="tabular">{totalItems}</dd>
+            </div>
+            <div>
+              <dt>Precio y envío</dt>
+              <dd>Se confirman por WhatsApp</dd>
+            </div>
+          </dl>
+        )}
         <button type="button" className="btn btn--block" onClick={onCheckout}>
           Continuar con el pedido <IconArrow />
         </button>
@@ -238,17 +253,21 @@ function CheckoutView({ customer, setCustomer, wantsPromo, setWantsPromo, onBack
       <div className="checkout__sum">
         <span>
           {totalItems} {totalItems === 1 ? 'fragancia' : 'fragancias'} ·{' '}
-          {shippingFlat == null ? 'envío por confirmar' : `envío ${formatCOP(shippingFlat)}`}
+          {!SHOW_PRICES
+            ? 'precio y envío por confirmar'
+            : shippingFlat == null
+              ? 'envío por confirmar'
+              : `envío ${formatCOP(shippingFlat)}`}
         </span>
-        <strong className="tabular">{formatCOP(subtotal + (shippingFlat ?? 0))} COP</strong>
+        {SHOW_PRICES && <strong className="tabular">{formatCOP(subtotal + (shippingFlat ?? 0))} COP</strong>}
       </div>
 
       <button type="submit" className="btn btn--block">
         <IconWhatsApp /> Enviar pedido por WhatsApp
       </button>
       <p className="drawer__note">
-        Tu pedido todavía no queda pagado: al recibirlo te confirmamos disponibilidad, costo de envío y datos de pago por
-        WhatsApp.
+        Tu pedido todavía no queda pagado: al recibirlo te confirmamos {SHOW_PRICES ? '' : 'precio, '}disponibilidad, costo de
+        envío y datos de pago por WhatsApp.
       </p>
     </form>
   )
@@ -263,7 +282,8 @@ function SentView({ url, onFinish, onKeep }) {
       <p className="display sent__title">Tu pedido va camino a WhatsApp</p>
       <p>
         Envía el mensaje que se abrió en WhatsApp para que lo recibamos. Tu pedido queda <strong>pendiente de
-        confirmación y pago</strong>: te responderemos con la disponibilidad, el envío y los datos para pagar.
+        confirmación y pago</strong>: te responderemos con {SHOW_PRICES ? '' : 'el precio, '}la disponibilidad, el envío y los
+        datos para pagar.
       </p>
       <a className="btn btn--wa btn--block" href={url} target="_blank" rel="noopener noreferrer" data-autofocus>
         <IconWhatsApp /> Abrir WhatsApp de nuevo

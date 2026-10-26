@@ -22,7 +22,7 @@ const warn = (m) => warnings.push(m)
 
 // ── 1. Datos ────────────────────────────────────────────────────────────────
 const { CATALOG } = await imp('src/data/catalog.js')
-const { products, SIZES, SHOW_COMMERCIAL_NAMES } = await imp('src/data/products.js')
+const { products, SIZES, SHOW_COMMERCIAL_NAMES, SHOW_PRICES } = await imp('src/data/products.js')
 const { getFragranceInfo } = await imp('src/data/fragranceInfo.js')
 const { FEATURED_IDS } = await imp('src/data/featured.js')
 const { promotions } = await imp('src/data/promotions.js')
@@ -138,6 +138,11 @@ if (!fs.existsSync(DIST)) {
     if (/\sy [Ii]nvierno/.test(text)) err(`${rel}: dice "y invierno" (debe ser "e invierno")`)
     if (/130\.000/.test(text)) err(`${rel}: menciona la promoción retirada de $130.000`)
     if (/Notas de Notas/i.test(html)) err(`${rel}: dice "Notas de Notas"`)
+    // Con los precios ocultos (SHOW_PRICES = false) ninguna página puede mostrar uno,
+    // ni en el texto ni en las metaetiquetas que leen Google y WhatsApp.
+    if (!SHOW_PRICES && (/\$\s?\d{1,3}(\.\d{3})+/.test(text) || /\bCOP\b/.test(text) || /%24\d{2,3}\.\d{3}/.test(html))) {
+      err(`${rel}: muestra un precio aunque SHOW_PRICES está en false`)
+    }
     // Una nota repetida en la misma tarjeta ("Lavanda · Lavanda").
     for (const m of text.matchAll(/class="pcard__notes">([\s\S]*?)<\/p>/g)) {
       const list = m[1].replace(/<[^>]+>/g, '').replace(/^Notas principales:\s*/, '').split(' · ')

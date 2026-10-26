@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { IconArrow, IconWhatsApp, IconCard } from '../Icons'
 import { activePromotions } from '../../data/promotions'
-import { SIZES } from '../../data/products'
+import { SIZES, SHOW_PRICES } from '../../data/products'
 import { payment, waLink, waMessages } from '../../data/site'
 import { formatCOP } from '../../lib/format'
 import './Promotions.css'
@@ -123,9 +123,11 @@ function Sizes() {
           {SIZES.map((s) => (
             <li key={s.label}>
               <span className="sizes__ml display">{s.label}</span>
-              <span className="sizes__price tabular">
-                {formatCOP(s.price)} <small>COP</small>
-              </span>
+              {SHOW_PRICES && (
+                <span className="sizes__price tabular">
+                  {formatCOP(s.price)} <small>COP</small>
+                </span>
+              )}
             </li>
           ))}
         </ul>

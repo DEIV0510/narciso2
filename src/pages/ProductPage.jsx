@@ -4,7 +4,7 @@ import ProductImage from '../components/ProductImage'
 import ProductCard from '../components/ProductCard'
 import NotFoundPage from './NotFoundPage'
 import { IconArrow, IconBag, IconCard, IconMinus, IconPlus, IconTruck, IconWhatsApp, IconSun, IconMoon, IconSpark, IconPin } from '../components/Icons'
-import { getProductById, products } from '../data/products'
+import { getProductById, products, SHOW_PRICES } from '../data/products'
 import { getFragranceInfo } from '../data/fragranceInfo'
 import { productTheme, productProfiles, PROFILE_BY_KEY, GENDER_BY_KEY } from '../data/profiles'
 import { brand, payment, shipping, waLink, waMessages } from '../data/site'
@@ -138,7 +138,7 @@ function Purchase({ product }) {
   const unit = sizes.find((s) => s.label === sizeLabel)?.price ?? product.price
   const total = unit * qty
   // El mismo detalle (cantidad, presentación y total) en WhatsApp y en Addi.
-  const orderDetail = `${qty} × ${longName(product)}${sizeLabel ? `, ${sizeLabel}` : ''} por ${formatCOP(total)} COP`
+  const orderDetail = `${qty} × ${longName(product)}${sizeLabel ? `, ${sizeLabel}` : ''}${SHOW_PRICES ? ` por ${formatCOP(total)} COP` : ''}`
   const waMessage = `Hola, ${brand.name}. Quiero comprar ${orderDetail}. ¿Me confirman disponibilidad?`
 
   const add = () => {
@@ -148,9 +148,11 @@ function Purchase({ product }) {
 
   return (
     <div className="buy">
-      <p className="buy__price">
-        <span className="tabular">{formatCOP(unit)}</span> <small>COP</small>
-      </p>
+      {SHOW_PRICES && (
+        <p className="buy__price">
+          <span className="tabular">{formatCOP(unit)}</span> <small>COP</small>
+        </p>
+      )}
       <p className="buy__format">
         {brand.productFormat}
         {sizeLabel ? ` · ${sizeLabel}` : ''} · Frasco Narciso Parfum
@@ -164,7 +166,7 @@ function Purchase({ product }) {
               <label key={s.label} className={sizeLabel === s.label ? 'is-on' : ''}>
                 <input type="radio" name="size" value={s.label} checked={sizeLabel === s.label} onChange={() => setSizeLabel(s.label)} />
                 <span>{s.label}</span>
-                <span className="tabular">{formatCOP(s.price)}</span>
+                {SHOW_PRICES && <span className="tabular">{formatCOP(s.price)}</span>}
               </label>
             ))}
           </div>
@@ -198,7 +200,7 @@ function Purchase({ product }) {
               <IconPlus />
             </button>
           </div>
-          {qty > 1 && <p className="buy__subtotal tabular">Total: {formatCOP(total)} COP</p>}
+          {SHOW_PRICES && qty > 1 && <p className="buy__subtotal tabular">Total: {formatCOP(total)} COP</p>}
         </div>
       </div>
 
@@ -226,15 +228,19 @@ function Purchase({ product }) {
           </span>
         </li>
         <li>
-          <IconPin /> <span>Elaborado en {brand.city}. Disponibilidad confirmada al recibir tu pedido.</span>
+          <IconPin />{' '}
+          <span>
+            Elaborado en {brand.city}. {SHOW_PRICES ? 'Disponibilidad' : 'Precio y disponibilidad'} confirmados al recibir tu
+            pedido.
+          </span>
         </li>
       </ul>
 
-      {/* Barra fija de compra en móvil: precio y botón siempre a mano. */}
+      {/* Barra fija de compra en móvil: nombre, presentación (o precio) y botón siempre a mano. */}
       <div className="buy__sticky">
         <div>
           <p className="buy__sticky-title">{displayName(product)}</p>
-          <p className="tabular">{formatCOP(total)} COP</p>
+          <p className="tabular">{SHOW_PRICES ? `${formatCOP(total)} COP` : [qty > 1 ? `${qty} ×` : '', sizeLabel].filter(Boolean).join(' ')}</p>
         </div>
         <button type="button" className="btn btn--sm" onClick={add}>
           <IconBag /> Añadir

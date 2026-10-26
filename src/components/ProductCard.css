@@ -244,6 +244,10 @@
   justify-content: space-between;
   gap: 8px;
 }
+/* Sin precios: el botón ocupa toda la fila y siempre muestra su texto. */
+.pcard__foot--solo .pcard__add {
+  flex: 1;
+}
 .pcard__price {
   font-family: var(--f-display);
   font-size: 1.25rem;
@@ -295,10 +299,10 @@
   .pcard__body {
     padding: 12px 10px 10px;
   }
-  .pcard__add span {
+  .pcard__foot:not(.pcard__foot--solo) .pcard__add span {
     display: none;
   }
-  .pcard__add {
+  .pcard__foot:not(.pcard__foot--solo) .pcard__add {
     padding: 0;
     width: 42px;
   }

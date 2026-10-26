@@ -10,11 +10,12 @@ import { brand, payment, shippingFlat, waLink } from '../data/site'
 import { formatCOPLong } from './format'
 import { DEFAULT_SIZE_LABEL } from '../context/CartContext'
 import { longName } from './product'
+import { SHOW_PRICES } from '../data/products'
 
 export function buildOrderMessage(items, customer, { promo = null } = {}) {
   const lines = items.map((item) => {
     const size = item.sizeLabel && item.sizeLabel !== DEFAULT_SIZE_LABEL ? ` · ${item.sizeLabel}` : ''
-    return `• ${item.qty} × ${longName(item)}${size} — ${formatCOPLong(item.price * item.qty)}`
+    return `• ${item.qty} × ${longName(item)}${size}${SHOW_PRICES ? ` — ${formatCOPLong(item.price * item.qty)}` : ''}`
   })
   const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0)
   const method = payment.methods.find((m) => m.id === customer.paymentMethod)
@@ -24,9 +25,11 @@ export function buildOrderMessage(items, customer, { promo = null } = {}) {
     '',
     ...lines,
     '',
-    `Subtotal: ${formatCOPLong(subtotal)}`,
+    SHOW_PRICES ? `Subtotal: ${formatCOPLong(subtotal)}` : null,
     promo ? `Quiero aplicar la promoción ${promo.units} fragancias por ${formatCOPLong(promo.price)}.` : null,
-    ...(shippingFlat == null
+    ...(!SHOW_PRICES
+      ? ['Precio y envío: por confirmar según mi ciudad.']
+      : shippingFlat == null
       ? ['Envío: por confirmar según mi ciudad.']
       : [`Envío: ${formatCOPLong(shippingFlat)}`, `Total: ${formatCOPLong(subtotal + shippingFlat)}`]),
     '',

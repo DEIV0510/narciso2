@@ -4,6 +4,7 @@ import ProductImage from './ProductImage'
 import { IconBag, IconCheck } from './Icons'
 import { useCart } from '../context/CartContext'
 import { getFragranceInfo } from '../data/fragranceInfo'
+import { SHOW_PRICES } from '../data/products'
 import { productTheme } from '../data/profiles'
 import { brand } from '../data/site'
 import { formatCOP } from '../lib/format'
@@ -91,10 +92,12 @@ export default function ProductCard({ product, eager = false, headingLevel = 3 }
           </div>
         )}
 
-        <div className="pcard__foot">
-          <p className="pcard__price tabular">
-            {formatCOP(price)} <span>COP</span>
-          </p>
+        <div className={`pcard__foot${SHOW_PRICES ? '' : ' pcard__foot--solo'}`}>
+          {SHOW_PRICES && (
+            <p className="pcard__price tabular">
+              {formatCOP(price)} <span>COP</span>
+            </p>
+          )}
           <button
             type="button"
             className={`pcard__add ${added ? 'is-added' : ''}`}

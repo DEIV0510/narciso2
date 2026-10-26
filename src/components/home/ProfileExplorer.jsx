@@ -4,6 +4,7 @@ import ProductImage from '../ProductImage'
 import { IconArrow } from '../Icons'
 import { PROFILES, PROFILE_BY_KEY, productsByProfile, profileCounts, GENDERS } from '../../data/profiles'
 import { formatCOP } from '../../lib/format'
+import { SHOW_PRICES } from '../../data/products'
 import { displayName, inspiredBy } from '../../lib/product'
 import './ProfileExplorer.css'
 
@@ -121,7 +122,7 @@ export default function ProfileExplorer() {
                       </span>
                       <span className="pex__pick-insp">{inspiredBy(p)}</span>
                       <span className="pex__pick-title">{displayName(p)}</span>
-                      <span className="pex__pick-price tabular">Desde {formatCOP(p.price)}</span>
+                      {SHOW_PRICES && <span className="pex__pick-price tabular">Desde {formatCOP(p.price)}</span>}
                     </Link>
                   </li>
                 ))}

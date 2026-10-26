@@ -19,6 +19,12 @@ export const SIZES = [
   { label: '100 ml', price: 60000 },
 ]
 
+// El cliente pidió quitar los precios de todos los productos (2026-10-26): el
+// sitio no muestra precios en tarjetas, fichas, carrito, pedido por WhatsApp
+// ni buscadores, y el precio se confirma por WhatsApp. Los precios siguen
+// aquí; con `true` vuelven a mostrarse en todo el sitio.
+export const SHOW_PRICES = false
+
 // Cada fragancia se muestra con su nombre comercial Narciso del Excel
 // (commercialName) y, debajo, "Inspirado en <perfume> de <casa>". El cliente
 // pidió publicarlos tal como los mandó (2026-10-24), aunque algunos se repitan

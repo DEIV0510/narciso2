@@ -1,7 +1,7 @@
 // Metadatos por ruta. Se usan dos veces: en el prerender (scripts/prerender.mjs
 // los escribe en el HTML estático de cada página) y en el navegador al navegar
 // entre páginas (hooks/useDocumentMeta.js).
-import { products, getProductById } from '../data/products'
+import { products, getProductById, SHOW_PRICES } from '../data/products'
 import { getFragranceInfo } from '../data/fragranceInfo'
 import { brand, SITE_URL } from '../data/site'
 import { productImage } from './images'
@@ -67,12 +67,14 @@ export function productMeta(product) {
   const familyText = info ? ` ${info.family.toLowerCase()}` : ''
   const name = displayName(product)
   const cop = (n) => `$${n.toLocaleString('es-CO')}`
-  const priceText = sizes.map((s) => (s.label ? `${s.label} a ${cop(s.price)}` : cop(s.price))).join(' y ')
+  const priceText = SHOW_PRICES
+    ? `${sizes.map((s) => (s.label ? `${s.label} a ${cop(s.price)}` : cop(s.price))).join(' y ')} COP`
+    : `en ${sizes.map((s) => s.label).filter(Boolean).join(' y ')}`
   // El precio va pronto: Google muestra unos 155 caracteres. "Pirámide
   // olfativa:" evita "Notas de Notas verdes…" cuando la nota es genérica.
   const description = [
     `${name}: fragancia${familyText} inspirada en ${reference(product)}.`,
-    `${brand.productFormat} ${priceText} COP.`,
+    `${brand.productFormat} ${priceText}.`,
     notes.length ? `Pirámide olfativa: ${notes.slice(0, 3).join(', ')}.` : '',
     'Envíos a toda Colombia.',
   ]
@@ -87,8 +89,10 @@ export function productMeta(product) {
     path,
     image: img,
     type: 'product',
+    // Google exige precio (offers) en el Product: sin precios publicados se
+    // omite y queda solo la ruta de migas.
     jsonLd: [
-      {
+      SHOW_PRICES && {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: `${name} — Narciso Parfum (inspirado en ${reference(product)})`,
@@ -117,7 +121,7 @@ export function productMeta(product) {
           { '@type': 'ListItem', position: 3, name, item: abs(path) },
         ],
       },
-    ],
+    ].filter(Boolean),
   }
 }
 

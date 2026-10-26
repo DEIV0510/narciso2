@@ -91,8 +91,11 @@ Cada ruta se entrega prerenderizada (título, descripción, canonical, Open Grap
 - **Código**: el de la columna CODIGO del Excel (D001…, C001…, UNI001…), en la esquina superior
   derecha de cada tarjeta y de la foto de la ficha. Se puede buscar por código en el catálogo y es el
   `sku` del JSON-LD.
-- **Precios**: 50 ml $40.000 y 100 ml $60.000 COP para todo el catálogo (`SIZES` en
-  `products.js`); cada tarjeta y ficha tiene selector de presentación.
+- **Precios**: ocultos en todo el sitio por pedido del cliente (2026-10-26): ni tarjetas, ni fichas, ni
+  carrito, ni el mensaje de WhatsApp, ni la descripción para Google los muestran; el precio se confirma
+  por WhatsApp. Siguen guardados en `SIZES` (`products.js`: 50 ml $40.000 y 100 ml $60.000 COP) y
+  `SHOW_PRICES = true` los vuelve a mostrar. Con los precios ocultos, la verificación del build falla
+  si alguna página muestra uno. Cada tarjeta y ficha conserva el selector de presentación.
 - **Nombres comerciales** del Excel (columna "INSPIRACION"): son el nombre principal de cada
   fragancia, con "Inspirado en <perfume> de <casa>" debajo. Se publican tal como los mandó el
   cliente (2026-10-24), con solo mayúsculas y errores de tipeo evidentes corregidos, aunque
